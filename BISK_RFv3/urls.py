@@ -16,7 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#Modify Site Header
+admin.site.site_header = 'BISK Admin Panel'
+#Modify Site Title
+admin.site.site_title = "BISK site admin "
+#Modify Site Index Title
+admin.site.index_title = "BISK Portal"
