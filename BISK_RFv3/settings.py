@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'attendance.apps.AttendanceConfig',
     'import_export',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

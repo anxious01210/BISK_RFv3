@@ -1,3 +1,5 @@
+#  below cmd Should roughly match the number of FaceImage records you have.
+# ls media/embeddings | wc -l
 import os
 import cv2
 import numpy as np
