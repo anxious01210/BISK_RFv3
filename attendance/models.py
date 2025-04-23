@@ -60,6 +60,7 @@ class AttendanceLog(models.Model):
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
     camera = models.ForeignKey(Camera, on_delete=models.SET_NULL, null=True, blank=True)
     timestamp = models.DateTimeField(default=timezone.now)
+    match_score = models.FloatField(null=True, blank=True, help_text="Cosine similarity score of the recognition match.")
 
     class Meta:
         unique_together = ('student', 'period')  # prevent duplicate logs per period
@@ -80,14 +81,15 @@ WEEKDAYS = (
 
 class RecognitionSchedule(models.Model):
     name = models.CharField(max_length=100)
-    camera = models.ForeignKey(Camera, on_delete=models.CASCADE, related_name="schedules", default=1 )
+    cameras = models.ManyToManyField(Camera, related_name="schedules")
     weekdays = MultiSelectField(choices=WEEKDAYS)
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.name} - {self.camera.name} ({', '.join(self.weekdays)} {self.start_time}-{self.end_time})"
+        # return f"{self.name} - {self.cameras.name} ({', '.join(self.weekdays)} {self.start_time}-{self.end_time})"
+        return f"{self.name} - ({', '.join(self.weekdays)} {self.start_time}-{self.end_time})"
 
     @property
     def weekday_values(self):

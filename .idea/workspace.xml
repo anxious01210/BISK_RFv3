@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/bk_01-recognize_and_log_attendance.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/small_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/76ca41be-74ca-4ca2-90fd-455ac73a9b4b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/76ca41be-74ca-4ca2-90fd-455ac73a9b4b.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BISK_RFv3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attendance/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/initialize_embeddings.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/initialize_embeddings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face_recognition/embedder.py" beforeDir="false" afterPath="$PROJECT_DIR$/face_recognition/embedder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +69,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.selected.configurable": "database.query.execution",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -132,7 +127,8 @@
       <updated>1745003661149</updated>
       <workItem from="1745003662461" duration="12356000" />
       <workItem from="1745172478362" duration="4142000" />
-      <workItem from="1745254115855" duration="16460000" />
+      <workItem from="1745254115855" duration="19379000" />
+      <workItem from="1745421320306" duration="8880000" />
     </task>
     <servers />
   </component>

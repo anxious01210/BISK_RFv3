@@ -1,6 +1,8 @@
 from django.contrib import admin
 from import_export import resources
-from import_export.admin import ExportMixin, ImportExportModelAdmin
+from import_export.admin import ImportExportModelAdmin
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from .models import Student, FaceImage, Period, Camera, AttendanceLog, RecognitionSchedule
 
 ### --- Resources ---
@@ -56,9 +58,27 @@ class CameraAdmin(ImportExportModelAdmin):
 @admin.register(AttendanceLog)
 class AttendanceLogAdmin(ImportExportModelAdmin):
     resource_class = AttendanceLogResource
-    list_display = ('student', 'period', 'camera', 'timestamp')
+    list_display = ('student', 'period', 'camera', 'timestamp', 'colored_match_score')
     list_filter = ('period', 'camera')
     search_fields = ('student__h_code',)
+
+    def colored_match_score(self, obj):
+        try:
+            score = float(obj.match_score)
+        except (ValueError, TypeError):
+            return mark_safe("<span style='color: gray;'>-</span>")
+
+        color = (
+            'green' if score >= 250 else
+            'orange' if score >= 220 else
+            'red'
+        )
+        return mark_safe(f"<span style='color: {color};'>%.2f</span>" % score)
+
+    colored_match_score.short_description = mark_safe(
+        # "Match Score [ <span style='color:orange;'>Orange</span> (220–250) &lt; <span style='color:green;'>Green</span> (~300–350) ]"
+        "Match Score<span style='color:green; padding:0 2px;''>250–350</span><span style='color:orange; padding: 0 2px;'> 220–249</span>"
+    )
 
 @admin.register(RecognitionSchedule)
 class RecognitionScheduleAdmin(ImportExportModelAdmin):
