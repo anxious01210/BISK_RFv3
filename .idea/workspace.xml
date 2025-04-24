@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/76ca41be-74ca-4ca2-90fd-455ac73a9b4b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/76ca41be-74ca-4ca2-90fd-455ac73a9b4b.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_parallel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -128,7 +126,7 @@
       <workItem from="1745003662461" duration="12356000" />
       <workItem from="1745172478362" duration="4142000" />
       <workItem from="1745254115855" duration="19379000" />
-      <workItem from="1745421320306" duration="8880000" />
+      <workItem from="1745421320306" duration="12496000" />
     </task>
     <servers />
   </component>
