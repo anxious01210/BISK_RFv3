@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>📜 Camera Logs</h1>
+{% for filename, content in previews %}
+  <div style="border:1px solid #ccc; padding:10px; margin-bottom:15px;">
+    <h3>{{ filename }} 
+      <a href="{{ filename }}/download/" style="float:right;">⬇️ Download</a>
+    </h3>
+    <pre style="white-space: pre-wrap; font-size: 13px; background:#f8f8f8; padding:10px;">{{ content }}</pre>
+  </div>
+{% endfor %}
+{% endblock %}

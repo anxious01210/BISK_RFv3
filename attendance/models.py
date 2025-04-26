@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.html import format_html
 from django.utils import timezone
 from multiselectfield import MultiSelectField
+from django.utils.timezone import localtime, make_aware
+import datetime
 
 class Student(models.Model):
     h_code = models.CharField(max_length=20, unique=True)
@@ -39,9 +41,21 @@ class Period(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_active = models.BooleanField(default=True)  # To enable/disable this period
+    attendance_window_seconds = models.PositiveIntegerField(
+        default=5,
+        help_text="Time window in seconds to update attendance if a better match is found. Default is 15 seconds."
+    )
 
     def __str__(self):
         return f"{self.name} ({self.start_time} - {self.end_time})"
+        # try:
+        #     now_date = timezone.now().date()
+        #     start_dt = make_aware(datetime.datetime.combine(now_date, self.start_time))
+        #     end_dt = make_aware(datetime.datetime.combine(now_date, self.end_time))
+        #     return f"{self.name} ({localtime(start_dt).time()} - {localtime(end_dt).time()})"
+        # except Exception:
+        #     return f"{self.name} ({self.start_time} - {self.end_time})"
+
 
 class Camera(models.Model):
     name = models.CharField(max_length=100)
@@ -59,11 +73,12 @@ class AttendanceLog(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
     camera = models.ForeignKey(Camera, on_delete=models.SET_NULL, null=True, blank=True)
-    timestamp = models.DateTimeField(default=timezone.now)
     match_score = models.FloatField(null=True, blank=True, help_text="Cosine similarity score of the recognition match.")
+    timestamp = models.DateTimeField()
+    date = models.DateField() # for the default in makemigration use __import__('datetime').date.today()
 
     class Meta:
-        unique_together = ('student', 'period')  # prevent duplicate logs per period
+        unique_together = ('student', 'period', 'date')  # prevent duplicate logs per period
 
     def __str__(self):
         return f"{self.student.h_code} @ {self.period.name} on {self.timestamp.astimezone(timezone.get_current_timezone()).strftime('%Y-%m-%d %H:%M:%S')}"
