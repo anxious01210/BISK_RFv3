@@ -1,10 +1,16 @@
+# attendance/admin.py
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, reverse
 from django.utils.safestring import mark_safe
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from django.shortcuts import get_object_or_404
+from django.conf import settings
+
 import os
+from datetime import date
 
 from .models import Student, FaceImage, Period, Camera, AttendanceLog, RecognitionSchedule
 
@@ -54,72 +60,6 @@ class PeriodAdmin(ImportExportModelAdmin):
     search_fields = ('name',)
     ordering = ('start_time',)
 
-# @admin.register(Camera)
-# class CameraAdmin(ImportExportModelAdmin):
-#     resource_class = CameraResource
-#     list_display = ('name', 'location', 'is_active', 'stream_start_time', 'stream_end_time')
-#     list_filter = ('is_active',)
-#
-#     def get_urls(self):
-#         urls = super().get_urls()
-#         custom_urls = [
-#             path('log-viewer/', self.admin_site.admin_view(self.log_viewer), name='camera-log-viewer')
-#         ]
-#         return custom_urls + urls
-#
-#     def log_viewer(self, request):
-#         log_dir = os.path.join(os.path.dirname(__file__), '../logs/attendance')
-#         if not os.path.exists(log_dir):
-#             return HttpResponse("Log directory not found.", content_type='text/plain')
-#
-#         files = [f for f in os.listdir(log_dir) if f.endswith('.log')]
-#         content = "<h2>Camera Logs</h2><ul>"
-#         for f in sorted(files):
-#             with open(os.path.join(log_dir, f), 'r') as log_file:
-#                 lines = log_file.readlines()[-30:]  # Show last 30 lines
-#                 content += f"<li><strong>{f}</strong><pre>{''.join(lines)}</pre></li><br>"
-#         content += "</ul>"
-#         return HttpResponse(content)
-
-
-# @admin.register(Camera)
-# class CameraAdmin(ImportExportModelAdmin):
-#     resource_class = CameraResource
-#     list_display = ('name', 'location', 'is_active', 'stream_start_time', 'stream_end_time', 'view_logs_button')
-#     list_filter = ('is_active',)
-#
-#     def get_urls(self):
-#         urls = super().get_urls()
-#         custom_urls = [
-#             path('log-viewer/', self.admin_site.admin_view(self.log_viewer), name='camera-log-viewer'),
-#         ]
-#         return custom_urls + urls
-#
-#     def log_viewer(self, request):
-#         log_dir = os.path.join(os.path.dirname(__file__), '../logs/attendance')
-#         if not os.path.exists(log_dir):
-#             return HttpResponse("Log directory not found.", content_type='text/plain')
-#
-#         files = [f for f in os.listdir(log_dir) if f.endswith('.log')]
-#         content = "<h2>Camera Logs</h2><ul>"
-#         for f in sorted(files):
-#             with open(os.path.join(log_dir, f), 'r') as log_file:
-#                 lines = log_file.readlines()[-30:]  # Show last 30 lines
-#                 content += f"<li><strong>{f}</strong><pre>{''.join(lines)}</pre></li><br>"
-#         content += "</ul>"
-#         return HttpResponse(content)
-#
-#     def view_logs_button(self, obj):
-#         return mark_safe(
-#             f'<a class="button" href="/admin/attendance/camera/log-viewer/" target="_blank" '
-#             f'style="padding:4px 8px; background-color:#28a745; color:white; border-radius:5px; text-decoration:none;">'
-#             f'📄 View Logs</a>'
-#         )
-#
-#     view_logs_button.short_description = 'Logs'
-#     view_logs_button.allow_tags = True
-
-
 @admin.register(Camera)
 class CameraAdmin(ImportExportModelAdmin):
     resource_class = CameraResource
@@ -129,43 +69,115 @@ class CameraAdmin(ImportExportModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
-            path('log-viewer/<int:camera_id>/', self.admin_site.admin_view(self.log_viewer), name='camera-log-viewer'),
+            path('<int:camera_id>/log-viewer/', self.admin_site.admin_view(self.log_viewer), name='camera-log-viewer'),
         ]
         return custom_urls + urls
 
-    def log_viewer(self, request, camera_id):
-        log_dir = os.path.join(os.path.dirname(__file__), '../logs/attendance')
-        if not os.path.exists(log_dir):
-            return HttpResponse("Log directory not found.", content_type='text/plain')
-
-        try:
-            camera = Camera.objects.get(id=camera_id)
-        except Camera.DoesNotExist:
-            return HttpResponse("Camera not found.", content_type='text/plain')
-
-        # Now filter logs related to this camera name
-        files = [f for f in os.listdir(log_dir) if f.endswith('.log') and camera.name in f]
-        if not files:
-            return HttpResponse(f"No logs found for camera: {camera.name}", content_type='text/plain')
-
-        content = f"<h2>Logs for Camera: {camera.name}</h2><ul>"
-        for f in sorted(files):
-            with open(os.path.join(log_dir, f), 'r') as log_file:
-                lines = log_file.readlines()[-30:]  # Last 30 lines
-                content += f"<li><strong>{f}</strong><pre>{''.join(lines)}</pre></li><br>"
-        content += "</ul>"
-        return HttpResponse(content)
-
     def view_logs_button(self, obj):
         return mark_safe(
-            f'<a class="button" href="/admin/attendance/camera/log-viewer/{obj.id}/" target="_blank" '
+            f'<a class="button" href="{reverse("admin:camera-log-viewer", args=[obj.id])}" target="_blank" '
             f'style="padding:4px 8px; background-color:#28a745; color:white; border-radius:5px; text-decoration:none;">'
-            f'📄 View {obj.name} Logs</a>'
+            f'📄 View Logs</a>'
         )
 
     view_logs_button.short_description = 'Logs'
     view_logs_button.allow_tags = True
 
+    # def log_viewer(self, request, camera_id):
+    #     camera = get_object_or_404(Camera, id=camera_id)
+    #
+    #     log_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'attendance')
+    #     today_str = date.today().strftime('%Y-%m-%d')
+    #     log_filename = f"{camera.name}_{today_str}.log"
+    #     log_path = os.path.join(log_dir, log_filename)
+    #
+    #     if not os.path.exists(log_path):
+    #         return HttpResponse(f"Log file not found: {log_filename}", content_type='text/plain')
+    #
+    #     # === CONFIG: Number of lines ===
+    #     show_last_n_lines = 300  # or set to None for all lines
+    #
+    #     with open(log_path, 'r', encoding='utf-8') as log_file:
+    #         lines = log_file.readlines()
+    #         if show_last_n_lines is not None:
+    #             lines = lines[-show_last_n_lines:]
+    #
+    #     content = f"""
+    #         <h2>📄 Logs for Camera: {camera.name}</h2>
+    #         <a href="/media/logs/attendance/{log_filename}" download
+    #            style="display:inline-block;margin-bottom:10px;padding:6px 12px;background-color:#007bff;color:white;border-radius:5px;text-decoration:none;">
+    #            ⬇️ Download Log
+    #         </a>
+    #         <pre style="white-space: pre-wrap; font-size: 13px; background:#f8f8f8; padding:10px;">{''.join(lines)}</pre>
+    #     """
+    #     return HttpResponse(content)
+    def log_viewer(self, request, camera_id):
+        camera = get_object_or_404(Camera, id=camera_id)
+
+        log_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'attendance')
+        today_str = date.today().strftime('%Y-%m-%d')
+        log_filename = f"{camera.name}_{today_str}.log"
+        log_path = os.path.join(log_dir, log_filename)
+
+        if not os.path.exists(log_path):
+            return HttpResponse(f"Log file not found: {log_filename}", content_type='text/plain')
+
+        # No need to read file content here, frontend will fetch it dynamically
+        log_url = f"/media/logs/attendance/{log_filename}"
+
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>📄 Logs for Camera: {camera.name}</title>
+            <meta charset="utf-8">
+            <script>
+                function loadLogs() {{
+                    fetch('{log_url}')
+                        .then(response => response.text())
+                        .then(data => {{
+                            var logArea = document.getElementById('log-content');
+                            logArea.textContent = data;
+                            logArea.scrollTop = logArea.scrollHeight;  // Auto-scroll to bottom
+                        }})
+                        .catch(err => {{
+                            console.error('Error loading logs:', err);
+                        }});
+                }}
+                setInterval(loadLogs, 1000);  // Refresh every 1 seconds
+                window.onload = loadLogs;  // Load immediately
+            </script>
+            <style>
+                body {{ font-family: Arial, sans-serif; padding: 20px; }}
+                pre {{
+                    white-space: pre-wrap;
+                    font-size: 13px;
+                    background: #f8f8f8;
+                    padding: 10px;
+                    height: 80vh;
+                    overflow-y: scroll;
+                    border: 1px solid #ccc;
+                    border-radius: 6px;
+                }}
+                a.download-button {{
+                    display: inline-block;
+                    margin-bottom: 10px;
+                    padding: 6px 12px;
+                    background-color: #007bff;
+                    color: white;
+                    border-radius: 5px;
+                    text-decoration: none;
+                }}
+            </style>
+        </head>
+        <body>
+            <h2>📄 Logs for Camera: {camera.name}</h2>
+            <a class="download-button" href="{log_url}" download>⬇️ Download Log</a><br><br>
+            <pre id="log-content">Loading...</pre>
+        </body>
+        </html>
+        """
+        return HttpResponse(html)
 
 
 @admin.register(AttendanceLog)

@@ -1,21 +1,18 @@
-# # (for all active Period) + ATTENDANCE_WINDOW_SECONDS (If new match score is higher → update that log.)
-# ATTENDANCE_WINDOW_SECONDS became a Period model field
+# extras/utils.py
 import cv2
 import numpy as np
 from insightface.app import FaceAnalysis
 from sklearn.metrics.pairwise import cosine_similarity
-from django.utils.timezone import now
-from datetime import timedelta, date
+from datetime import datetime
 import logging
 import os
 import time
 
 from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
-
-logger = logging.getLogger(__name__)
+from extras.log_utils import get_camera_logger
 
 # === 🔧 PARAMETERS ===
-MATCH_THRESHOLD = 0.30  # 🔽 Lowered for better sensitivity
+MATCH_THRESHOLD = 0.55  # Lowered for better sensitivity
 
 # === 🔁 HELPERS ===
 def is_within_recognition_schedule(current_time, schedule):
@@ -34,6 +31,8 @@ def load_embeddings(embedding_dir):
 
 # === 🎥 CAMERA STREAM PROCESSING ===
 def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
+    logger = get_camera_logger(camera.name)  # <-- 🔥 Per camera logger here
+
     cap = cv2.VideoCapture(camera.url)
     if not cap.isOpened():
         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
@@ -48,7 +47,7 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
             time.sleep(3)
             break
 
-        current_time = now()
+        current_time = datetime.now()
         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
 
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -122,6 +121,141 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
 
     cap.release()
     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
+
+
+
+
+
+
+
+
+
+
+
+# # # (for all active Period) + ATTENDANCE_WINDOW_SECONDS (If new match score is higher → update that log.)
+# # ATTENDANCE_WINDOW_SECONDS became a Period model field
+# import cv2
+# import numpy as np
+# from insightface.app import FaceAnalysis
+# from sklearn.metrics.pairwise import cosine_similarity
+# from django.utils.timezone import now
+# from datetime import timedelta, date
+# import logging
+# import os
+# import time
+#
+# from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
+#
+# logger = logging.getLogger(__name__)
+#
+# # === 🔧 PARAMETERS ===
+# MATCH_THRESHOLD = 0.30  # 🔽 Lowered for better sensitivity
+#
+# # === 🔁 HELPERS ===
+# def is_within_recognition_schedule(current_time, schedule):
+#     weekday = current_time.strftime('%A')
+#     return schedule.is_active and weekday in schedule.weekdays and schedule.start_time <= current_time.time() <= schedule.end_time
+#
+# def load_embeddings(embedding_dir):
+#     embeddings_map = {}
+#     for file in os.listdir(embedding_dir):
+#         if file.endswith('.npy'):
+#             h_code = file.split('.')[0]
+#             embedding_path = os.path.join(embedding_dir, file)
+#             embedding = np.load(embedding_path)
+#             embeddings_map[h_code] = embedding
+#     return embeddings_map
+#
+# # === 🎥 CAMERA STREAM PROCESSING ===
+# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
+#     cap = cv2.VideoCapture(camera.url)
+#     if not cap.isOpened():
+#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
+#         return
+#
+#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+#             time.sleep(3)
+#             break
+#
+#         current_time = now()
+#         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
+#
+#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         faces = face_analyzer.get(rgb)
+#
+#         for face in faces:
+#             if face.embedding is None:
+#                 continue
+#
+#             best_score = -1
+#             best_h_code = None
+#
+#             for h_code, known_embedding in embeddings_map.items():
+#                 try:
+#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
+#                 except Exception as e:
+#                     logger.warning(f"❌ Error calculating cosine similarity: {e}")
+#                     continue
+#
+#                 if score > best_score:
+#                     best_score = score
+#                     best_h_code = h_code
+#
+#             if best_score >= MATCH_THRESHOLD and best_h_code:
+#                 try:
+#                     best_student = Student.objects.get(h_code=best_h_code)
+#                 except Student.DoesNotExist:
+#                     logger.warning(f"❌ No student found for H-code: {best_h_code}")
+#                     continue
+#
+#                 periods = Period.objects.filter(
+#                     is_active=True,
+#                     start_time__lte=current_time.time(),
+#                     end_time__gte=current_time.time()
+#                 )
+#
+#                 if not periods.exists():
+#                     logger.info(f"❌ No active periods at {current_time.time()} for {best_student.full_name}")
+#                     continue
+#
+#                 for period in periods:
+#                     attendance_window_seconds = getattr(period, 'attendance_window_seconds', 3600)
+#                     try:
+#                         log = AttendanceLog.objects.get(
+#                             student=best_student,
+#                             period=period,
+#                             date=current_time.date()
+#                         )
+#                         time_diff = abs((current_time - log.timestamp).total_seconds())
+#
+#                         if time_diff <= attendance_window_seconds and best_score > log.match_score:
+#                             log.match_score = best_score
+#                             log.timestamp = current_time
+#                             log.camera = camera
+#                             log.save()
+#                             logger.info(f"🔁 Updated log for {best_student.full_name} with better score: {best_score:.4f}")
+#                         else:
+#                             logger.info(f"⏳ Already logged attendance for {best_student.full_name} today for period: {period.name}.")
+#                     except AttendanceLog.DoesNotExist:
+#                         AttendanceLog.objects.create(
+#                             student=best_student,
+#                             period=period,
+#                             camera=camera,
+#                             match_score=best_score,
+#                             timestamp=current_time,
+#                             date=current_time.date()
+#                         )
+#                         logger.info(f"✅ Match: {best_student.full_name} logged for period {period.name} (Score: {best_score:.4f})")
+#             else:
+#                 logger.info(f"❌ No match above threshold for detected face (Score: {best_score:.4f})")
+#
+#     cap.release()
+#     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
 
 
 
