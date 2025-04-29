@@ -12,7 +12,7 @@ from attendance.models import AttendanceLog, Period, RecognitionSchedule, Studen
 from extras.log_utils import get_camera_logger
 
 # === 🔧 PARAMETERS ===
-MATCH_THRESHOLD = 0.55  # Lowered for better sensitivity
+MATCH_THRESHOLD = 0.50  # Lowered for better sensitivity
 
 # === 🔁 HELPERS ===
 def is_within_recognition_schedule(current_time, schedule):

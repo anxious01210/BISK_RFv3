@@ -23,7 +23,10 @@ def run_camera(camera, schedules, embedding_dir):
     logger.info(f"🎥 [START] Processing stream for: {camera.name}")
 
     face_analyzer = FaceAnalysis(name='buffalo_l', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
-    face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
+    # 640×640 is a good balance (speed vs accuracy).
+    # f you want slightly better accuracy for very small faces, you could increase it to 768×768 or 800×800, but this will slow down processing.
+    # face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
+    face_analyzer.prepare(ctx_id=0, det_size=(800, 800))
 
     embeddings_map = load_embeddings(embedding_dir)
 
@@ -60,13 +63,32 @@ def recognize_and_log():
     print("🔧 Loading active cameras and recognition schedules...")
 
     embedding_dir = os.path.join(BASE_DIR, "media", "embeddings")
-    active_cameras = Camera.objects.filter(is_active=True)
-    schedules = RecognitionSchedule.objects.filter(is_active=True)
 
-    camera_schedules_map = {
-        cam.id: [s for s in schedules if cam in s.cameras.all()]
-        for cam in active_cameras
-    }
+    # active_cameras = Camera.objects.filter(is_active=True)
+    # schedules = RecognitionSchedule.objects.filter(is_active=True)
+    # camera_schedules_map = {
+    #     cam.id: [s for s in schedules if cam in s.cameras.all()]
+    #     for cam in active_cameras
+    # }
+
+    now = datetime.now()
+    today_weekday = now.strftime('%a')[:3]  # e.g., 'Mon', 'Tue'
+
+    active_cameras = []
+    camera_schedules_map = {}
+
+    for camera in Camera.objects.filter(is_active=True):
+        schedules = RecognitionSchedule.objects.filter(is_active=True, cameras=camera)
+
+        # Filter for valid current schedules
+        valid_schedules = [
+            s for s in schedules
+            if today_weekday in s.weekdays and s.start_time <= now.time() <= s.end_time
+        ]
+
+        if valid_schedules:
+            active_cameras.append(camera)
+            camera_schedules_map[camera.id] = valid_schedules
 
     processes = []
     for camera in active_cameras:

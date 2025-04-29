@@ -61,6 +61,7 @@ class Camera(models.Model):
     name = models.CharField(max_length=100)
     url = models.CharField(max_length=255, help_text="URL of the camera main-stream, ex. rtsp://admin:examplepass123!@192.168.1.100:554/Streaming/Channels/101/")
     location = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
     stream_start_time = models.TimeField(null=True, blank=True)
     stream_end_time = models.TimeField(null=True, blank=True)

@@ -200,6 +200,7 @@ class CameraAdmin(ImportExportModelAdmin):
                     document.getElementById('date-picker').value = selectedDate;
                     loadLogs();
                     refreshTimer = setInterval(loadLogs, refreshInterval);
+                    document.getElementById('download-link').href = getLogUrl();
                 }};
             </script>
 
@@ -252,7 +253,7 @@ class CameraAdmin(ImportExportModelAdmin):
                     font-size: 13px;
                     background: #f8f8f8;
                     padding: 10px;
-                    height: 80vh;
+                    height: 74vh;
                     overflow-y: scroll;
                     border: 1px solid #ccc;
                     border-radius: 6px;
@@ -288,7 +289,7 @@ class CameraAdmin(ImportExportModelAdmin):
         <body>
             <div id="top-bar">
                 <div id="top-left">
-                    <a id="download-link" href="/media/logs/attendance/{camera.name}_"+(new Date()).toISOString().slice(0,10)+".log" download class="download-button">⬇️ Download Log</a>
+                    <a id="download-link" href="#" download class="download-button">⬇️ Download Log</a>
                     <h2>📄 Logs for Camera: {camera.name}</h2>
                 </div>
                 <div class="dark-mode-button" onclick="toggleDarkMode()">🌓</div>
