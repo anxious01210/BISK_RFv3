@@ -9,6 +9,8 @@ import logging
 import os
 import time
 from insightface.utils.face_align import norm_crop
+from django.core.files.base import ContentFile
+import io
 
 from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
 from extras.log_utils import get_camera_logger
@@ -16,7 +18,6 @@ from extras.log_utils import get_camera_logger
 # === 🔧 PARAMETERS ===
 MATCH_THRESHOLD = 0.50  # Lowered for better sensitivity
 
-# === 🔁 HELPERS ===
 def is_within_recognition_schedule(current_time, schedule):
     weekday = current_time.strftime('%A')
     return schedule.is_active and weekday in schedule.weekdays and schedule.start_time <= current_time.time() <= schedule.end_time
@@ -31,271 +32,9 @@ def load_embeddings(embedding_dir):
             embeddings_map[h_code] = embedding
     return embeddings_map
 
-# === 🎥 CAMERA STREAM PROCESSING ===
-# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
-#     import uuid
-#     from insightface.utils.face_align import norm_crop  # ✅ Use norm_crop for face alignment
-#     logger = get_camera_logger(camera.name)
-#
-#     cap = cv2.VideoCapture(camera.url)
-#     if not cap.isOpened():
-#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
-#         return
-#
-#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
-#     logger.info("✅ Face alignment using norm_crop is ENABLED.")
-#
-#     while True:
-#         ret, frame = cap.read()
-#         if not ret:
-#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
-#             time.sleep(3)
-#             break
-#
-#         current_time = datetime.now()
-#         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
-#
-#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#         faces = face_analyzer.get(rgb)
-#
-#         aligned_faces = []
-#
-#         for face in faces:
-#             if face.embedding is None:
-#                 continue
-#
-#             try:
-#                 aligned_face = norm_crop(rgb, face.kps)  # ✅ align face using landmarks
-#                 aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
-#                 face.embedding = aligned_embedding
-#             except Exception as e:
-#                 logger.warning(f"❌ Alignment error: {e}")
-#                 continue
-#
-#             aligned_faces.append(face)
-#
-#             # Optional: Save cropped face for debugging
-#             x1, y1, x2, y2 = face.bbox.astype(int)
-#             cropped_face = rgb[y1:y2, x1:x2]
-#             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
-#             os.makedirs(debug_dir, exist_ok=True)
-#             debug_filename = os.path.join(
-#                 debug_dir,
-#                 f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}.jpg"
-#             )
-#             cv2.imwrite(debug_filename, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
-#
-#         # Now use the aligned faces for recognition
-#         for face in aligned_faces:
-#             best_score = -1
-#             best_h_code = None
-#
-#             for h_code, known_embedding in embeddings_map.items():
-#                 try:
-#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
-#                 except Exception as e:
-#                     logger.warning(f"❌ Error calculating cosine similarity: {e}")
-#                     continue
-#
-#                 if score > best_score:
-#                     best_score = score
-#                     best_h_code = h_code
-#
-#             if best_score >= MATCH_THRESHOLD and best_h_code:
-#                 try:
-#                     best_student = Student.objects.get(h_code=best_h_code)
-#                 except Student.DoesNotExist:
-#                     logger.warning(f"❌ No student found for H-code: {best_h_code}")
-#                     continue
-#
-#                 periods = Period.objects.filter(
-#                     is_active=True,
-#                     start_time__lte=current_time.time(),
-#                     end_time__gte=current_time.time()
-#                 )
-#
-#                 if not periods.exists():
-#                     logger.info(f"❌ No active periods at {current_time.time()} for {best_student.full_name}")
-#                     continue
-#
-#                 for period in periods:
-#                     attendance_window_seconds = getattr(period, 'attendance_window_seconds', 3600)
-#                     try:
-#                         log = AttendanceLog.objects.get(
-#                             student=best_student,
-#                             period=period,
-#                             date=current_time.date()
-#                         )
-#                         time_diff = abs((current_time - log.timestamp).total_seconds())
-#
-#                         if time_diff <= attendance_window_seconds and best_score > log.match_score:
-#                             log.match_score = best_score
-#                             log.timestamp = current_time
-#                             log.camera = camera
-#                             log.save()
-#                             logger.info(f"🔁 Updated log for {best_student.full_name} with better score: {best_score:.4f}")
-#                         else:
-#                             logger.info(f"⏳ Already logged attendance for {best_student.full_name} today for period: {period.name}.")
-#                     except AttendanceLog.DoesNotExist:
-#                         AttendanceLog.objects.create(
-#                             student=best_student,
-#                             period=period,
-#                             camera=camera,
-#                             match_score=best_score,
-#                             timestamp=current_time,
-#                             date=current_time.date()
-#                         )
-#                         logger.info(f"✅ Match: {best_student.full_name} logged for period {period.name} (Score: {best_score:.4f})")
-#             else:
-#                 logger.info(f"❌ No match above threshold for detected face (Score: {best_score:.4f})")
-#
-#     cap.release()
-#     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
-#
-
-# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
-#     import uuid
-#     logger = get_camera_logger(camera.name)
-#
-#     cap = cv2.VideoCapture(camera.url)
-#     if not cap.isOpened():
-#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
-#         return
-#
-#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
-#
-#     # use_alignment = hasattr(face_analyzer, 'align_crop')
-#     #
-#     # if use_alignment:
-#     #     logger.info("✅ Face alignment (align_crop) is ENABLED.")
-#     # else:
-#     #     logger.warning("⚠️ Face alignment (align_crop) is NOT available. Running without alignment.")
-#
-#     while True:
-#         ret, frame = cap.read()
-#         if not ret:
-#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
-#             time.sleep(3)
-#             break
-#
-#         current_time = datetime.now()
-#         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
-#
-#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#         faces = face_analyzer.get(rgb)
-#         aligned_faces = []
-#
-#         for face in faces:
-#             if face.embedding is None:
-#                 continue
-#
-#             # if use_alignment:
-#             #     try:
-#             #         aligned_face = face_analyzer.align_crop(rgb, face.kps)
-#             #         aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
-#             #         face.embedding = aligned_embedding
-#             #     except Exception as e:
-#             #         logger.warning(f"❌ Alignment error: {e}")
-#             #         continue
-#
-#             from insightface.utils.face_align import norm_crop
-#
-#             if use_alignment:
-#                 try:
-#                     aligned_face = norm_crop(rgb, face.kps)
-#                     aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
-#                     face.embedding = aligned_embedding
-#                 except Exception as e:
-#                     logger.warning(f"❌ Alignment error: {e}")
-#                     continue
-#
-#             aligned_faces.append(face)
-#
-#             # Save aligned face crop for debugging (much better)
-#             if use_alignment:
-#                 debug_face = aligned_face
-#             else:
-#                 face_box = face.bbox.astype(int)
-#                 x1, y1, x2, y2 = face_box
-#                 debug_face = rgb[y1:y2, x1:x2]
-#
-#             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
-#             os.makedirs(debug_dir, exist_ok=True)
-#             debug_filename = os.path.join(debug_dir, f"{current_time.strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}.jpg")
-#             cv2.imwrite(debug_filename, cv2.cvtColor(debug_face, cv2.COLOR_RGB2BGR))
-#
-#         faces = aligned_faces
-#
-#         # === Matching logic
-#         for face in faces:
-#             best_score = -1
-#             best_h_code = None
-#
-#             for h_code, known_embedding in embeddings_map.items():
-#                 try:
-#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
-#                 except Exception as e:
-#                     logger.warning(f"❌ Error calculating cosine similarity: {e}")
-#                     continue
-#
-#                 if score > best_score:
-#                     best_score = score
-#                     best_h_code = h_code
-#
-#             if best_score >= MATCH_THRESHOLD and best_h_code:
-#                 try:
-#                     best_student = Student.objects.get(h_code=best_h_code)
-#                 except Student.DoesNotExist:
-#                     logger.warning(f"❌ No student found for H-code: {best_h_code}")
-#                     continue
-#
-#                 periods = Period.objects.filter(
-#                     is_active=True,
-#                     start_time__lte=current_time.time(),
-#                     end_time__gte=current_time.time()
-#                 )
-#
-#                 if not periods.exists():
-#                     logger.info(f"❌ No active periods at {current_time.time()} for {best_student.full_name}")
-#                     continue
-#
-#                 for period in periods:
-#                     attendance_window_seconds = getattr(period, 'attendance_window_seconds', 3600)
-#                     try:
-#                         log = AttendanceLog.objects.get(
-#                             student=best_student,
-#                             period=period,
-#                             date=current_time.date()
-#                         )
-#                         time_diff = abs((current_time - log.timestamp).total_seconds())
-#
-#                         if time_diff <= attendance_window_seconds and best_score > log.match_score:
-#                             log.match_score = best_score
-#                             log.timestamp = current_time
-#                             log.camera = camera
-#                             log.save()
-#                             logger.info(f"🔁 Updated log for {best_student.full_name} with better score: {best_score:.4f}")
-#                         else:
-#                             logger.info(f"⏳ Already logged attendance for {best_student.full_name} today for period: {period.name}.")
-#                     except AttendanceLog.DoesNotExist:
-#                         AttendanceLog.objects.create(
-#                             student=best_student,
-#                             period=period,
-#                             camera=camera,
-#                             match_score=best_score,
-#                             timestamp=current_time,
-#                             date=current_time.date()
-#                         )
-#                         logger.info(f"✅ Match: {best_student.full_name} logged for period {period.name} (Score: {best_score:.4f})")
-#             else:
-#                 logger.info(f"❌ No match above threshold for detected face (Score: {best_score:.4f})")
-#
-#     cap.release()
-#     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
-
-
-
-
+def get_attendance_crop_path(student_h_code, camera_name):
+    today = datetime.now()
+    return f"attendance_crops/{today.strftime('%Y/%m/%d')}/{student_h_code}_{camera_name}_{today.strftime('%Y%m%d_%H%M%S')}.jpg"
 
 def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
     import uuid
@@ -319,7 +58,7 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
         ret, frame = cap.read()
         if not ret:
             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
-            time.sleep(3)
+            time.sleep(10)
             break
 
         current_time = datetime.now()
@@ -327,7 +66,6 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
 
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         faces = face_analyzer.get(rgb)
-
         aligned_faces = []
 
         for face in faces:
@@ -337,19 +75,20 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
             os.makedirs(debug_dir, exist_ok=True)
 
-            base_filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
-
-            # Save original cropped face
+            base_filename = f"{current_time.strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
             face_box = face.bbox.astype(int)
             x1, y1, x2, y2 = face_box
             cropped_face = rgb[y1:y2, x1:x2]
 
+            save_crop = getattr(settings, 'SAVE_ALL_CROPPED_FACES', True)
             cropped_path = os.path.join(debug_dir, f"{base_filename}.jpg")
-            try:
-                cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
-                logger.info(f"✅ Cropped face saved: {cropped_path}")
-            except Exception as e:
-                logger.warning(f"❌ Failed saving cropped face: {e}")
+
+            if save_crop:
+                try:
+                    cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+                    logger.info(f"✅ Cropped face saved: {cropped_path}")
+                except Exception as e:
+                    logger.warning(f"❌ Failed saving cropped face: {e}")
 
             if use_alignment:
                 try:
@@ -359,27 +98,23 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
 
                     aligned_path = os.path.join(debug_dir, f"{base_filename}_aligned.jpg")
                     cv2.imwrite(aligned_path, cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR))
-                    logger.info(f"✅ Aligned face saved: {aligned_path} (size: {aligned_face.shape[0]}x{aligned_face.shape[1]})")
+                    logger.info(f"✅ Aligned face saved: {aligned_path}")
 
-                    # === Create side-by-side comparison
                     combined = cv2.hconcat([
                         cv2.resize(cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR), (112, 112)),
                         cv2.resize(cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR), (112, 112))
                     ])
-                    combined_path = os.path.join(debug_dir, f"{base_filename}_compare.jpg")
-                    cv2.imwrite(combined_path, combined)
-                    logger.info(f"📸 Side-by-side comparison saved: {combined_path}")
+                    compare_path = os.path.join(debug_dir, f"{base_filename}_compare.jpg")
+                    cv2.imwrite(compare_path, combined)
+                    logger.info(f"📸 Side-by-side comparison saved: {compare_path}")
 
                 except Exception as e:
-                    logger.warning(f"❌ Alignment error, skipping aligned face: {e}")
+                    logger.warning(f"❌ Alignment error: {e}")
                     continue
 
-            aligned_faces.append(face)
+            aligned_faces.append((face, cropped_face))
 
-        faces = aligned_faces
-
-        # === MATCHING LOGIC
-        for face in faces:
+        for face, cropped_face in aligned_faces:
             best_score = -1
             best_h_code = None
 
@@ -425,28 +160,1043 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
                             log.match_score = best_score
                             log.timestamp = current_time
                             log.camera = camera
+
+                            if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+                                if getattr(settings, "DELETE_OLD_CROPPED_IMAGE", True) and log.cropped_face:
+                                    log.cropped_face.delete(save=False)
+
+                                _, img_encoded = cv2.imencode('.jpg', cropped_face)
+                                # log.cropped_face.save(
+                                #     get_attendance_crop_path(best_student.h_code, camera.name),
+                                #     ContentFile(img_encoded.tobytes()),
+                                #     save=False
+                                # )
+
+                                filename = f"{best_student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg"
+                                log.cropped_face.save(
+                                    filename,
+                                    ContentFile(img_encoded.tobytes()),
+                                    save=False
+                                )
+
                             log.save()
-                            logger.info(f"🔁 Updated log for {best_student.full_name} with aligned face (score: {best_score:.4f}) ✅")
+                            logger.info(f"🔁 Updated log for {best_student.full_name} (Score: {best_score:.4f})")
                         else:
-                            logger.info(f"⏳ Already logged attendance for {best_student.full_name} today for period: {period.name}.")
+                            logger.info(f"⏳ Already logged: {best_student.full_name} for {period.name}")
                     except AttendanceLog.DoesNotExist:
+                        image_content = None
+                        if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+                            _, img_encoded = cv2.imencode('.jpg', cropped_face)
+                            image_content = ContentFile(img_encoded.tobytes(), name=get_attendance_crop_path(best_student.h_code, camera.name))
+
                         AttendanceLog.objects.create(
                             student=best_student,
                             period=period,
                             camera=camera,
                             match_score=best_score,
                             timestamp=current_time,
-                            date=current_time.date()
+                            date=current_time.date(),
+                            cropped_face=image_content
                         )
-                        logger.info(f"✅ Match: {best_student.full_name} logged (aligned face) for period {period.name} (Score: {best_score:.4f})")
+                        logger.info(f"✅ Match: {best_student.full_name} logged (Score: {best_score:.4f})")
             else:
-                logger.info(f"❌ No match above threshold for detected face (Score: {best_score:.4f})")
+                logger.info(f"❌ No match above threshold (Score: {best_score:.4f})")
 
     cap.release()
     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
 
 
 
+
+
+# # extras/utils.py
+# import cv2
+# import numpy as np
+# from django.conf import settings
+# from insightface.app import FaceAnalysis
+# from sklearn.metrics.pairwise import cosine_similarity
+# from datetime import datetime
+# import logging
+# import os
+# import time
+# from insightface.utils.face_align import norm_crop
+# from django.core.files.base import ContentFile
+# import io
+#
+# from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
+# from extras.log_utils import get_camera_logger
+#
+# # === 🔧 PARAMETERS ===
+# MATCH_THRESHOLD = 0.50  # Lowered for better sensitivity
+#
+# def is_within_recognition_schedule(current_time, schedule):
+#     weekday = current_time.strftime('%A')
+#     return schedule.is_active and weekday in schedule.weekdays and schedule.start_time <= current_time.time() <= schedule.end_time
+#
+# def load_embeddings(embedding_dir):
+#     embeddings_map = {}
+#     for file in os.listdir(embedding_dir):
+#         if file.endswith('.npy'):
+#             h_code = file.split('.')[0]
+#             embedding_path = os.path.join(embedding_dir, file)
+#             embedding = np.load(embedding_path)
+#             embeddings_map[h_code] = embedding
+#     return embeddings_map
+#
+# def get_attendance_crop_path(student_h_code, camera_name):
+#     today = datetime.now()
+#     return f"attendance_crops/{today.strftime('%Y/%m/%d')}/{student_h_code}_{camera_name}_{today.strftime('%Y%m%d_%H%M%S')}.jpg"
+#
+# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
+#     import uuid
+#     logger = get_camera_logger(camera.name)
+#
+#     cap = cv2.VideoCapture(camera.url)
+#     if not cap.isOpened():
+#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
+#         return
+#
+#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
+#
+#     use_alignment = hasattr(face_analyzer, 'align_crop')
+#
+#     if use_alignment:
+#         logger.info("✅ Face alignment (align_crop) is ENABLED.")
+#     else:
+#         logger.warning("⚠️ Face alignment (align_crop) is NOT available. Running without alignment.")
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+#             time.sleep(10)
+#             break
+#
+#         current_time = datetime.now()
+#         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
+#
+#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         faces = face_analyzer.get(rgb)
+#         aligned_faces = []
+#
+#         for face in faces:
+#             if face.embedding is None:
+#                 continue
+#
+#             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
+#             os.makedirs(debug_dir, exist_ok=True)
+#
+#             base_filename = f"{current_time.strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
+#             face_box = face.bbox.astype(int)
+#             x1, y1, x2, y2 = face_box
+#             cropped_face = rgb[y1:y2, x1:x2]
+#
+#             save_crop = getattr(settings, 'SAVE_ALL_CROPPED_FACES', True)
+#             cropped_path = os.path.join(debug_dir, f"{base_filename}.jpg")
+#
+#             if save_crop:
+#                 try:
+#                     cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+#                     logger.info(f"✅ Cropped face saved: {cropped_path}")
+#                 except Exception as e:
+#                     logger.warning(f"❌ Failed saving cropped face: {e}")
+#
+#             if use_alignment:
+#                 try:
+#                     aligned_face = face_analyzer.align_crop(rgb, face.kps)
+#                     aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
+#                     face.embedding = aligned_embedding
+#
+#                     aligned_path = os.path.join(debug_dir, f"{base_filename}_aligned.jpg")
+#                     cv2.imwrite(aligned_path, cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR))
+#                     logger.info(f"✅ Aligned face saved: {aligned_path}")
+#
+#                     combined = cv2.hconcat([
+#                         cv2.resize(cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR), (112, 112)),
+#                         cv2.resize(cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR), (112, 112))
+#                     ])
+#                     compare_path = os.path.join(debug_dir, f"{base_filename}_compare.jpg")
+#                     cv2.imwrite(compare_path, combined)
+#                     logger.info(f"📸 Side-by-side comparison saved: {compare_path}")
+#
+#                 except Exception as e:
+#                     logger.warning(f"❌ Alignment error: {e}")
+#                     continue
+#
+#             aligned_faces.append((face, cropped_face))
+#
+#         for face, cropped_face in aligned_faces:
+#             best_score = -1
+#             best_h_code = None
+#
+#             for h_code, known_embedding in embeddings_map.items():
+#                 try:
+#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
+#                 except Exception as e:
+#                     logger.warning(f"❌ Error calculating cosine similarity: {e}")
+#                     continue
+#
+#                 if score > best_score:
+#                     best_score = score
+#                     best_h_code = h_code
+#
+#             if best_score >= MATCH_THRESHOLD and best_h_code:
+#                 try:
+#                     best_student = Student.objects.get(h_code=best_h_code)
+#                 except Student.DoesNotExist:
+#                     logger.warning(f"❌ No student found for H-code: {best_h_code}")
+#                     continue
+#
+#                 periods = Period.objects.filter(
+#                     is_active=True,
+#                     start_time__lte=current_time.time(),
+#                     end_time__gte=current_time.time()
+#                 )
+#
+#                 if not periods.exists():
+#                     logger.info(f"❌ No active periods at {current_time.time()} for {best_student.full_name}")
+#                     continue
+#
+#                 for period in periods:
+#                     attendance_window_seconds = getattr(period, 'attendance_window_seconds', 3600)
+#                     try:
+#                         log = AttendanceLog.objects.get(
+#                             student=best_student,
+#                             period=period,
+#                             date=current_time.date()
+#                         )
+#                         time_diff = abs((current_time - log.timestamp).total_seconds())
+#
+#                         if time_diff <= attendance_window_seconds and best_score > log.match_score:
+#                             log.match_score = best_score
+#                             log.timestamp = current_time
+#                             log.camera = camera
+#
+#                             if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+#                                 if getattr(settings, "DELETE_OLD_CROPPED_IMAGE", True) and log.cropped_face:
+#                                     log.cropped_face.delete(save=False)
+#
+#                                 _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                                 log.cropped_face.save(
+#                                     get_attendance_crop_path(best_student.h_code, camera.name),
+#                                     ContentFile(img_encoded.tobytes()),
+#                                     save=False
+#                                 )
+#
+#                                 # _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                                 # filename = f"{best_student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg"
+#                                 # log.cropped_face.save(
+#                                 #     filename,
+#                                 #     ContentFile(img_encoded.tobytes()),
+#                                 #     save=False
+#                                 # )
+#
+#                                 # log.cropped_face.save(
+#                                 #     get_attendance_crop_path(best_student.h_code, camera.name),
+#                                 #     ContentFile(img_encoded.tobytes()),
+#                                 #     save=False
+#                                 # )
+#
+#                             log.save()
+#                             logger.info(f"🔁 Updated log for {best_student.full_name} (Score: {best_score:.4f})")
+#                         else:
+#                             logger.info(f"⏳ Already logged: {best_student.full_name} for {period.name}")
+#                     except AttendanceLog.DoesNotExist:
+#                         image_content = None
+#                         if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+#                             _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                             image_content = ContentFile(img_encoded.tobytes(), name=get_attendance_crop_path(best_student.h_code, camera.name))
+#
+#                         AttendanceLog.objects.create(
+#                             student=best_student,
+#                             period=period,
+#                             camera=camera,
+#                             match_score=best_score,
+#                             timestamp=current_time,
+#                             date=current_time.date(),
+#                             cropped_face=image_content
+#                         )
+#                         logger.info(f"✅ Match: {best_student.full_name} logged (Score: {best_score:.4f})")
+#             else:
+#                 logger.info(f"❌ No match above threshold (Score: {best_score:.4f})")
+#
+#     cap.release()
+#     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
+
+
+
+
+# # extras/utils.py
+# import cv2
+# import numpy as np
+# from django.conf import settings
+# from insightface.app import FaceAnalysis
+# from sklearn.metrics.pairwise import cosine_similarity
+# from datetime import datetime
+# import logging
+# import os
+# import time
+# from django.core.files.base import ContentFile
+# import uuid
+#
+# from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
+# from extras.log_utils import get_camera_logger
+#
+# # === 🔧 PARAMETERS ===
+# MATCH_THRESHOLD = 0.50
+#
+# def is_within_recognition_schedule(current_time, schedule):
+#     weekday = current_time.strftime('%A')
+#     return schedule.is_active and weekday in schedule.weekdays and schedule.start_time <= current_time.time() <= schedule.end_time
+#
+# def load_embeddings(embedding_dir):
+#     embeddings_map = {}
+#     for file in os.listdir(embedding_dir):
+#         if file.endswith('.npy'):
+#             h_code = file.split('.')[0]
+#             embedding = np.load(os.path.join(embedding_dir, file))
+#             embeddings_map[h_code] = embedding
+#     return embeddings_map
+#
+# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
+#     logger = get_camera_logger(camera.name)
+#     cap = cv2.VideoCapture(camera.url)
+#
+#     if not cap.isOpened():
+#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
+#         return
+#
+#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
+#
+#     use_alignment = hasattr(face_analyzer, 'align_crop')
+#     if use_alignment:
+#         logger.info("✅ Face alignment (align_crop) is ENABLED.")
+#     else:
+#         logger.warning("⚠️ Face alignment (align_crop) is NOT available. Running without alignment.")
+#
+#     save_all = getattr(settings, "SAVE_ALL_CROPPED_FACES", True)
+#     delete_old = getattr(settings, "DELETE_OLD_CROPPED_IMAGE", True)
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+#             time.sleep(10)
+#             break
+#
+#         current_time = datetime.now()
+#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         faces = face_analyzer.get(rgb)
+#
+#         for face in faces:
+#             if face.embedding is None:
+#                 continue
+#
+#             base_filename = f"{current_time.strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
+#             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
+#             os.makedirs(debug_dir, exist_ok=True)
+#
+#             x1, y1, x2, y2 = face.bbox.astype(int)
+#             cropped_face = rgb[y1:y2, x1:x2]
+#
+#             # Save all cropped faces to debug directory
+#             if save_all:
+#                 debug_path = os.path.join(debug_dir, f"{base_filename}.jpg")
+#                 try:
+#                     cv2.imwrite(debug_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+#                     logger.info(f"📥 Saved cropped face to: {debug_path}")
+#                 except Exception as e:
+#                     logger.warning(f"❌ Failed to save cropped face: {e}")
+#
+#             # Alignment (if available)
+#             if use_alignment:
+#                 try:
+#                     aligned_face = face_analyzer.align_crop(rgb, face.kps)
+#                     aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
+#                     face.embedding = aligned_embedding
+#                 except Exception as e:
+#                     logger.warning(f"❌ Alignment error: {e}")
+#                     continue
+#
+#             # MATCHING
+#             best_score = -1
+#             best_h_code = None
+#
+#             for h_code, known_embedding in embeddings_map.items():
+#                 try:
+#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
+#                     if score > best_score:
+#                         best_score = score
+#                         best_h_code = h_code
+#                 except Exception as e:
+#                     logger.warning(f"❌ Cosine error: {e}")
+#
+#             if best_score >= MATCH_THRESHOLD and best_h_code:
+#                 try:
+#                     student = Student.objects.get(h_code=best_h_code)
+#                 except Student.DoesNotExist:
+#                     logger.warning(f"❌ No student found for H-code {best_h_code}")
+#                     continue
+#
+#                 periods = Period.objects.filter(
+#                     is_active=True,
+#                     start_time__lte=current_time.time(),
+#                     end_time__gte=current_time.time()
+#                 )
+#
+#                 for period in periods:
+#                     try:
+#                         log = AttendanceLog.objects.get(
+#                             student=student,
+#                             period=period,
+#                             date=current_time.date()
+#                         )
+#                         if best_score > log.match_score:
+#                             log.match_score = best_score
+#                             log.timestamp = current_time
+#                             log.camera = camera
+#
+#                             if delete_old and log.cropped_face:
+#                                 log.cropped_face.delete(save=False)
+#
+#                             _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                             log.cropped_face.save(
+#                                 f"{student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg",
+#                                 ContentFile(img_encoded.tobytes()),
+#                                 save=False
+#                             )
+#                             log.save()
+#                             logger.info(f"🔁 Updated log for {student.full_name} with new face (score: {best_score:.4f})")
+#                     except AttendanceLog.DoesNotExist:
+#                         _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                         log = AttendanceLog.objects.create(
+#                             student=student,
+#                             period=period,
+#                             camera=camera,
+#                             match_score=best_score,
+#                             timestamp=current_time,
+#                             date=current_time.date()
+#                         )
+#                         log.cropped_face.save(
+#                             f"{student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg",
+#                             ContentFile(img_encoded.tobytes()),
+#                             save=True
+#                         )
+#                         logger.info(f"✅ Created log for {student.full_name} (score: {best_score:.4f})")
+#             else:
+#                 logger.info(f"❌ No match above threshold (Score: {best_score:.4f})")
+#
+#     cap.release()
+#     logger.info(f"🛑 Stopped streaming from: {camera.name}")
+
+
+
+
+# # extras/utils.py
+# import cv2
+# import numpy as np
+# from django.conf import settings
+# from insightface.app import FaceAnalysis
+# from sklearn.metrics.pairwise import cosine_similarity
+# from datetime import datetime
+# import logging
+# import os
+# import time
+# from insightface.utils.face_align import norm_crop
+# from django.core.files.base import ContentFile
+# import io
+#
+# from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
+# from extras.log_utils import get_camera_logger
+#
+# # === 🔧 PARAMETERS ===
+# MATCH_THRESHOLD = 0.50  # Lowered for better sensitivity
+#
+# # === 🔁 HELPERS ===
+# def is_within_recognition_schedule(current_time, schedule):
+#     weekday = current_time.strftime('%A')
+#     return schedule.is_active and weekday in schedule.weekdays and schedule.start_time <= current_time.time() <= schedule.end_time
+#
+# def load_embeddings(embedding_dir):
+#     embeddings_map = {}
+#     for file in os.listdir(embedding_dir):
+#         if file.endswith('.npy'):
+#             h_code = file.split('.')[0]
+#             embedding_path = os.path.join(embedding_dir, file)
+#             embedding = np.load(embedding_path)
+#             embeddings_map[h_code] = embedding
+#     return embeddings_map
+#
+# # === 🎥 CAMERA STREAM PROCESSING ===
+# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
+#     import uuid
+#     logger = get_camera_logger(camera.name)
+#
+#     cap = cv2.VideoCapture(camera.url)
+#     if not cap.isOpened():
+#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
+#         return
+#
+#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
+#
+#     use_alignment = hasattr(face_analyzer, 'align_crop')
+#
+#     if use_alignment:
+#         logger.info("✅ Face alignment (align_crop) is ENABLED.")
+#     else:
+#         logger.warning("⚠️ Face alignment (align_crop) is NOT available. Running without alignment.")
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+#             time.sleep(10) # If no stream (for 10 seconds) then Break
+#             break
+#
+#         current_time = datetime.now()
+#         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
+#
+#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         faces = face_analyzer.get(rgb)
+#
+#         aligned_faces = []
+#
+#         for face in faces:
+#             if face.embedding is None:
+#                 continue
+#
+#             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
+#             os.makedirs(debug_dir, exist_ok=True)
+#
+#             base_filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
+#
+#             # Save original cropped face
+#             face_box = face.bbox.astype(int)
+#             x1, y1, x2, y2 = face_box
+#             cropped_face = rgb[y1:y2, x1:x2]
+#
+#
+#             save_crop = getattr(settings, 'SAVE_ALL_CROPPED_FACES', True)
+#             cropped_path = None  # Will only be defined if saving is allowed
+#
+#             if save_crop:
+#                 cropped_path = os.path.join(debug_dir, f"{base_filename}.jpg")
+#                 try:
+#                     cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+#                     logger.info(f"✅ Cropped face saved: {cropped_path}")
+#                 except Exception as e:
+#                     logger.warning(f"❌ Failed saving cropped face: {e}")
+#
+#             aligned_path = None  # default fallback if not aligned
+#
+#             if use_alignment:
+#                 try:
+#                     aligned_face = face_analyzer.align_crop(rgb, face.kps)
+#                     aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
+#                     face.embedding = aligned_embedding
+#
+#                     aligned_path = os.path.join(debug_dir, f"{base_filename}_aligned.jpg")
+#                     cv2.imwrite(aligned_path, cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR))
+#                     logger.info(f"✅ Aligned face saved: {aligned_path} (size: {aligned_face.shape[0]}x{aligned_face.shape[1]})")
+#
+#                     # === Create side-by-side comparison
+#                     combined = cv2.hconcat([
+#                         cv2.resize(cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR), (112, 112)),
+#                         cv2.resize(cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR), (112, 112))
+#                     ])
+#                     combined_path = os.path.join(debug_dir, f"{base_filename}_compare.jpg")
+#                     cv2.imwrite(combined_path, combined)
+#                     logger.info(f"📸 Side-by-side comparison saved: {combined_path}")
+#
+#                 except Exception as e:
+#                     logger.warning(f"❌ Alignment error, skipping aligned face: {e}")
+#                     continue
+#
+#             aligned_faces.append((face, cropped_face))
+#
+#         # === MATCHING LOGIC
+#         for face, cropped_face in aligned_faces:
+#             best_score = -1
+#             best_h_code = None
+#
+#             for h_code, known_embedding in embeddings_map.items():
+#                 try:
+#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
+#                 except Exception as e:
+#                     logger.warning(f"❌ Error calculating cosine similarity: {e}")
+#                     continue
+#
+#                 if score > best_score:
+#                     best_score = score
+#                     best_h_code = h_code
+#
+#             if best_score >= MATCH_THRESHOLD and best_h_code:
+#                 will_be_used = True
+#                 # If SAVE_ALL_CROPPED_FACES is False, we only save now because it's used
+#                 if not save_crop:
+#                     cropped_path = os.path.join(debug_dir, f"{base_filename}.jpg")
+#                     try:
+#                         cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+#                         logger.info(f"✅ Cropped face saved for recognized student: {cropped_path}")
+#                     except Exception as e:
+#                         logger.warning(f"❌ Failed saving matched cropped face: {e}")
+#                     # try:
+#                     #     cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+#                     #     logger.info(f"✅ Cropped face saved for recognized student: {cropped_path}")
+#                     # except Exception as e:
+#                     #     logger.warning(f"❌ Failed saving matched cropped face: {e}")
+#                 try:
+#                     best_student = Student.objects.get(h_code=best_h_code)
+#                 except Student.DoesNotExist:
+#                     logger.warning(f"❌ No student found for H-code: {best_h_code}")
+#                     continue
+#
+#                 periods = Period.objects.filter(
+#                     is_active=True,
+#                     start_time__lte=current_time.time(),
+#                     end_time__gte=current_time.time()
+#                 )
+#
+#                 if not periods.exists():
+#                     logger.info(f"❌ No active periods at {current_time.time()} for {best_student.full_name}")
+#                     continue
+#
+#                 for period in periods:
+#                     attendance_window_seconds = getattr(period, 'attendance_window_seconds', 3600)
+#                     try:
+#                         log = AttendanceLog.objects.get(
+#                             student=best_student,
+#                             period=period,
+#                             date=current_time.date()
+#                         )
+#                         time_diff = abs((current_time - log.timestamp).total_seconds())
+#
+#                         if time_diff <= attendance_window_seconds and best_score > log.match_score:
+#                             log.match_score = best_score
+#                             log.timestamp = current_time
+#                             log.camera = camera
+#
+#                             if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+#                                 if getattr(settings, "DELETE_OLD_CROPPED_IMAGE", True) and log.cropped_face:
+#                                     log.cropped_face.delete(save=False)
+#
+#                                 _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                                 log.cropped_face.save(
+#                                     f"{best_student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg",
+#                                     ContentFile(img_encoded.tobytes()),
+#                                     save=False
+#                                 )
+#
+#                             log.save()
+#                             logger.info(f"🔁 Updated log for {best_student.full_name} with aligned face (score: {best_score:.4f}) ✅")
+#                         else:
+#                             logger.info(f"⏳ Already logged attendance for {best_student.full_name} today for period: {period.name}.")
+#                     except AttendanceLog.DoesNotExist:
+#                         image_content = None
+#                         if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+#                             _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                             image_content = ContentFile(img_encoded.tobytes(), name=f"{best_student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg")
+#
+#                         AttendanceLog.objects.create(
+#                             student=best_student,
+#                             period=period,
+#                             camera=camera,
+#                             match_score=best_score,
+#                             timestamp=current_time,
+#                             date=current_time.date(),
+#                             cropped_face=image_content
+#                         )
+#                         logger.info(f"✅ Match: {best_student.full_name} logged (aligned face) for period {period.name} (Score: {best_score:.4f})")
+#             else:
+#                 logger.info(f"❌ No match above threshold for detected face (Score: {best_score:.4f})")
+#
+#     cap.release()
+#     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
+
+
+# # extras/utils.py
+# import cv2
+# import numpy as np
+# from django.conf import settings
+# from insightface.app import FaceAnalysis
+# from sklearn.metrics.pairwise import cosine_similarity
+# from datetime import datetime
+# import logging
+# import os
+# import time
+# from insightface.utils.face_align import norm_crop
+# from django.core.files.base import ContentFile
+# import io
+#
+# from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
+# from extras.log_utils import get_camera_logger
+#
+# # === 🔧 PARAMETERS ===
+# MATCH_THRESHOLD = 0.50  # Lowered for better sensitivity
+#
+# # === 🔁 HELPERS ===
+# def is_within_recognition_schedule(current_time, schedule):
+#     weekday = current_time.strftime('%A')
+#     return schedule.is_active and weekday in schedule.weekdays and schedule.start_time <= current_time.time() <= schedule.end_time
+#
+# def load_embeddings(embedding_dir):
+#     embeddings_map = {}
+#     for file in os.listdir(embedding_dir):
+#         if file.endswith('.npy'):
+#             h_code = file.split('.')[0]
+#             embedding_path = os.path.join(embedding_dir, file)
+#             embedding = np.load(embedding_path)
+#             embeddings_map[h_code] = embedding
+#     return embeddings_map
+#
+# # === 🎥 CAMERA STREAM PROCESSING ===
+# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
+#     import uuid
+#     logger = get_camera_logger(camera.name)
+#
+#     cap = cv2.VideoCapture(camera.url)
+#     if not cap.isOpened():
+#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
+#         return
+#
+#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
+#
+#     use_alignment = hasattr(face_analyzer, 'align_crop')
+#
+#     if use_alignment:
+#         logger.info("✅ Face alignment (align_crop) is ENABLED.")
+#     else:
+#         logger.warning("⚠️ Face alignment (align_crop) is NOT available. Running without alignment.")
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+#             time.sleep(10) # If no stream (for 10 seconds) then Break
+#             break
+#
+#         current_time = datetime.now()
+#         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
+#
+#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         faces = face_analyzer.get(rgb)
+#
+#         aligned_faces = []
+#
+#         for face in faces:
+#             if face.embedding is None:
+#                 continue
+#
+#             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
+#             os.makedirs(debug_dir, exist_ok=True)
+#
+#             base_filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
+#
+#             # Save original cropped face
+#             face_box = face.bbox.astype(int)
+#             x1, y1, x2, y2 = face_box
+#             cropped_face = rgb[y1:y2, x1:x2]
+#
+#             cropped_path = os.path.join(debug_dir, f"{base_filename}.jpg")
+#             try:
+#                 cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+#                 logger.info(f"✅ Cropped face saved: {cropped_path}")
+#             except Exception as e:
+#                 logger.warning(f"❌ Failed saving cropped face: {e}")
+#
+#             aligned_path = None  # default fallback if not aligned
+#
+#             if use_alignment:
+#                 try:
+#                     aligned_face = face_analyzer.align_crop(rgb, face.kps)
+#                     aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
+#                     face.embedding = aligned_embedding
+#
+#                     aligned_path = os.path.join(debug_dir, f"{base_filename}_aligned.jpg")
+#                     cv2.imwrite(aligned_path, cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR))
+#                     logger.info(f"✅ Aligned face saved: {aligned_path} (size: {aligned_face.shape[0]}x{aligned_face.shape[1]})")
+#
+#                     # === Create side-by-side comparison
+#                     combined = cv2.hconcat([
+#                         cv2.resize(cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR), (112, 112)),
+#                         cv2.resize(cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR), (112, 112))
+#                     ])
+#                     combined_path = os.path.join(debug_dir, f"{base_filename}_compare.jpg")
+#                     cv2.imwrite(combined_path, combined)
+#                     logger.info(f"📸 Side-by-side comparison saved: {combined_path}")
+#
+#                 except Exception as e:
+#                     logger.warning(f"❌ Alignment error, skipping aligned face: {e}")
+#                     continue
+#
+#             aligned_faces.append((face, cropped_face))
+#
+#         # === MATCHING LOGIC
+#         for face, cropped_face in aligned_faces:
+#             best_score = -1
+#             best_h_code = None
+#
+#             for h_code, known_embedding in embeddings_map.items():
+#                 try:
+#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
+#                 except Exception as e:
+#                     logger.warning(f"❌ Error calculating cosine similarity: {e}")
+#                     continue
+#
+#                 if score > best_score:
+#                     best_score = score
+#                     best_h_code = h_code
+#
+#             if best_score >= MATCH_THRESHOLD and best_h_code:
+#                 try:
+#                     best_student = Student.objects.get(h_code=best_h_code)
+#                 except Student.DoesNotExist:
+#                     logger.warning(f"❌ No student found for H-code: {best_h_code}")
+#                     continue
+#
+#                 periods = Period.objects.filter(
+#                     is_active=True,
+#                     start_time__lte=current_time.time(),
+#                     end_time__gte=current_time.time()
+#                 )
+#
+#                 if not periods.exists():
+#                     logger.info(f"❌ No active periods at {current_time.time()} for {best_student.full_name}")
+#                     continue
+#
+#                 for period in periods:
+#                     attendance_window_seconds = getattr(period, 'attendance_window_seconds', 3600)
+#                     try:
+#                         log = AttendanceLog.objects.get(
+#                             student=best_student,
+#                             period=period,
+#                             date=current_time.date()
+#                         )
+#                         time_diff = abs((current_time - log.timestamp).total_seconds())
+#
+#                         if time_diff <= attendance_window_seconds and best_score > log.match_score:
+#                             log.match_score = best_score
+#                             log.timestamp = current_time
+#                             log.camera = camera
+#
+#                             _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                             log.cropped_face.save(
+#                                 f"{best_student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg",
+#                                 ContentFile(img_encoded.tobytes()),
+#                                 save=False
+#                             )
+#
+#                             log.save()
+#                             logger.info(f"🔁 Updated log for {best_student.full_name} with aligned face (score: {best_score:.4f}) ✅")
+#                         else:
+#                             logger.info(f"⏳ Already logged attendance for {best_student.full_name} today for period: {period.name}.")
+#                     except AttendanceLog.DoesNotExist:
+#                         _, img_encoded = cv2.imencode('.jpg', cropped_face)
+#                         image_content = ContentFile(img_encoded.tobytes(), name=f"{best_student.h_code}_{camera.name}_{current_time.strftime('%Y%m%d_%H%M%S')}.jpg")
+#
+#                         AttendanceLog.objects.create(
+#                             student=best_student,
+#                             period=period,
+#                             camera=camera,
+#                             match_score=best_score,
+#                             timestamp=current_time,
+#                             date=current_time.date(),
+#                             cropped_face=image_content
+#                         )
+#                         logger.info(f"✅ Match: {best_student.full_name} logged (aligned face) for period {period.name} (Score: {best_score:.4f})")
+#             else:
+#                 logger.info(f"❌ No match above threshold for detected face (Score: {best_score:.4f})")
+#
+#     cap.release()
+#     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
+
+
+
+
+# # extras/utils.py
+# import cv2
+# import numpy as np
+# from django.conf import settings
+# from insightface.app import FaceAnalysis
+# from sklearn.metrics.pairwise import cosine_similarity
+# from datetime import datetime
+# import logging
+# import os
+# import time
+# from insightface.utils.face_align import norm_crop
+#
+# from attendance.models import AttendanceLog, Period, RecognitionSchedule, Student
+# from extras.log_utils import get_camera_logger
+#
+# # === 🔧 PARAMETERS ===
+# MATCH_THRESHOLD = 0.50  # Lowered for better sensitivity
+#
+# # === 🔁 HELPERS ===
+# def is_within_recognition_schedule(current_time, schedule):
+#     weekday = current_time.strftime('%A')
+#     return schedule.is_active and weekday in schedule.weekdays and schedule.start_time <= current_time.time() <= schedule.end_time
+#
+# def load_embeddings(embedding_dir):
+#     embeddings_map = {}
+#     for file in os.listdir(embedding_dir):
+#         if file.endswith('.npy'):
+#             h_code = file.split('.')[0]
+#             embedding_path = os.path.join(embedding_dir, file)
+#             embedding = np.load(embedding_path)
+#             embeddings_map[h_code] = embedding
+#     return embeddings_map
+#
+# # === 🎥 CAMERA STREAM PROCESSING ===
+# def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
+#     import uuid
+#     logger = get_camera_logger(camera.name)
+#
+#     cap = cv2.VideoCapture(camera.url)
+#     if not cap.isOpened():
+#         logger.warning(f"⚠️ Camera stream not accessible: {camera.name}")
+#         return
+#
+#     logger.info(f"🟢 Streaming from camera: {camera.name} ({camera.location})")
+#
+#     use_alignment = hasattr(face_analyzer, 'align_crop')
+#
+#     if use_alignment:
+#         logger.info("✅ Face alignment (align_crop) is ENABLED.")
+#     else:
+#         logger.warning("⚠️ Face alignment (align_crop) is NOT available. Running without alignment.")
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+#             time.sleep(10) # If no stream (for 10 seconds) then Break
+#             break
+#
+#         current_time = datetime.now()
+#         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
+#
+#         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         faces = face_analyzer.get(rgb)
+#
+#         aligned_faces = []
+#
+#         for face in faces:
+#             if face.embedding is None:
+#                 continue
+#
+#             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
+#             os.makedirs(debug_dir, exist_ok=True)
+#
+#             base_filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
+#
+#             # Save original cropped face
+#             face_box = face.bbox.astype(int)
+#             x1, y1, x2, y2 = face_box
+#             cropped_face = rgb[y1:y2, x1:x2]
+#
+#             cropped_path = os.path.join(debug_dir, f"{base_filename}.jpg")
+#             try:
+#                 cv2.imwrite(cropped_path, cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR))
+#                 logger.info(f"✅ Cropped face saved: {cropped_path}")
+#             except Exception as e:
+#                 logger.warning(f"❌ Failed saving cropped face: {e}")
+#
+#             if use_alignment:
+#                 try:
+#                     aligned_face = face_analyzer.align_crop(rgb, face.kps)
+#                     aligned_embedding = face_analyzer.get(aligned_face)[0].embedding
+#                     face.embedding = aligned_embedding
+#
+#                     aligned_path = os.path.join(debug_dir, f"{base_filename}_aligned.jpg")
+#                     cv2.imwrite(aligned_path, cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR))
+#                     logger.info(f"✅ Aligned face saved: {aligned_path} (size: {aligned_face.shape[0]}x{aligned_face.shape[1]})")
+#
+#                     # === Create side-by-side comparison
+#                     combined = cv2.hconcat([
+#                         cv2.resize(cv2.cvtColor(cropped_face, cv2.COLOR_RGB2BGR), (112, 112)),
+#                         cv2.resize(cv2.cvtColor(aligned_face, cv2.COLOR_RGB2BGR), (112, 112))
+#                     ])
+#                     combined_path = os.path.join(debug_dir, f"{base_filename}_compare.jpg")
+#                     cv2.imwrite(combined_path, combined)
+#                     logger.info(f"📸 Side-by-side comparison saved: {combined_path}")
+#
+#                 except Exception as e:
+#                     logger.warning(f"❌ Alignment error, skipping aligned face: {e}")
+#                     continue
+#
+#             aligned_faces.append(face)
+#
+#         faces = aligned_faces
+#
+#         # === MATCHING LOGIC
+#         for face in faces:
+#             best_score = -1
+#             best_h_code = None
+#
+#             for h_code, known_embedding in embeddings_map.items():
+#                 try:
+#                     score = cosine_similarity([face.embedding], [known_embedding])[0][0]
+#                 except Exception as e:
+#                     logger.warning(f"❌ Error calculating cosine similarity: {e}")
+#                     continue
+#
+#                 if score > best_score:
+#                     best_score = score
+#                     best_h_code = h_code
+#
+#             if best_score >= MATCH_THRESHOLD and best_h_code:
+#                 try:
+#                     best_student = Student.objects.get(h_code=best_h_code)
+#                 except Student.DoesNotExist:
+#                     logger.warning(f"❌ No student found for H-code: {best_h_code}")
+#                     continue
+#
+#                 periods = Period.objects.filter(
+#                     is_active=True,
+#                     start_time__lte=current_time.time(),
+#                     end_time__gte=current_time.time()
+#                 )
+#
+#                 if not periods.exists():
+#                     logger.info(f"❌ No active periods at {current_time.time()} for {best_student.full_name}")
+#                     continue
+#
+#                 for period in periods:
+#                     attendance_window_seconds = getattr(period, 'attendance_window_seconds', 3600)
+#                     try:
+#                         log = AttendanceLog.objects.get(
+#                             student=best_student,
+#                             period=period,
+#                             date=current_time.date()
+#                         )
+#                         time_diff = abs((current_time - log.timestamp).total_seconds())
+#
+#                         if time_diff <= attendance_window_seconds and best_score > log.match_score:
+#                             log.match_score = best_score
+#                             log.timestamp = current_time
+#                             log.camera = camera
+#                             log.save()
+#                             logger.info(f"🔁 Updated log for {best_student.full_name} with aligned face (score: {best_score:.4f}) ✅")
+#                         else:
+#                             logger.info(f"⏳ Already logged attendance for {best_student.full_name} today for period: {period.name}.")
+#                     except AttendanceLog.DoesNotExist:
+#                         AttendanceLog.objects.create(
+#                             student=best_student,
+#                             period=period,
+#                             camera=camera,
+#                             match_score=best_score,
+#                             timestamp=current_time,
+#                             date=current_time.date()
+#                         )
+#                         logger.info(f"✅ Match: {best_student.full_name} logged (aligned face) for period {period.name} (Score: {best_score:.4f})")
+#             else:
+#                 logger.info(f"❌ No match above threshold for detected face (Score: {best_score:.4f})")
+#
+#     cap.release()
+#     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
+#
+#
+#
 
 
 

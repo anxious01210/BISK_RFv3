@@ -5,7 +5,43 @@ from django.utils.html import format_html
 from django.utils import timezone
 from multiselectfield import MultiSelectField
 from django.utils.timezone import localtime, make_aware
-import datetime
+
+import os
+from django.utils.timezone import now
+import logging
+
+logger = logging.getLogger(__name__)
+
+def attendance_crop_path(instance, filename):
+    today = now().date()
+    h_code = instance.student.h_code
+    camera_name = instance.camera.name
+    timestamp = now().strftime("%Y%m%d_%H%M%S")
+
+    # name = f"{h_code}_{camera_name}_{timestamp}.jpg"
+    # path = os.path.join("attendance_crops", today.strftime("%Y/%m/%d"), name)
+    #
+    # # Log it for investigation
+    # logger.warning(f"[DEBUG][UPLOAD_PATH] Raw filename: {filename}")
+    # logger.warning(f"[DEBUG][UPLOAD_PATH] Computed path: {path}")
+    #
+    # return path
+
+# import datetime
+#
+# import os
+# from datetime import datetime
+#
+# def attendance_crop_path(instance, filename):
+#     today = datetime.now()
+#     return os.path.join(
+#         "attendance_crops",
+#         str(today.year),
+#         f"{today.month:02}",
+#         f"{today.day:02}",
+#         filename
+#     )
+#
 
 class Student(models.Model):
     h_code = models.CharField(max_length=20, unique=True)
@@ -69,9 +105,14 @@ class Camera(models.Model):
     def __str__(self):
         return self.name
 
+# def attendance_crop_path(instance, filename):
+#     now = timezone.now()
+#     return f"attendance_crops/{now.year}/{now.month:02}/{now.day:02}/{filename}"
 
 class AttendanceLog(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    # cropped_face = models.ImageField(upload_to='attendance_crops/', blank=True, null=True)
+    cropped_face = models.ImageField(upload_to=attendance_crop_path, blank=True, null=True)
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
     camera = models.ForeignKey(Camera, on_delete=models.SET_NULL, null=True, blank=True)
     match_score = models.FloatField(null=True, blank=True, help_text="Cosine similarity score of the recognition match.")

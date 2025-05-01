@@ -522,11 +522,13 @@ class CameraAdmin(ImportExportModelAdmin):
     #
     #     return HttpResponse(html)
 
-
 @admin.register(AttendanceLog)
 class AttendanceLogAdmin(ImportExportModelAdmin):
     resource_class = AttendanceLogResource
-    list_display = ('student', 'period', 'camera', 'timestamp', 'date', 'colored_match_score')
+    list_display = (
+        'student', 'cropped_face_preview', 'colored_match_score', 'period', 'camera',
+        'timestamp', 'date',
+    )
     list_filter = ('period', 'camera', 'date')
     search_fields = ('student__h_code', 'student__full_name', 'camera__name', 'date')
 
@@ -536,7 +538,6 @@ class AttendanceLogAdmin(ImportExportModelAdmin):
         except (ValueError, TypeError):
             return mark_safe("<span style='color: gray;'>-</span>")
 
-        # New coloring based on cosine similarity (0 - 1)
         if score >= 0.8:
             color = 'green'
         elif score >= 0.6:
@@ -547,10 +548,51 @@ class AttendanceLogAdmin(ImportExportModelAdmin):
         return mark_safe(f"<span style='color: {color};'>%.2f</span>" % score)
 
     colored_match_score.short_description = mark_safe(
-        "Match Score<br><small><span style='color:green;'>Green ≥ 0.80</span>"
-        "<span style='color:orange;'>Orange ≥ 0.60</span>"
-        "<span style='color:red;'>Red &lt; 0.60</span></small>"
+        "Match Score<br><small><span style='color:green; padding:0;'>Green ≥ 0.80</span>"
+        "<span style='color:orange;  padding:0;'>Orange ≥ 0.60</span>"
+        "<span style='color:red;  padding:0;'>Red &lt; 0.60</span></small>"
     )
+
+    def cropped_face_preview(self, obj):
+        if obj.cropped_face:
+            return mark_safe(
+                f'<a href="{obj.cropped_face.url}" target="_blank">'
+                f'<img src="{obj.cropped_face.url}" style="max-height:128px;" />'
+                f'</a>'
+            )
+        return "No Image"
+
+    cropped_face_preview.short_description = "Face Preview"
+
+
+# @admin.register(AttendanceLog)
+# class AttendanceLogAdmin(ImportExportModelAdmin):
+#     resource_class = AttendanceLogResource
+#     list_display = ('student', 'period', 'camera', 'timestamp', 'date', 'colored_match_score')
+#     list_filter = ('period', 'camera', 'date')
+#     search_fields = ('student__h_code', 'student__full_name', 'camera__name', 'date')
+#
+#     def colored_match_score(self, obj):
+#         try:
+#             score = float(obj.match_score)
+#         except (ValueError, TypeError):
+#             return mark_safe("<span style='color: gray;'>-</span>")
+#
+#         # New coloring based on cosine similarity (0 - 1)
+#         if score >= 0.8:
+#             color = 'green'
+#         elif score >= 0.6:
+#             color = 'orange'
+#         else:
+#             color = 'red'
+#
+#         return mark_safe(f"<span style='color: {color};'>%.2f</span>" % score)
+#
+#     colored_match_score.short_description = mark_safe(
+#         "Match Score<br><small><span style='color:green;'>Green ≥ 0.80</span>"
+#         "<span style='color:orange;'>Orange ≥ 0.60</span>"
+#         "<span style='color:red;'>Red &lt; 0.60</span></small>"
+#     )
 
 @admin.register(RecognitionSchedule)
 class RecognitionScheduleAdmin(ImportExportModelAdmin):
