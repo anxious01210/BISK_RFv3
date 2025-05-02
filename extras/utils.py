@@ -34,11 +34,17 @@ def load_embeddings(embedding_dir):
 
 def get_attendance_crop_path(student_h_code, camera_name):
     today = datetime.now()
+    if not student_h_code or not camera_name:
+        raise ValueError("Invalid student_h_code or camera_name in get_attendance_crop_path()")
     return f"attendance_crops/{today.strftime('%Y/%m/%d')}/{student_h_code}_{camera_name}_{today.strftime('%Y%m%d_%H%M%S')}.jpg"
 
 def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
     import uuid
     logger = get_camera_logger(camera.name)
+
+    logger.info(f"SAVE_ALL_CROPPED_FACES = {getattr(settings, 'SAVE_ALL_CROPPED_FACES', '???')}")
+    logger.info(f"SAVE_CROPPED_IMAGE = {getattr(settings, 'SAVE_CROPPED_IMAGE', '???')}")
+    logger.info(f"DELETE_OLD_CROPPED_IMAGE = {getattr(settings, 'DELETE_OLD_CROPPED_IMAGE', '???')}")
 
     cap = cv2.VideoCapture(camera.url)
     if not cap.isOpened():
@@ -54,12 +60,25 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
     else:
         logger.warning("⚠️ Face alignment (align_crop) is NOT available. Running without alignment.")
 
+    # while True:
+    #     ret, frame = cap.read()
+    #     if not ret:
+    #         logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+    #         time.sleep(10)
+    #         break
+
+    read_failure_count = 0
     while True:
         ret, frame = cap.read()
         if not ret:
             logger.warning(f"⚠️ Failed to read frame from {camera.name}")
+            read_failure_count += 1
+            if read_failure_count >= 30:
+                logger.error(f"🔥 Giving up on camera {camera.name} after 30 failed attempts.")
+                break
             time.sleep(10)
-            break
+            continue
+        read_failure_count = 0  # reset on success
 
         current_time = datetime.now()
         logger.info(f"📸 Processing frame at {current_time} for {camera.name}")
@@ -69,7 +88,8 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
         aligned_faces = []
 
         for face in faces:
-            if face.embedding is None:
+            if face.embedding is None or len(face.embedding) == 0:
+            # if not face.embedding:
                 continue
 
             debug_dir = os.path.join(settings.MEDIA_ROOT, 'logs', 'debug_faces', camera.name)
@@ -183,22 +203,96 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
                             logger.info(f"🔁 Updated log for {best_student.full_name} (Score: {best_score:.4f})")
                         else:
                             logger.info(f"⏳ Already logged: {best_student.full_name} for {period.name}")
+
                     except AttendanceLog.DoesNotExist:
                         image_content = None
-                        if getattr(settings, "SAVE_CROPPED_IMAGE", True):
-                            _, img_encoded = cv2.imencode('.jpg', cropped_face)
-                            image_content = ContentFile(img_encoded.tobytes(), name=get_attendance_crop_path(best_student.h_code, camera.name))
 
-                        AttendanceLog.objects.create(
-                            student=best_student,
-                            period=period,
-                            camera=camera,
-                            match_score=best_score,
-                            timestamp=current_time,
-                            date=current_time.date(),
-                            cropped_face=image_content
-                        )
+                        if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+                            try:
+                                success, img_encoded = cv2.imencode('.jpg', cropped_face)
+                                if success:
+                                    file_name = get_attendance_crop_path(best_student.h_code, camera.name)
+                                    image_content = ContentFile(img_encoded.tobytes())
+                                    image_content.name = file_name
+                                else:
+                                    logger.warning("❌ Failed to encode cropped face image.")
+                            except Exception as e:
+                                logger.error(f"❌ Exception during face image encoding: {e}")
+
+                            if image_content is None:
+                                logger.warning(
+                                    f"⚠️ Skipping AttendanceLog for {best_student.h_code} due to image encoding failure.")
+
+                        log_data = {
+                            'student': best_student,
+                            'period': period,
+                            'camera': camera,
+                            'match_score': best_score,
+                            'timestamp': current_time,
+                            'date': current_time.date(),
+                        }
+
+                        if image_content and getattr(image_content, 'name', None):
+                            log_data['cropped_face'] = image_content
+
+                        if not image_content or not getattr(image_content, 'name', None):
+                            logger.warning(f"⚠️ No valid cropped image to attach for {best_student.h_code}")
+
+                        AttendanceLog.objects.create(**log_data)
                         logger.info(f"✅ Match: {best_student.full_name} logged (Score: {best_score:.4f})")
+
+                        # AttendanceLog.objects.create(
+                        #     student=best_student,
+                        #     period=period,
+                        #     camera=camera,
+                        #     match_score=best_score,
+                        #     timestamp=current_time,
+                        #     date=current_time.date(),
+                        #     cropped_face=image_content
+                        # )
+                        # logger.info(f"✅ Match: {best_student.full_name} logged (Score: {best_score:.4f})")
+
+                    # except AttendanceLog.DoesNotExist:
+                    #     # image_content = None
+                    #     # image_content = ContentFile(
+                    #     #     img_encoded.tobytes(),
+                    #     #     name=get_attendance_crop_path(...)
+                    #     # )
+                    #
+                    #     if getattr(settings, "SAVE_CROPPED_IMAGE", True):
+                    #         # _, img_encoded = cv2.imencode('.jpg', cropped_face)
+                    #         # image_content = ContentFile(img_encoded.tobytes(), name=get_attendance_crop_path(best_student.h_code, camera.name))
+                    #
+                    #         try:
+                    #             success, img_encoded = cv2.imencode('.jpg', cropped_face)
+                    #             # if success:
+                    #             #     image_content = ContentFile(
+                    #             #         img_encoded.tobytes(),
+                    #             #         name=get_attendance_crop_path(best_student.h_code, camera.name)
+                    #             #     )
+                    #             if success:
+                    #                 file_name = get_attendance_crop_path(best_student.h_code, camera.name)
+                    #                 image_content = ContentFile(img_encoded.tobytes())
+                    #                 image_content.name = file_name
+                    #             else:
+                    #                 logger.warning("❌ Failed to encode cropped face image.")
+                    #         except Exception as e:
+                    #             logger.error(f"❌ Exception during face image encoding: {e}")
+                    #
+                    #         if image_content is None:
+                    #             logger.warning(
+                    #                 f"⚠️ Skipping AttendanceLog for {best_student.h_code} due to image encoding failure.")
+                    #
+                    #     AttendanceLog.objects.create(
+                    #         student=best_student,
+                    #         period=period,
+                    #         camera=camera,
+                    #         match_score=best_score,
+                    #         timestamp=current_time,
+                    #         date=current_time.date(),
+                    #         cropped_face=image_content
+                    #     )
+                    #     logger.info(f"✅ Match: {best_student.full_name} logged (Score: {best_score:.4f})")
             else:
                 logger.info(f"❌ No match above threshold (Score: {best_score:.4f})")
 
@@ -208,7 +302,7 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
 
 
 
-
+#
 # # extras/utils.py
 # import cv2
 # import numpy as np
@@ -422,7 +516,7 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
 #
 #     cap.release()
 #     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
-
+#
 
 
 
@@ -1012,7 +1106,7 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
 
 
 
-
+# 20250502 (Working_no cropped_face auto upload to AttendanceLog)
 # # extras/utils.py
 # import cv2
 # import numpy as np
@@ -1196,7 +1290,7 @@ def process_camera_stream(camera, schedules, face_analyzer, embeddings_map):
 #     logger.info(f"🛑 Stopped streaming from camera: {camera.name}")
 #
 #
-#
+
 
 
 

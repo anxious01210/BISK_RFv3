@@ -154,6 +154,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # utils.py settings
 # Enable or disable deleting old cropped images (in case of Recognition then Update the AttendanceLog)
-DELETE_OLD_CROPPED_IMAGE = True
-SAVE_ALL_CROPPED_FACES = False
+# DELETE_OLD_CROPPED_IMAGE = False
 # Enable or disable saving all cropped faces (including unmatched ones)
+# SAVE_ALL_CROPPED_FACES = True
+
+
+# === ⚙️ Face Recognition Attendance Settings ===
+
+# When True, save **all detected cropped face images**, even unmatched ones,
+# into: media/logs/debug_faces/<camera_name>/
+# This helps for debugging and reviewing missed detections.
+SAVE_ALL_CROPPED_FACES = True
+
+# When True, save the recognized (matched) student's cropped face
+# into the AttendanceLog.cropped_face field (ImageField).
+# These are stored in: media/attendance_crops/YYYY/MM/DD/
+SAVE_CROPPED_IMAGE = True
+
+# When True, if an existing AttendanceLog entry already has a cropped image,
+# it will be deleted and replaced by the new (better match) one.
+# If False, the old image will remain untouched.
+DELETE_OLD_CROPPED_IMAGE = True

@@ -10,11 +10,23 @@
       <change beforePath="$PROJECT_DIR$/BISK_RFv3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attendance/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/initialize_embeddings.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/initialize_embeddings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance_parallel.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_parallel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extras/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/insightface/python-package/insightface/thirdparty/face3d/mesh/cython/mesh_core_cython.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/insightface/python-package/insightface/thirdparty/face3d/mesh/cython/mesh_core_cython.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C01_2025-04-29.log" beforeDir="false" afterPath="$PROJECT_DIR$/media/logs/attendance/C01_2025-04-29.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/attendance_crops/2025/05/01/H123456_C01_20250501_171128.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/attendance_crops/2025/05/01/H123456_C01_20250501_171224.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/attendance_crops/2025/05/01/H123456_C01_20250501_171340.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/01_SF0_MC_L_2025-04-30.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C01_2025-04-27.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C01_2025-04-28.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C01_2025-04-29.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C01_2025-04-30.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C01_2025-05-01.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C02_2025-04-27.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/C02_2025-04-28.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/SF0_MC_L_2025-04-29.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/SF0_MC_L_2025-04-30.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/SF0_MC_L_2025-05-01.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/logs/attendance/SF1-D1_2025-04-30.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,16 +80,17 @@
     &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/rio/PycharmProjects/BISK_RFv3/extras&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rio/PycharmProjects/BISK_RFv3&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;database.query.execution&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -150,7 +163,12 @@
       <workItem from="1745989190978" duration="10632000" />
       <workItem from="1746089820754" duration="12885000" />
       <workItem from="1746103766429" duration="4165000" />
-      <workItem from="1746108160285" duration="731000" />
+      <workItem from="1746108160285" duration="5303000" />
+      <workItem from="1746114092890" duration="748000" />
+      <workItem from="1746114851302" duration="208000" />
+      <workItem from="1746134502471" duration="1668000" />
+      <workItem from="1746178416533" duration="7374000" />
+      <workItem from="1746185818418" duration="1268000" />
     </task>
     <servers />
   </component>

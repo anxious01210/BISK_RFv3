@@ -4,28 +4,44 @@ from django.db import models
 from django.utils.html import format_html
 from django.utils import timezone
 from multiselectfield import MultiSelectField
-from django.utils.timezone import localtime, make_aware
-
+# from django.utils.timezone import localtime, make_aware
 import os
 from django.utils.timezone import now
 import logging
 
 logger = logging.getLogger(__name__)
 
+
 def attendance_crop_path(instance, filename):
     today = now().date()
-    h_code = instance.student.h_code
-    camera_name = instance.camera.name
+    h_code = getattr(instance.student, 'h_code', None)
+    camera_name = getattr(instance.camera, 'name', None)
     timestamp = now().strftime("%Y%m%d_%H%M%S")
 
-    # name = f"{h_code}_{camera_name}_{timestamp}.jpg"
-    # path = os.path.join("attendance_crops", today.strftime("%Y/%m/%d"), name)
-    #
-    # # Log it for investigation
-    # logger.warning(f"[DEBUG][UPLOAD_PATH] Raw filename: {filename}")
-    # logger.warning(f"[DEBUG][UPLOAD_PATH] Computed path: {path}")
-    #
-    # return path
+    if not h_code or not camera_name:
+        raise ValueError("Missing student.h_code or camera.name in attendance_crop_path")
+
+    name = f"{h_code}_{camera_name}_{timestamp}.jpg"
+    path = os.path.join("attendance_crops", today.strftime("%Y/%m/%d"), name)
+
+    logger.debug(f"[UPLOAD_PATH] -> {path}")
+    return path
+
+
+# def attendance_crop_path(instance, filename):
+#     today = now().date()
+#     h_code = instance.student.h_code
+#     camera_name = instance.camera.name
+#     timestamp = now().strftime("%Y%m%d_%H%M%S")
+#
+#     name = f"{h_code}_{camera_name}_{timestamp}.jpg"
+#     path = os.path.join("attendance_crops", today.strftime("%Y/%m/%d"), name)
+#
+#     # Log it for investigation
+#     logger.warning(f"[DEBUG][UPLOAD_PATH] Raw filename: {filename}")
+#     logger.warning(f"[DEBUG][UPLOAD_PATH] Computed path: {path}")
+#
+#     return path
 
 # import datetime
 #
