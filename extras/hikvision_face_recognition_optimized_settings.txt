@@ -1,0 +1,49 @@
+Hikvision DS-2CD2385FWD-I Optimized Settings for Face Recognition (InsightFace)
+Generated on: 2025-05-03 14:20:15
+
+Image > Display Settings:
+  Brightness: 60–65
+  Contrast: 80–85
+  Saturation: 0–10
+  Sharpness: 85–90
+
+Exposure Settings:
+  Iris Mode: Fixed
+  Exposure Time: 1/100 or 1/125
+
+Day/Night Switch:
+  Day/Night Switch: Auto
+  Sensitivity: 4
+  Filtering Time: 5
+  Smart Supplement Light: Auto
+
+Backlight Settings:
+  WDR: ON
+  Wide Dynamic Level: 80–90
+  HLC: OFF
+
+White Balance:
+  White Balance: AWB2 or Fixed (e.g., 5000K)
+
+Image Enhancement:
+  Digital Noise Reduction: Expert
+  Space DNR Level: 60–65
+  Time DNR Level: 30–40
+
+Video Settings:
+  Resolution: 3840x2160
+  Frame Rate: 12 fps
+  Bitrate Type: Constant
+  Max Bitrate: 20480 Kbps (if available)
+  Video Encoding: H.264
+  Profile: Main or High
+  I Frame Interval: 40
+  SVC: Auto
+  Smoothing: 20
+
+Video Adjustment:
+  Mirror: OFF
+  Rotate: OFF
+  Scene Mode: Indoor
+  Video Standard: PAL(50HZ)
+  Lens Distortion Correction: ON

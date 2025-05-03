@@ -16,6 +16,7 @@ decorator==5.2.1
 diff-match-patch==20241021
 Django==5.2
 django-import-export==4.3.7
+django-multiselectfield==0.1.13
 djangorestframework==3.16.0
 easydict==1.13
 executing==2.2.0
@@ -31,6 +32,7 @@ h5py==3.13.0
 humanfriendly==10.0
 idna==3.10
 imageio==2.37.0
+imageio-ffmpeg==0.6.0
 insightface==0.7.3
 ipython==9.1.0
 ipython_pygments_lexers==1.1.1
@@ -48,6 +50,7 @@ matplotlib==3.10.1
 matplotlib-inline==0.1.7
 mdurl==0.1.2
 ml_dtypes==0.5.1
+moviepy==2.1.2
 mpmath==1.3.0
 namex==0.0.8
 networkx==3.3
@@ -67,16 +70,20 @@ nvidia-nvtx-cu12==12.1.105
 onnx==1.17.0
 onnxruntime-gpu==1.21.1
 opencv-python==4.11.0.86
+# not opencv-python-headless
 opt_einsum==3.4.0
 optree==0.15.0
 packaging==24.2
 parso==0.8.4
 pexpect==4.9.0
-pillow==11.0.0
+pillow==10.4.0
 pip-check==3.1
 prettytable==3.16.0
+proglog==0.1.11
 prompt_toolkit==3.0.51
 protobuf==5.29.4
+psutil==7.0.0
+psycopg2==2.9.10
 ptyprocess==0.7.0
 pure_eval==0.2.3
 pydantic==2.11.3
@@ -85,6 +92,8 @@ Pygments==2.19.1
 pyparsing==3.2.3
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
+python-dotenv==1.1.0
+pytz==2025.2
 PyYAML==6.0.2
 requests==2.32.3
 retina-face==0.0.17

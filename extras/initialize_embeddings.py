@@ -58,7 +58,7 @@
 #     Optionally test 1024×1024 if your GPU (like an RTX 4080+) can handle it
 
 
-
+# To have the student'names be added to .pkl dictionary to be used for Face_inspector App.
 import os
 import sys
 import cv2
@@ -79,11 +79,9 @@ from attendance.models import Student
 def main(force=False):
     # Initialize Face Analyzer
     app = FaceAnalysis(name='buffalo_l', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
-    app.prepare(ctx_id=0, det_size=(800, 800))
-    # app.prepare(ctx_id=0, det_size=(1024, 1024))
-    # app.prepare(ctx_id=0, det_size=(1600, 1600))
-    # app.prepare(ctx_id=0, det_size=(1280, 1280))
-    # app.prepare(ctx_id=0, det_size=(2048, 2048))
+    app.prepare(ctx_id=0)
+    # app.prepare(ctx_id=0, det_size=(800, 800)) # to set it manually
+
 
     # Paths
     IMG_FOLDER = os.path.join(settings.BASE_DIR, "media/student_faces")
@@ -95,7 +93,7 @@ def main(force=False):
     total_saved = 0
     total_skipped = 0
 
-    # Result dictionary
+    # Result dictionary for .pkl
     embeddings_dict = {}
 
     # Process each student
@@ -125,17 +123,24 @@ def main(force=False):
 
         if face_vectors:
             avg_embedding = np.mean(face_vectors, axis=0)
-            embeddings_dict[student.h_code] = avg_embedding
+            # Save individual .npy (used by attendance)
             np.save(npy_path, avg_embedding)
+            # Save .pkl record with metadata (used by face_inspector)
+            embeddings_dict[student.h_code] = {
+                "embedding": avg_embedding,
+                "name": student.full_name
+                # "name": f"{student.first_name} {student.last_name}" if hasattr(student, 'first_name') else student.name
+            }
             total_saved += 1
             print(f"✅ Saved .npy for {student.h_code}")
         else:
             total_skipped += 1
             print(f"⚠️ No valid faces found for {student.h_code}. Skipped.")
 
-    # Save fallback .pkl
+    # Save .pkl fallback
     with open(PKL_PATH, 'wb') as f:
         pickle.dump(embeddings_dict, f)
+
     print(f"✅ Saved fallback embeddings to: {PKL_PATH}")
 
     # Summary
@@ -148,6 +153,99 @@ if __name__ == "__main__":
     parser.add_argument('--force', action='store_true', help='Regenerate embeddings even if they exist.')
     args = parser.parse_args()
     main(force=args.force)
+
+
+
+
+# import os
+# import sys
+# import cv2
+# import numpy as np
+# import pickle
+# import argparse
+#
+# # Setup Django
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BISK_RFv3.settings")
+# import django
+# django.setup()
+#
+# from insightface.app import FaceAnalysis
+# from django.conf import settings
+# from attendance.models import Student
+#
+# def main(force=False):
+#     # Initialize Face Analyzer
+#     app = FaceAnalysis(name='buffalo_l', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+#     app.prepare(ctx_id=0, det_size=(800, 800))
+#     # app.prepare(ctx_id=0, det_size=(1024, 1024))
+#     # app.prepare(ctx_id=0, det_size=(1600, 1600))
+#     # app.prepare(ctx_id=0, det_size=(1280, 1280))
+#     # app.prepare(ctx_id=0, det_size=(2048, 2048))
+#
+#     # Paths
+#     IMG_FOLDER = os.path.join(settings.BASE_DIR, "media/student_faces")
+#     EMBEDDING_DIR = os.path.join(settings.BASE_DIR, "media/embeddings")
+#     PKL_PATH = os.path.join(settings.BASE_DIR, "media/face_embeddings.pkl")
+#     os.makedirs(EMBEDDING_DIR, exist_ok=True)
+#
+#     # Counters
+#     total_saved = 0
+#     total_skipped = 0
+#
+#     # Result dictionary
+#     embeddings_dict = {}
+#
+#     # Process each student
+#     for student in Student.objects.all():
+#         npy_path = os.path.join(EMBEDDING_DIR, f"{student.h_code}.npy")
+#
+#         if os.path.exists(npy_path):
+#             if force:
+#                 os.remove(npy_path)
+#                 print(f"🗑️ Deleted existing .npy for {student.h_code}")
+#             else:
+#                 print(f"⏩ Skipping {student.h_code}: .npy already exists.")
+#                 continue
+#
+#         face_vectors = []
+#         for file in os.listdir(IMG_FOLDER):
+#             if student.h_code.lower() in file.lower():
+#                 path = os.path.join(IMG_FOLDER, file)
+#                 img = cv2.imread(path)
+#                 if img is None:
+#                     continue
+#                 faces = app.get(img)
+#                 if faces:
+#                     face_vectors.append(faces[0].embedding)
+#
+#         print(f"{student.h_code}: {len(face_vectors)} images used")
+#
+#         if face_vectors:
+#             avg_embedding = np.mean(face_vectors, axis=0)
+#             embeddings_dict[student.h_code] = avg_embedding
+#             np.save(npy_path, avg_embedding)
+#             total_saved += 1
+#             print(f"✅ Saved .npy for {student.h_code}")
+#         else:
+#             total_skipped += 1
+#             print(f"⚠️ No valid faces found for {student.h_code}. Skipped.")
+#
+#     # Save fallback .pkl
+#     with open(PKL_PATH, 'wb') as f:
+#         pickle.dump(embeddings_dict, f)
+#     print(f"✅ Saved fallback embeddings to: {PKL_PATH}")
+#
+#     # Summary
+#     print(f"\n📊 Summary:")
+#     print(f"✅ Total students saved: {total_saved}")
+#     print(f"⚠️ Total students skipped (no valid images): {total_skipped}")
+#
+# if __name__ == "__main__":
+#     parser = argparse.ArgumentParser(description="Initialize student face embeddings.")
+#     parser.add_argument('--force', action='store_true', help='Regenerate embeddings even if they exist.')
+#     args = parser.parse_args()
+#     main(force=args.force)
 
 
 

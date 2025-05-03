@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'attendance.apps.AttendanceConfig',
     'import_export',
     'multiselectfield',
+    'face_inspector',
 ]
 
 MIDDLEWARE = [
