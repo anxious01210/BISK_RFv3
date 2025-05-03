@@ -48,9 +48,10 @@
 #     768 × 768
 #     800 × 800 ← Good balance of accuracy and performance
 #     960 × 960
-#     1024 × 1024 ← High accuracy, slower
+#     1024 × 1024 ← High accuracy, slower 32*32
 #     ❌ 1080 × 1080 → This often fails due to shape mismatch (as you just saw)
-#     1280 × 1280 ← Max before VRAM becomes a problem (4K+ GPUs only)
+#     1280 × 1280 ← Max before VRAM becomes a problem (4K+ GPUs only) 40x32
+#     50x32=1600 64x32=2048 67x32=2144
 
 # Since you're planning to handle 6 × 4K streams and upgrade your GPU:
 #     Use 800×800 for now (you already tested it and got better results)
@@ -78,7 +79,11 @@ from attendance.models import Student
 def main(force=False):
     # Initialize Face Analyzer
     app = FaceAnalysis(name='buffalo_l', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
-    app.prepare(ctx_id=0, det_size=(1024, 1024))
+    app.prepare(ctx_id=0, det_size=(800, 800))
+    # app.prepare(ctx_id=0, det_size=(1024, 1024))
+    # app.prepare(ctx_id=0, det_size=(1600, 1600))
+    # app.prepare(ctx_id=0, det_size=(1280, 1280))
+    # app.prepare(ctx_id=0, det_size=(2048, 2048))
 
     # Paths
     IMG_FOLDER = os.path.join(settings.BASE_DIR, "media/student_faces")

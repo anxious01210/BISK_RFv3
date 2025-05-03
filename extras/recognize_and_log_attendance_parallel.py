@@ -25,8 +25,10 @@ def run_camera(camera, schedules, embedding_dir):
     face_analyzer = FaceAnalysis(name='buffalo_l', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
     # 640×640 is a good balance (speed vs accuracy).
     # f you want slightly better accuracy for very small faces, you could increase it to 768×768 or 800×800, but this will slow down processing.
-    face_analyzer.prepare(ctx_id=0, det_size=(1024, 1024))
     # face_analyzer.prepare(ctx_id=0, det_size=(800, 800))
+    # face_analyzer.prepare(ctx_id=0, det_size=(1024, 1024))
+    face_analyzer.prepare(ctx_id=0, det_size=(1600, 1600))
+    # face_analyzer.prepare(ctx_id=0, det_size=(2048, 2048))
 
     embeddings_map = load_embeddings(embedding_dir)
 

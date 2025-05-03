@@ -174,4 +174,4 @@ SAVE_CROPPED_IMAGE = True
 # When True, if an existing AttendanceLog entry already has a cropped image,
 # it will be deleted and replaced by the new (better match) one.
 # If False, the old image will remain untouched.
-DELETE_OLD_CROPPED_IMAGE = True
+DELETE_OLD_CROPPED_IMAGE = False
