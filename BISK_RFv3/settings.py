@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'import_export',
     'multiselectfield',
     'face_inspector',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

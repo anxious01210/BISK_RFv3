@@ -81,6 +81,7 @@ def main(force=False):
     app = FaceAnalysis(name='buffalo_l', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
     app.prepare(ctx_id=0)
     # app.prepare(ctx_id=0, det_size=(800, 800)) # to set it manually
+    # app.prepare(ctx_id=0, det_size=(1024, 1024)) # to set it manually
 
 
     # Paths
