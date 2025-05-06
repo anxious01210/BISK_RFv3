@@ -177,3 +177,12 @@ SAVE_CROPPED_IMAGE = True
 # it will be deleted and replaced by the new (better match) one.
 # If False, the old image will remain untouched.
 DELETE_OLD_CROPPED_IMAGE = False
+
+
+
+# ffmpeg (per camera log settings)
+LOG_ATTENDANCE = True
+LOG_ATTENDANCE_UPDATED = True
+LOG_MATCHES = True
+LOG_MATCH_THRESHOLD = True
+LOG_CROPPED_DEBUG = True

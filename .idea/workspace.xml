@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="" />
+    <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/stream_utils_ffmpeg.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/utils_ffmpeg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BISK_RFv3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/settings.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -155,6 +161,8 @@
       <workItem from="1746276740318" duration="19689000" />
       <workItem from="1746334910972" duration="24041000" />
       <workItem from="1746370738644" duration="11502000" />
+      <workItem from="1746541745991" duration="14542000" />
+      <workItem from="1746556643611" duration="7355000" />
     </task>
     <servers />
   </component>
