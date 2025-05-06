@@ -1,1 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
 media/student_faces/
+media/logs/
+media/attendance_crops/
+*.sqlite3

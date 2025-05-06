@@ -1,0 +1,191 @@
+Git reset --soft HEAD~1 (to soft reset or do the last local commit to be uncommited)
+
+
+
+git rm -r --cached assets/images
+git commit -m "Remove directory assets/images from repository"
+git push origin <branch-name>
+
+if the remote is ahead of you then: git push origin <branch-name> --force
+
+
+touch .gitignore
+nano .gitignore
+	.venv/
+	__pycache__/
+	*.pyc
+	media/student_faces/
+	media/logs/
+	media/attendance_crops/
+	*.sqlite3
+
+Sometimes GitHub blocks very large pushes regardless. You can try:
+	git config http.postBuffer 524288000  # 500MB
+
+
+Check what is taking space in the repo history (optional)
+If your push still fails, check if large files were committed in the past:
+	git rev-list --objects --all | sort -k 2 > all-files.txt
+
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Still too big? Rewrite history (last resort)
+Use git filter-repo to remove media/student_faces/ and any large past data:
+	pip install git-filter-repo
+	git filter-repo --path media/student_faces --invert-paths
+	git push --force
+
+
+full command to remove everything you listed in one step:
+	git filter-repo --force \
+	  --path .venv --invert-paths \
+	  --path __pycache__ --invert-paths \
+	  --path-glob '*.pyc' --invert-paths \
+	  --path media/student_faces --invert-paths \
+	  --path media/logs --invert-paths \
+	  --path media/attendance_crops --invert-paths \
+	  --path-glob '*.sqlite3' --invert-paths
+
+
+You ran git filter-repo but got:
+	Aborting: Refusing to destructively overwrite repo history...
+	Please operate on a fresh clone instead. If you want to proceed anyway, use --force.
+
+This happens because git filter-repo prefers to operate on a clean, freshly cloned repo to avoid corruption.
+
+If you understand the risk (rewriting history), and you’re sure your current working directory is backed up or safe to overwrite, run this:
+	git filter-repo --path media/student_faces --invert-paths --force
+	git push --force
+
+⚠️ What this does:
+    Completely removes media/student_faces/ from the entire Git history
+    Reduces repository size
+    Forces a new history onto GitHub (requires --force)
+
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git filter-repo --path media/student_faces --invert-paths
+git: 'filter-repo' is not a git command. See 'git --help'.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ pip install git-filter-repo
+Collecting git-filter-repo
+  Downloading git_filter_repo-2.47.0-py3-none-any.whl.metadata (31 kB)
+Downloading git_filter_repo-2.47.0-py3-none-any.whl (76 kB)
+Installing collected packages: git-filter-repo
+Successfully installed git-filter-repo-2.47.0
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git filter-repo --path media/student_faces --invert-paths
+Aborting: Refusing to destructively overwrite repo history since
+this does not look like a fresh clone.
+  (expected freshly packed repo)
+Please operate on a fresh clone instead.  If you want to proceed
+anyway, use --force.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git push --force
+Username for 'https://github.com': anxious01210
+Password for 'https://anxious01210@github.com': 
+Enumerating objects: 35657, done.
+Counting objects: 100% (35657/35657), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (32201/32201), done.
+error: RPC failed; HTTP 500 curl 22 The requested URL returned error: 500
+send-pack: unexpected disconnect while reading sideband packet
+Writing objects: 100% (35657/35657), 5.16 GiB | 3.40 MiB/s, done.
+Total 35657 (delta 3452), reused 35617 (delta 3416), pack-reused 0
+fatal: the remote end hung up unexpectedly
+Everything up-to-date
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$  git filter-repo --path media/student_faces --invert-paths --force
+NOTICE: Removing 'origin' remote; see 'Why is my origin removed?'
+        in the manual if you want to push back there.
+        (was https://github.com/anxious01210/BISK_RFv3.git)
+Parsed 19 commits
+New history written in 1.26 seconds; now repacking/cleaning...
+Repacking your repo and cleaning out old unneeded objects
+HEAD is now at a1e0e23c 18th: .ignore (media/student_faces) && git rm -r --cached media/student_faces && commit &&  push.
+Enumerating objects: 34310, done.
+Counting objects: 100% (34310/34310), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (30869/30869), done.
+Writing objects: 100% (34310/34310), done.
+Total 34310 (delta 3450), reused 34228 (delta 3401), pack-reused 0
+Completely finished after 8.06 seconds.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git filter-repo --force \
+  --path .venv --invert-paths \
+  --path __pycache__ --invert-paths \
+  --path-glob '*.pyc' --invert-paths \
+  --path media/student_faces --invert-paths \
+  --path media/logs --invert-paths \
+  --path media/attendance_crops --invert-paths \
+> 
+Parsed 19 commits
+New history written in 0.32 seconds; now repacking/cleaning...
+Repacking your repo and cleaning out old unneeded objects
+HEAD is now at d87b46c7 18th: .ignore (media/student_faces) && git rm -r --cached media/student_faces && commit &&  push.
+Enumerating objects: 2100, done.
+Counting objects: 100% (2100/2100), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (1964/1964), done.
+Writing objects: 100% (2100/2100), done.
+Total 2100 (delta 162), reused 2009 (delta 118), pack-reused 0
+Completely finished after 0.55 seconds.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git filter-repo --path media/student_faces --invert-paths --force
+Parsed 19 commits
+New history written in 0.03 seconds; now repacking/cleaning...
+Repacking your repo and cleaning out old unneeded objects
+HEAD is now at d87b46c 18th: .ignore (media/student_faces) && git rm -r --cached media/student_faces && commit &&  push.
+Enumerating objects: 2100, done.
+Counting objects: 100% (2100/2100), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (1920/1920), done.
+Writing objects: 100% (2100/2100), done.
+Total 2100 (delta 162), reused 2100 (delta 162), pack-reused 0
+Completely finished after 0.17 seconds.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git filter-repo --path media/logs --invert-paths --force
+Parsed 19 commits
+New history written in 0.03 seconds; now repacking/cleaning...
+Repacking your repo and cleaning out old unneeded objects
+HEAD is now at d87b46c 18th: .ignore (media/student_faces) && git rm -r --cached media/student_faces && commit &&  push.
+Enumerating objects: 2100, done.
+Counting objects: 100% (2100/2100), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (1920/1920), done.
+Writing objects: 100% (2100/2100), done.
+Total 2100 (delta 162), reused 2100 (delta 162), pack-reused 0
+Completely finished after 0.18 seconds.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git push --force
+fatal: No configured push destination.
+Either specify the URL from the command-line or configure a remote repository using
+
+    git remote add <name> <url>
+
+and then push using the remote name
+
+    git push <name>
+
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git remote add origin https://github.com/anxious01210/BISK_RFv3.git
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git remote add origin git@github.com:anxious01210/BISK_RFv3.git
+error: remote origin already exists.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git push -u origin main --force
+error: src refspec main does not match any
+error: failed to push some refs to 'https://github.com/anxious01210/BISK_RFv3.git'
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git branch
+* master
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git push -u origin master --force
+Username for 'https://github.com': anxious01210
+Password for 'https://anxious01210@github.com': 
+Enumerating objects: 2100, done.
+Counting objects: 100% (2100/2100), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (1920/1920), done.
+Writing objects: 100% (2100/2100), 19.96 MiB | 200.41 MiB/s, done.
+Total 2100 (delta 162), reused 2100 (delta 162), pack-reused 0
+remote: Resolving deltas: 100% (162/162), done.
+To https://github.com/anxious01210/BISK_RFv3.git
+ + 87d21a4...d87b46c master -> master (forced update)
+branch 'master' set up to track 'origin/master'.
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git remote set-url origin git@github.com:anxious01210/BISK_RFv3.git
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ git branch
+* master
+(.venv) rio@GP73:~/PycharmProjects/BISK_RFv3$ 
+
