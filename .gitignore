@@ -5,3 +5,4 @@ media/student_faces/
 media/logs/
 media/attendance_crops/
 *.sqlite3
+media/stream_faces/

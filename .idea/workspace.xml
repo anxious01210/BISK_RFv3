@@ -5,22 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dashboard/scripts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/templates/dashboard/dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/debug_face_match.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/debug_face_match_all.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/sort_faces_by_detset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BISK_RFv3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BISK_RFv3/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/initialize_embeddings.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/initialize_embeddings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/utils_ffmpeg.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/utils_ffmpeg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H123456.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H123456.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/face_embeddings.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/media/face_embeddings.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/templates/dashboard/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/templates/dashboard/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +168,8 @@
       <workItem from="1746801277324" duration="771000" />
       <workItem from="1746856188308" duration="10306000" />
       <workItem from="1746870575786" duration="2768000" />
-      <workItem from="1746874570041" duration="639000" />
+      <workItem from="1746874570041" duration="6819000" />
+      <workItem from="1746882086508" duration="1655000" />
     </task>
     <servers />
   </component>
