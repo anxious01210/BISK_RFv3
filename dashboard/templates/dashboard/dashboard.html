@@ -10,43 +10,44 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        .stats-container {
+
+        .row-container {
             display: flex;
-            gap: 40px;
-            margin-bottom: 30px;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        .stat-block {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            background-color: #eef6fc;
-        }
-        .stat-block:nth-child(2) {
-            background-color: #f9f3e8;
-        }
-        .stat-block:nth-child(3) {
-            background-color: #eafaea;
-        }
+
         select, button {
             border-radius: 8px;
             padding: 6px 10px;
-            margin: 5px 0;
+            margin: 0 5px;
         }
-        form label {
-            display: block;
-            margin-top: 8px;
+
+        label {
+            margin-right: 10px;
         }
-        iframe {
-            width: 100vw;
-            height: 90vh;
+
+        .uptime-block {
+            text-align: right;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 85vh;
+            overflow: hidden;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
             border: none;
-            margin: 0;
-            padding: 0;
         }
+
         .toggle-buttons {
             margin: 20px 0;
         }
+
         .toggle-buttons button {
             padding: 10px 20px;
             margin-right: 10px;
@@ -54,61 +55,58 @@
             border: none;
             cursor: pointer;
         }
+
         .toggle-buttons button.active {
             background-color: #007acc;
             color: white;
         }
+
         .box-section {
             display: none;
         }
+
         .box-section.active {
             display: block;
         }
     </style>
 </head>
 <body>
-<div class="stats-container">
-    <div>
-        <h2>Run Attendance Script</h2>
-        <form method="post">
-            {% csrf_token %}
-            <label>Script Type:</label>
-            <select name="script_type">
-                <option value="ffmpeg" {% if selected_script_type == 'ffmpeg' %}selected{% endif %}>Type 1</option>
-                <option value="opencv" {% if selected_script_type == 'opencv' %}selected{% endif %}>Type 2</option>
-            </select>
+<h2>Run Attendance Script</h2>
 
-            <label>Detection Set:</label>
-            <select name="det_set">
-                {% for size in det_set_options %}
-                    <option value="{{ size }}" {% if selected_det_set == size %}selected{% endif %}>{{ size }}</option>
-                {% endfor %}
-            </select>
+<form method="post" class="row-container" id="glances-form">
+    {% csrf_token %}
+    <label>Glances Control:</label>
+    <button type="submit" name="stop_glances" id="btn-stop-glances" style="display: none;">Stop Glances</button>
+    <button type="submit" name="restart_glances" id="btn-restart-glances" style="display: none;">Restart Glances
+    </button>
+    <button type="submit" name="start_glances" id="btn-start-glances" style="display: none;">Start Glances</button>
+</form>
 
-            {% if running_info.running %}
-                <button type="submit" name="stop_button">Stop</button>
-            {% else %}
-                <button type="submit" name="run_button">Run ({{ selected_det_set }})</button>
-            {% endif %}
-        </form>
-    </div>
-    <div>
-        <h3>Glances Control</h3>
-        <form method="post">
-            {% csrf_token %}
-            {% if glances_running %}
-                <button name="stop_glances">Stop Glances</button>
-                <button name="restart_glances">Restart Glances</button>
-            {% else %}
-                <button name="start_glances">Start Glances</button>
-            {% endif %}
-        </form>
-    </div>
-    <div>
-        <h3>Uptime</h3>
-        <p>Web Server Uptime: <span style="color: lightseagreen; font-weight: bold;" id="django_uptime">--</span> seconds</p>
-        <p>Script Uptime: <span style="color: lightseagreen; font-weight: bold;" id="script_uptime">--</span> seconds</p>
-    </div>
+<form method="post" class="row-container">
+    {% csrf_token %}
+    <label>Script Type:</label>
+    <select name="script_type">
+        <option value="ffmpeg" {% if selected_script_type == 'ffmpeg' %}selected{% endif %}>Type 1 (FFmpeg)</option>
+        <option value="opencv" {% if selected_script_type == 'opencv' %}selected{% endif %}>Type 2 (OpenCV)</option>
+    </select>
+
+    <label>Detection Set:</label>
+    <select name="det_set">
+        {% for size in det_set_options %}
+            <option value="{{ size }}" {% if selected_det_set == size %}selected{% endif %}>{{ size }}</option>
+        {% endfor %}
+    </select>
+
+    {% if running_info.running %}
+        <button type="submit" name="stop_button">Stop</button>
+    {% else %}
+        <button type="submit" name="run_button">Run ({{ selected_det_set }})</button>
+    {% endif %}
+</form>
+
+<div class="uptime-block">
+    <p>Web Server Uptime: <strong style="color: darkgreen" id="django_uptime">--</strong></p>
+    <p>Script Uptime: <strong style="color: darkgreen" id="script_uptime">--</strong></p>
 </div>
 
 <div class="toggle-buttons">
@@ -117,23 +115,32 @@
 </div>
 
 <div id="glances" class="box-section active">
-    <iframe id="glances_iframe" src="http://127.0.0.1:61208"></iframe>
+    <div id="glances_frame_wrapper" class="iframe-container" style="display: none;">
+        <iframe id="glances_iframe" src="about:blank" data-src="http://127.0.0.1:61208"></iframe>
+    </div>
+</div>
+<div id="glances_offline_msg" style="text-align: center; padding: 20px; color: darkred; display: none;">
+    Glances is not running.
+</div>
 </div>
 
 <div id="stats" class="box-section">
-    <div class="stats-container">
-        <div class="stat-block">
+    <div class="stats-container" style="display: flex; gap: 40px;">
+        <div class="stat-block"
+             style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #eef6fc;">
             <h3>CPU</h3>
             <p>Model: <span id="cpu_model">--</span></p>
             <p>Cores: <span id="cpu_cores">--</span></p>
             <p>Usage: <span id="cpu_usage">--</span>%</p>
         </div>
-        <div class="stat-block">
+        <div class="stat-block"
+             style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #f9f3e8;">
             <h3>RAM</h3>
             <p>Total: <span id="ram_total">--</span> GB</p>
             <p>Usage: <span id="ram_usage">--</span>%</p>
         </div>
-        <div class="stat-block">
+        <div class="stat-block"
+             style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #eafaea;">
             <h3>GPU: <span id="gpu_name">--</span></h3>
             <p>Power Draw: <span id="gpu_power">--</span> W</p>
             <p>Memory Clock: <span id="gpu_mem_clock">--</span> MHz</p>
@@ -162,8 +169,28 @@
             $("#gpu_used").text(data.gpu.memory_used);
             $("#gpu_total").text(data.gpu.memory_total);
 
-            $("#django_uptime").text(Math.floor(data.django_uptime));
-            $("#script_uptime").text(data.script_info.running ? Math.floor(data.script_info.uptime) : 'Not running');
+            $("#django_uptime").text(data.django_uptime);
+            $("#script_uptime").text(data.script_info.running ? data.script_info.uptime : 'Not running');
+
+            // Show/hide glances iframe dynamically
+            if (data.glances_running) {
+                $("#glances_frame_wrapper").show();
+                $("#glances_offline_msg").hide();
+                const iframe = document.getElementById("glances_iframe");
+                if (!iframe.src || iframe.src === "about:blank") {
+                    iframe.src = iframe.dataset.src;
+                }
+                $("#btn-stop-glances").show();
+                $("#btn-restart-glances").show();
+                $("#btn-start-glances").hide();
+            } else {
+                $("#glances_frame_wrapper").hide();
+                $("#glances_offline_msg").show();
+                document.getElementById("glances_iframe").src = "about:blank";
+                $("#btn-stop-glances").hide();
+                $("#btn-restart-glances").hide();
+                $("#btn-start-glances").show();
+            }
         });
     }
 
@@ -172,11 +199,6 @@
         $(this).addClass('active');
         $('.box-section').removeClass('active');
         $($(this).data('target')).addClass('active');
-
-        // Ensure only one Glances iframe
-        if ($('#glances_iframe').length === 0) {
-            $('#glances').html('<iframe id="glances_iframe" src="http://127.0.0.1:61208"></iframe>');
-        }
     });
 
     setInterval(fetchStats, 2000);
@@ -184,3 +206,558 @@
 </script>
 </body>
 </html>
+
+
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Dashboard</title>#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#    <style>#}
+{#        body {#}
+{#            background-color: #f4f7f9;#}
+{#            font-family: Arial, sans-serif;#}
+{#            margin: 20px;#}
+{#        }#}
+{#        .row-container {#}
+{#            display: flex;#}
+{#            gap: 20px;#}
+{#            align-items: center;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{#        select, button {#}
+{#            border-radius: 8px;#}
+{#            padding: 6px 10px;#}
+{#            margin: 0 5px;#}
+{#        }#}
+{#        label {#}
+{#            margin-right: 10px;#}
+{#        }#}
+{#        .uptime-block {#}
+{#            text-align: right;#}
+{#        }#}
+{#        .iframe-container {#}
+{#            width: 100%;#}
+{#            height: 85vh;#}
+{#            overflow: hidden;#}
+{#        }#}
+{#        .iframe-container iframe {#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            border: none;#}
+{#        }#}
+{#        .toggle-buttons {#}
+{#            margin: 20px 0;#}
+{#        }#}
+{#        .toggle-buttons button {#}
+{#            padding: 10px 20px;#}
+{#            margin-right: 10px;#}
+{#            border-radius: 8px;#}
+{#            border: none;#}
+{#            cursor: pointer;#}
+{#        }#}
+{#        .toggle-buttons button.active {#}
+{#            background-color: #007acc;#}
+{#            color: white;#}
+{#        }#}
+{#        .box-section {#}
+{#            display: none;#}
+{#        }#}
+{#        .box-section.active {#}
+{#            display: block;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#<h2>Run Attendance Script</h2>#}
+{#<form method="post" class="row-container">#}
+{#    {% csrf_token %}#}
+{#    <label>Script Type:</label>#}
+{#    <select name="script_type">#}
+{#        <option value="ffmpeg" {% if selected_script_type == 'ffmpeg' %}selected{% endif %}>Type 1 (FFmpeg)</option>#}
+{#        <option value="opencv" {% if selected_script_type == 'opencv' %}selected{% endif %}>Type 2 (OpenCV)</option>#}
+{#    </select>#}
+{##}
+{#    <label>Detection Set:</label>#}
+{#    <select name="det_set">#}
+{#        {% for size in det_set_options %}#}
+{#            <option value="{{ size }}" {% if selected_det_set == size %}selected{% endif %}>{{ size }}</option>#}
+{#        {% endfor %}#}
+{#    </select>#}
+{##}
+{#    {% if running_info.running %}#}
+{#        <button type="submit" name="stop_button">Stop</button>#}
+{#    {% else %}#}
+{#        <button type="submit" name="run_button">Run ({{ selected_det_set }})</button>#}
+{#    {% endif %}#}
+{#</form>#}
+{##}
+{#<form method="post" class="row-container">#}
+{#    {% csrf_token %}#}
+{#    <label>Glances Control:</label>#}
+{#    {% if glances_running %}#}
+{#        <button name="stop_glances">Stop Glances</button>#}
+{#        <button name="restart_glances">Restart Glances</button>#}
+{#    {% else %}#}
+{#        <button name="start_glances">Start Glances</button>#}
+{#    {% endif %}#}
+{#</form>#}
+{##}
+{#<div class="uptime-block">#}
+{#    <p>Web Server Uptime: <strong style="color: darkgreen" id="django_uptime">--</strong></p>#}
+{#    <p>Script Uptime: <strong style="color: darkgreen" id="script_uptime">--</strong></p>#}
+{#</div>#}
+{##}
+{#<div class="toggle-buttons">#}
+{#    <button class="toggle-btn active" data-target="#glances">Live System Monitor (Glances)</button>#}
+{#    <button class="toggle-btn" data-target="#stats">System Stats</button>#}
+{#</div>#}
+{##}
+{#<div id="glances" class="box-section active">#}
+{#    <div id="glances_frame_wrapper" style="display: none;" class="iframe-container">#}
+{#        <iframe src="http://127.0.0.1:61208"></iframe>#}
+{#    </div>#}
+{#    <div id="glances_offline_msg" style="text-align: center; padding: 20px; color: darkred; display: none;">#}
+{#        Glances is not running.#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<div id="stats" class="box-section">#}
+{#    <div class="stats-container" style="display: flex; gap: 40px;">#}
+{#        <div class="stat-block" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #eef6fc;">#}
+{#            <h3>CPU</h3>#}
+{#            <p>Model: <span id="cpu_model">--</span></p>#}
+{#            <p>Cores: <span id="cpu_cores">--</span></p>#}
+{#            <p>Usage: <span id="cpu_usage">--</span>%</p>#}
+{#        </div>#}
+{#        <div class="stat-block" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #f9f3e8;">#}
+{#            <h3>RAM</h3>#}
+{#            <p>Total: <span id="ram_total">--</span> GB</p>#}
+{#            <p>Usage: <span id="ram_usage">--</span>%</p>#}
+{#        </div>#}
+{#        <div class="stat-block" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #eafaea;">#}
+{#            <h3>GPU: <span id="gpu_name">--</span></h3>#}
+{#            <p>Power Draw: <span id="gpu_power">--</span> W</p>#}
+{#            <p>Memory Clock: <span id="gpu_mem_clock">--</span> MHz</p>#}
+{#            <p>Graphics Clock: <span id="gpu_graph_clock">--</span> MHz</p>#}
+{#            <p>Temperature: <span id="gpu_temp">--</span> °C</p>#}
+{#            <p>Memory Usage: <span id="gpu_used">--</span> / <span id="gpu_total">--</span> MB</p>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#    function fetchStats() {#}
+{#        $.getJSON("/dashboard/system_stats/", function (data) {#}
+{#            $("#cpu_model").text(data.cpu.model);#}
+{#            $("#cpu_cores").text(data.cpu.cores);#}
+{#            $("#cpu_usage").text(data.cpu.usage);#}
+{##}
+{#            $("#ram_total").text(data.ram.total);#}
+{#            $("#ram_usage").text(data.ram.usage);#}
+{##}
+{#            $("#gpu_name").text(data.gpu.name);#}
+{#            $("#gpu_power").text(data.gpu.power_draw);#}
+{#            $("#gpu_mem_clock").text(data.gpu.memory_clock);#}
+{#            $("#gpu_graph_clock").text(data.gpu.graphics_clock);#}
+{#            $("#gpu_temp").text(data.gpu.temperature);#}
+{#            $("#gpu_used").text(data.gpu.memory_used);#}
+{#            $("#gpu_total").text(data.gpu.memory_total);#}
+{##}
+{#            $("#django_uptime").text(data.django_uptime);#}
+{#            $("#script_uptime").text(data.script_info.running ? data.script_info.uptime : 'Not running');#}
+{##}
+{#            // Show/hide glances iframe dynamically#}
+{#            if (data.glances_running) {#}
+{#                $("#glances_frame_wrapper").show();#}
+{#                $("#glances_offline_msg").hide();#}
+{#            } else {#}
+{#                $("#glances_frame_wrapper").hide();#}
+{#                $("#glances_offline_msg").show();#}
+{#            }#}
+{#        });#}
+{#    }#}
+{##}
+{#    $(document).on('click', '.toggle-btn', function () {#}
+{#        $('.toggle-btn').removeClass('active');#}
+{#        $(this).addClass('active');#}
+{#        $('.box-section').removeClass('active');#}
+{#        $($(this).data('target')).addClass('active');#}
+{#    });#}
+{##}
+{#    setInterval(fetchStats, 2000);#}
+{#    fetchStats();#}
+{#</script>#}
+{#</body>#}
+{#</html>#}
+
+
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Dashboard</title>#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#    <style>#}
+{#        body {#}
+{#            background-color: #f4f7f9;#}
+{#            font-family: Arial, sans-serif;#}
+{#            margin: 20px;#}
+{#        }#}
+{#        .row-container {#}
+{#            display: flex;#}
+{#            gap: 20px;#}
+{#            align-items: center;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{#        select, button {#}
+{#            border-radius: 8px;#}
+{#            padding: 6px 10px;#}
+{#            margin: 0 5px;#}
+{#        }#}
+{#        label {#}
+{#            margin-right: 10px;#}
+{#        }#}
+{#        .uptime-block {#}
+{#            text-align: right;#}
+{#        }#}
+{#        .iframe-container {#}
+{#            width: 100%;#}
+{#            height: 85vh;#}
+{#            overflow: hidden;#}
+{#        }#}
+{#        .iframe-container iframe {#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            border: none;#}
+{#        }#}
+{#        .toggle-buttons {#}
+{#            margin: 20px 0;#}
+{#        }#}
+{#        .toggle-buttons button {#}
+{#            padding: 10px 20px;#}
+{#            margin-right: 10px;#}
+{#            border-radius: 8px;#}
+{#            border: none;#}
+{#            cursor: pointer;#}
+{#        }#}
+{#        .toggle-buttons button.active {#}
+{#            background-color: #007acc;#}
+{#            color: white;#}
+{#        }#}
+{#        .box-section {#}
+{#            display: none;#}
+{#        }#}
+{#        .box-section.active {#}
+{#            display: block;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#<h2>Run Attendance Script</h2>#}
+{#<form method="post" class="row-container">#}
+{#    {% csrf_token %}#}
+{#    <label>Script Type:</label>#}
+{#    <select name="script_type">#}
+{#        <option value="ffmpeg" {% if selected_script_type == 'ffmpeg' %}selected{% endif %}>Type 1 (FFmpeg)</option>#}
+{#        <option value="opencv" {% if selected_script_type == 'opencv' %}selected{% endif %}>Type 2 (OpenCV)</option>#}
+{#    </select>#}
+{##}
+{#    <label>Detection Set:</label>#}
+{#    <select name="det_set">#}
+{#        {% for size in det_set_options %}#}
+{#            <option value="{{ size }}" {% if selected_det_set == size %}selected{% endif %}>{{ size }}</option>#}
+{#        {% endfor %}#}
+{#    </select>#}
+{##}
+{#    {% if running_info.running %}#}
+{#        <button type="submit" name="stop_button">Stop</button>#}
+{#    {% else %}#}
+{#        <button type="submit" name="run_button">Run ({{ selected_det_set }})</button>#}
+{#    {% endif %}#}
+{#</form>#}
+{##}
+{#<form method="post" class="row-container">#}
+{#    {% csrf_token %}#}
+{#    <label>Glances Control:</label>#}
+{#    {% if glances_running %}#}
+{#        <button name="stop_glances">Stop Glances</button>#}
+{#        <button name="restart_glances">Restart Glances</button>#}
+{#    {% else %}#}
+{#        <button name="start_glances">Start Glances</button>#}
+{#    {% endif %}#}
+{#</form>#}
+{##}
+{#<div class="uptime-block">#}
+{#    <p>Web Server Uptime: <strong style="color: darkgreen" id="django_uptime">--</strong></p>#}
+{#    <p>Script Uptime: <strong style="color: darkgreen" id="script_uptime">--</strong></p>#}
+{#</div>#}
+{##}
+{#<div class="toggle-buttons">#}
+{#    <button class="toggle-btn active" data-target="#glances">Live System Monitor (Glances)</button>#}
+{#    <button class="toggle-btn" data-target="#stats">System Stats</button>#}
+{#</div>#}
+{##}
+{#<div id="glances" class="box-section active">#}
+{#    <div id="glances_frame_wrapper" style="display: none;" class="iframe-container">#}
+{#        <iframe src="http://127.0.0.1:61208"></iframe>#}
+{#    </div>#}
+{#    <div id="glances_offline_msg" style="text-align: center; padding: 20px; color: darkred; display: none;">#}
+{#        Glances is not running.#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<div id="stats" class="box-section">#}
+{#    <div class="stats-container" style="display: flex; gap: 40px;">#}
+{#        <div class="stat-block" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #eef6fc;">#}
+{#            <h3>CPU</h3>#}
+{#            <p>Model: <span id="cpu_model">--</span></p>#}
+{#            <p>Cores: <span id="cpu_cores">--</span></p>#}
+{#            <p>Usage: <span id="cpu_usage">--</span>%</p>#}
+{#        </div>#}
+{#        <div class="stat-block" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #f9f3e8;">#}
+{#            <h3>RAM</h3>#}
+{#            <p>Total: <span id="ram_total">--</span> GB</p>#}
+{#            <p>Usage: <span id="ram_usage">--</span>%</p>#}
+{#        </div>#}
+{#        <div class="stat-block" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 12px; background-color: #eafaea;">#}
+{#            <h3>GPU: <span id="gpu_name">--</span></h3>#}
+{#            <p>Power Draw: <span id="gpu_power">--</span> W</p>#}
+{#            <p>Memory Clock: <span id="gpu_mem_clock">--</span> MHz</p>#}
+{#            <p>Graphics Clock: <span id="gpu_graph_clock">--</span> MHz</p>#}
+{#            <p>Temperature: <span id="gpu_temp">--</span> °C</p>#}
+{#            <p>Memory Usage: <span id="gpu_used">--</span> / <span id="gpu_total">--</span> MB</p>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#    function fetchStats() {#}
+{#        $.getJSON("/dashboard/system_stats/", function (data) {#}
+{#            $("#cpu_model").text(data.cpu.model);#}
+{#            $("#cpu_cores").text(data.cpu.cores);#}
+{#            $("#cpu_usage").text(data.cpu.usage);#}
+{##}
+{#            $("#ram_total").text(data.ram.total);#}
+{#            $("#ram_usage").text(data.ram.usage);#}
+{##}
+{#            $("#gpu_name").text(data.gpu.name);#}
+{#            $("#gpu_power").text(data.gpu.power_draw);#}
+{#            $("#gpu_mem_clock").text(data.gpu.memory_clock);#}
+{#            $("#gpu_graph_clock").text(data.gpu.graphics_clock);#}
+{#            $("#gpu_temp").text(data.gpu.temperature);#}
+{#            $("#gpu_used").text(data.gpu.memory_used);#}
+{#            $("#gpu_total").text(data.gpu.memory_total);#}
+{##}
+{#            $("#django_uptime").text(data.django_uptime);#}
+{#            $("#script_uptime").text(data.script_info.running ? data.script_info.uptime : 'Not running');#}
+{#        });#}
+{#    }#}
+{##}
+{#    $(document).on('click', '.toggle-btn', function () {#}
+{#        $('.toggle-btn').removeClass('active');#}
+{#        $(this).addClass('active');#}
+{#        $('.box-section').removeClass('active');#}
+{#        $($(this).data('target')).addClass('active');#}
+{#    });#}
+{##}
+{#    setInterval(fetchStats, 2000);#}
+{##}
+{#        // Show/hide glances iframe#}
+{#        if (data.glances_running) {#}
+{#            $("#glances_frame_wrapper").show();#}
+{#            $("#glances_offline_msg").hide();#}
+{#        } else {#}
+{#            $("#glances_frame_wrapper").hide();#}
+{#            $("#glances_offline_msg").show();#}
+{#        }#}
+{#    fetchStats();#}
+{#</script>#}
+{#</body>#}
+{#</html>#}
+
+
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Dashboard</title>#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#    <style>#}
+{#        body {#}
+{#            background-color: #f4f7f9;#}
+{#            font-family: Arial, sans-serif;#}
+{#            margin: 20px;#}
+{#        }#}
+{#        .stats-container {#}
+{#            display: flex;#}
+{#            gap: 40px;#}
+{#            margin-bottom: 30px;#}
+{#        }#}
+{#        .stat-block {#}
+{#            flex: 1;#}
+{#            padding: 10px;#}
+{#            border: 1px solid #ccc;#}
+{#            border-radius: 12px;#}
+{#            background-color: #eef6fc;#}
+{#        }#}
+{#        .stat-block:nth-child(2) {#}
+{#            background-color: #f9f3e8;#}
+{#        }#}
+{#        .stat-block:nth-child(3) {#}
+{#            background-color: #eafaea;#}
+{#        }#}
+{#        select, button {#}
+{#            border-radius: 8px;#}
+{#            padding: 6px 10px;#}
+{#            margin: 5px 0;#}
+{#        }#}
+{#        form label {#}
+{#            display: block;#}
+{#            margin-top: 8px;#}
+{#        }#}
+{#        iframe {#}
+{#            width: 100vw;#}
+{#            height: 90vh;#}
+{#            border: none;#}
+{#            margin: 0;#}
+{#            padding: 0;#}
+{#        }#}
+{#        .toggle-buttons {#}
+{#            margin: 20px 0;#}
+{#        }#}
+{#        .toggle-buttons button {#}
+{#            padding: 10px 20px;#}
+{#            margin-right: 10px;#}
+{#            border-radius: 8px;#}
+{#            border: none;#}
+{#            cursor: pointer;#}
+{#        }#}
+{#        .toggle-buttons button.active {#}
+{#            background-color: #007acc;#}
+{#            color: white;#}
+{#        }#}
+{#        .box-section {#}
+{#            display: none;#}
+{#        }#}
+{#        .box-section.active {#}
+{#            display: block;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#<div class="stats-container">#}
+{#    <div>#}
+{#        <h2>Run Attendance Script</h2>#}
+{#        <form method="post">#}
+{#            {% csrf_token %}#}
+{#            <label>Script Type:</label>#}
+{#            <select name="script_type">#}
+{#                <option value="ffmpeg" {% if selected_script_type == 'ffmpeg' %}selected{% endif %}>Type 1</option>#}
+{#                <option value="opencv" {% if selected_script_type == 'opencv' %}selected{% endif %}>Type 2</option>#}
+{#            </select>#}
+{##}
+{#            <label>Detection Set:</label>#}
+{#            <select name="det_set">#}
+{#                {% for size in det_set_options %}#}
+{#                    <option value="{{ size }}" {% if selected_det_set == size %}selected{% endif %}>{{ size }}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+{##}
+{#            {% if running_info.running %}#}
+{#                <button type="submit" name="stop_button">Stop</button>#}
+{#            {% else %}#}
+{#                <button type="submit" name="run_button">Run ({{ selected_det_set }})</button>#}
+{#            {% endif %}#}
+{#        </form>#}
+{#    </div>#}
+{#    <div>#}
+{#        <h3>Glances Control</h3>#}
+{#        <form method="post">#}
+{#            {% csrf_token %}#}
+{#            {% if glances_running %}#}
+{#                <button name="stop_glances">Stop Glances</button>#}
+{#                <button name="restart_glances">Restart Glances</button>#}
+{#            {% else %}#}
+{#                <button name="start_glances">Start Glances</button>#}
+{#            {% endif %}#}
+{#        </form>#}
+{#    </div>#}
+{#    <div>#}
+{#        <h3>Uptime</h3>#}
+{#        <p>Web Server Uptime: <span style="color: lightseagreen; font-weight: bold;" id="django_uptime">--</span> seconds</p>#}
+{#        <p>Script Uptime: <span style="color: lightseagreen; font-weight: bold;" id="script_uptime">--</span> seconds</p>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<div class="toggle-buttons">#}
+{#    <button class="toggle-btn active" data-target="#glances">Live System Monitor (Glances)</button>#}
+{#    <button class="toggle-btn" data-target="#stats">System Stats</button>#}
+{#</div>#}
+{##}
+{#<div id="glances" class="box-section active">#}
+{#    <iframe id="glances_iframe" src="http://127.0.0.1:61208"></iframe>#}
+{#</div>#}
+{##}
+{#<div id="stats" class="box-section">#}
+{#    <div class="stats-container">#}
+{#        <div class="stat-block">#}
+{#            <h3>CPU</h3>#}
+{#            <p>Model: <span id="cpu_model">--</span></p>#}
+{#            <p>Cores: <span id="cpu_cores">--</span></p>#}
+{#            <p>Usage: <span id="cpu_usage">--</span>%</p>#}
+{#        </div>#}
+{#        <div class="stat-block">#}
+{#            <h3>RAM</h3>#}
+{#            <p>Total: <span id="ram_total">--</span> GB</p>#}
+{#            <p>Usage: <span id="ram_usage">--</span>%</p>#}
+{#        </div>#}
+{#        <div class="stat-block">#}
+{#            <h3>GPU: <span id="gpu_name">--</span></h3>#}
+{#            <p>Power Draw: <span id="gpu_power">--</span> W</p>#}
+{#            <p>Memory Clock: <span id="gpu_mem_clock">--</span> MHz</p>#}
+{#            <p>Graphics Clock: <span id="gpu_graph_clock">--</span> MHz</p>#}
+{#            <p>Temperature: <span id="gpu_temp">--</span> °C</p>#}
+{#            <p>Memory Usage: <span id="gpu_used">--</span> / <span id="gpu_total">--</span> MB</p>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#    function fetchStats() {#}
+{#        $.getJSON("/dashboard/system_stats/", function (data) {#}
+{#            $("#cpu_model").text(data.cpu.model);#}
+{#            $("#cpu_cores").text(data.cpu.cores);#}
+{#            $("#cpu_usage").text(data.cpu.usage);#}
+{##}
+{#            $("#ram_total").text(data.ram.total);#}
+{#            $("#ram_usage").text(data.ram.usage);#}
+{##}
+{#            $("#gpu_name").text(data.gpu.name);#}
+{#            $("#gpu_power").text(data.gpu.power_draw);#}
+{#            $("#gpu_mem_clock").text(data.gpu.memory_clock);#}
+{#            $("#gpu_graph_clock").text(data.gpu.graphics_clock);#}
+{#            $("#gpu_temp").text(data.gpu.temperature);#}
+{#            $("#gpu_used").text(data.gpu.memory_used);#}
+{#            $("#gpu_total").text(data.gpu.memory_total);#}
+{##}
+{#            $("#django_uptime").text(Math.floor(data.django_uptime));#}
+{#            $("#script_uptime").text(data.script_info.running ? Math.floor(data.script_info.uptime) : 'Not running');#}
+{#        });#}
+{#    }#}
+{##}
+{#    $(document).on('click', '.toggle-btn', function () {#}
+{#        $('.toggle-btn').removeClass('active');#}
+{#        $(this).addClass('active');#}
+{#        $('.box-section').removeClass('active');#}
+{#        $($(this).data('target')).addClass('active');#}
+{##}
+{#        // Ensure only one Glances iframe#}
+{#        if ($('#glances_iframe').length === 0) {#}
+{#            $('#glances').html('<iframe id="glances_iframe" src="http://127.0.0.1:61208"></iframe>');#}
+{#        }#}
+{#    });#}
+{##}
+{#    setInterval(fetchStats, 2000);#}
+{#    fetchStats();#}
+{#</script>#}
+{#</body>#}
+{#</html>#}
