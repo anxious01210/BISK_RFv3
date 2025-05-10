@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'face_inspector',
     'django_extensions',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -176,7 +177,7 @@ SAVE_CROPPED_IMAGE = True
 # When True, if an existing AttendanceLog entry already has a cropped image,
 # it will be deleted and replaced by the new (better match) one.
 # If False, the old image will remain untouched.
-DELETE_OLD_CROPPED_IMAGE = False
+DELETE_OLD_CROPPED_IMAGE = True
 
 
 

@@ -1,0 +1,226 @@
+<!-- dashboard/templates/dashboard/dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .stats-container {
+            display: flex;
+            gap: 40px;
+        }
+        .stat-block {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Run Attendance Script</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label>Script Type:</label>
+        <select name="script_type">
+            <option value="opencv" {% if selected_script_type == 'opencv' %}selected{% endif %}>Type 1 (OpenCV)</option>
+            <option value="ffmpeg" {% if selected_script_type == 'ffmpeg' %}selected{% endif %}>Type 2 (FFmpeg)</option>
+        </select>
+
+        <label>Detection Set:</label>
+        <select name="det_set">
+            {% for size in det_set_options %}
+                <option value="{{ size }}" {% if selected_det_set == size %}selected{% endif %}>{{ size }}</option>
+            {% endfor %}
+        </select>
+
+        {% if running_info.running %}
+            <button type="submit" name="stop_button">Stop</button>
+        {% else %}
+            <button type="submit" name="run_button">Run ({{ selected_det_set }})</button>
+        {% endif %}
+    </form>
+
+    <h2>System Stats</h2>
+    <div class="stats-container">
+        <div class="stat-block">
+            <h3>CPU</h3>
+            <p>Model: <span id="cpu_model">--</span></p>
+            <p>Cores: <span id="cpu_cores">--</span></p>
+            <p>Usage: <span id="cpu_usage">--</span>%</p>
+        </div>
+        <div class="stat-block">
+            <h3>RAM</h3>
+            <p>Total: <span id="ram_total">--</span> GB</p>
+            <p>Usage: <span id="ram_usage">--</span>%</p>
+        </div>
+        <div class="stat-block">
+            <h3>GPU: <span id="gpu_name">--</span></h3>
+            <p>Power Draw: <span id="gpu_power">--</span> W</p>
+            <p>Memory Clock: <span id="gpu_mem_clock">--</span> MHz</p>
+            <p>Graphics Clock: <span id="gpu_graph_clock">--</span> MHz</p>
+            <p>Temperature: <span id="gpu_temp">--</span> °C</p>
+            <p>Memory Usage: <span id="gpu_used">--</span> / <span id="gpu_total">--</span> MB</p>
+        </div>
+    </div>
+
+    <h3>Uptime</h3>
+    <p>Django Uptime: <span id="django_uptime">--</span> seconds</p>
+    <p>Script Uptime: <span id="script_uptime">--</span> seconds</p>
+
+    <script>
+        function fetchStats() {
+            $.getJSON("/dashboard/system_stats/", function(data) {
+                $("#cpu_model").text(data.cpu.model);
+                $("#cpu_cores").text(data.cpu.cores);
+                $("#cpu_usage").text(data.cpu.usage);
+
+                $("#ram_total").text(data.ram.total);
+                $("#ram_usage").text(data.ram.usage);
+
+                $("#gpu_name").text(data.gpu.name);
+                $("#gpu_power").text(data.gpu.power_draw);
+                $("#gpu_mem_clock").text(data.gpu.memory_clock);
+                $("#gpu_graph_clock").text(data.gpu.graphics_clock);
+                $("#gpu_temp").text(data.gpu.temperature);
+                $("#gpu_used").text(data.gpu.memory_used);
+                $("#gpu_total").text(data.gpu.memory_total);
+
+                $("#django_uptime").text(Math.floor(data.django_uptime));
+                $("#script_uptime").text(data.script_info.running ? Math.floor(data.script_info.uptime) : 'Not running');
+            });
+        }
+
+        setInterval(fetchStats, 2000);
+        fetchStats();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+{#<!-- dashboard/templates/dashboard/dashboard.html -->#}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Dashboard</title>#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#</head>#}
+{#<body>#}
+{#    <h2>Run Attendance Script</h2>#}
+{#    <form method="post">#}
+{#        {% csrf_token %}#}
+{#        <label>Script Type:</label>#}
+{#        <select name="script_type">#}
+{#            <option value="opencv">Type 1 (OpenCV)</option>#}
+{#            <option value="ffmpeg">Type 2 (FFmpeg)</option>#}
+{#        </select>#}
+{#        <label>Detection Set:</label>#}
+{#        <select name="det_set">#}
+{#            <option value="auto">Auto</option>#}
+{#            <option value="320,320">320x320</option>#}
+{#            <option value="480,480">480x480</option>#}
+{#            <option value="640,640">640x640</option>#}
+{#            <option value="800,800">800x800</option>#}
+{#            <option value="1024,1024">1024x1024</option>#}
+{#            <option value="1280,1280">1280x1280</option>#}
+{#            <option value="1600,1600">1600x1600</option>#}
+{#            <option value="1920,1920">1920x1920</option>#}
+{#            <option value="2048,2048">2048x2048</option>#}
+{#        </select>#}
+{#        <button type="submit">Run</button>#}
+{#    </form>#}
+{##}
+{#    <h2>System Stats</h2>#}
+{#    <div id="stats">#}
+{#        <p>CPU: <span id="cpu">--</span>%</p>#}
+{#        <p>RAM: <span id="ram">--</span>%</p>#}
+{##}
+{#        <div>#}
+{#            <h3>GPU: <span id="gpu_name">--</span></h3>#}
+{#            <ul>#}
+{#                <li>Power Draw: <span id="gpu_power">--</span> W</li>#}
+{#                <li>Memory Clock: <span id="gpu_mem_clock">--</span> MHz</li>#}
+{#                <li>Graphics Clock: <span id="gpu_graph_clock">--</span> MHz</li>#}
+{#                <li>Temperature: <span id="gpu_temp">--</span> °C</li>#}
+{#                <li>Memory Usage: <span id="gpu_used">--</span> / <span id="gpu_total">--</span> MB</li>#}
+{#            </ul>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <script>#}
+{#        function fetchStats() {#}
+{#            $.getJSON("/dashboard/system_stats/", function(data) {#}
+{#                $("#cpu").text(data.cpu);#}
+{#                $("#ram").text(data.ram);#}
+{##}
+{#                $("#gpu_name").text(data.gpu.name);#}
+{#                $("#gpu_power").text(data.gpu.power_draw);#}
+{#                $("#gpu_mem_clock").text(data.gpu.memory_clock);#}
+{#                $("#gpu_graph_clock").text(data.gpu.graphics_clock);#}
+{#                $("#gpu_temp").text(data.gpu.temperature);#}
+{#                $("#gpu_used").text(data.gpu.memory_used);#}
+{#                $("#gpu_total").text(data.gpu.memory_total);#}
+{#            });#}
+{#        }#}
+{#        setInterval(fetchStats, 2000);#}
+{#        fetchStats();#}
+{#    </script>#}
+{#</body>#}
+{#</html>#}
+
+
+
+
+{##}
+{#<!-- dashboard/templates/dashboard/dashboard.html -->#}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Dashboard</title>#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#</head>#}
+{#<body>#}
+{#    <h2>Run Attendance Script</h2>#}
+{#    <form method="post">#}
+{#        {% csrf_token %}#}
+{#        <label>Script Type:</label>#}
+{#        <select name="script_type">#}
+{#            <option value="1">OpenCV</option>#}
+{#            <option value="2">FFmpeg</option>#}
+{#        </select>#}
+{#        <label>Detection Set:</label>#}
+{#        <select name="det_set">#}
+{#            <option value="640,640">640x640</option>#}
+{#            <option value="800,800">800x800</option>#}
+{#            <option value="1024,1024">1024x1024</option>#}
+{#            <option value="1600,1600">1600x1600</option>#}
+{#            <option value="2048,2048">2048x2048</option>#}
+{#        </select>#}
+{#        <button type="submit">Run</button>#}
+{#    </form>#}
+{##}
+{#    <h2>System Stats</h2>#}
+{#    <div id="stats">#}
+{#        CPU: <span id="cpu">--</span>%<br>#}
+{#        RAM: <span id="ram">--</span>%<br>#}
+{#        GPU: <span id="gpu">--</span> / <span id="gpu_total">--</span> MB#}
+{#    </div>#}
+{##}
+{#    <script>#}
+{#        function fetchStats() {#}
+{#            $.getJSON("/dashboard/system_stats/", function(data) {#}
+{#                $("#cpu").text(data.cpu);#}
+{#                $("#ram").text(data.ram);#}
+{#                $("#gpu").text(data.gpu.used);#}
+{#                $("#gpu_total").text(data.gpu.total);#}
+{#            });#}
+{#        }#}
+{#        setInterval(fetchStats, 2000);#}
+{#        fetchStats();#}
+{#    </script>#}
+{#</body>#}
+{#</html>#}

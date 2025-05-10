@@ -12,7 +12,7 @@ from attendance.models import AttendanceLog, Student, Period
 from extras.stream_utils_ffmpeg import stream_frames_ffmpeg
 from extras.log_utils import get_camera_logger
 
-MATCH_THRESHOLD = 0.50
+MATCH_THRESHOLD = 0.60
 RESTART_LIMIT = 5
 RESTART_DELAY = 10  # seconds
 

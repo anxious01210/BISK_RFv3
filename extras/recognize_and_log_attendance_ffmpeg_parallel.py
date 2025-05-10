@@ -31,10 +31,11 @@ def run_camera_ffmpeg(camera, schedules, embedding_dir):
     # face_analyzer.prepare(ctx_id=0, det_size=(1024, 1024))
     # face_analyzer.prepare(ctx_id=0, det_size=(1600, 1600))
     # face_analyzer.prepare(ctx_id=0, det_size=(2048, 2048))
-    face_analyzer.prepare(ctx_id=0, det_size=(2144, 2144))
+    # face_analyzer.prepare(ctx_id=0, det_size=(2144, 2144))
+    # face_analyzer.prepare(ctx_id=0, det_size=(3840, 3840))
 
     # ✅ Allow the model to handle resizing automatically instead of specifying det_size
-    # face_analyzer.prepare(ctx_id=0)
+    face_analyzer.prepare(ctx_id=0)
 
     embeddings_map = load_embeddings(embedding_dir)
 
@@ -52,40 +53,6 @@ def run_camera_ffmpeg(camera, schedules, embedding_dir):
                 time.sleep(RESTART_DELAY)
             else:
                 logger.error(f"🛑 Max FFmpeg retries reached for {camera.name}. Giving up.")
-
-
-# def recognize_and_log_ffmpeg():
-#     print("🔧 Loading cameras and recognition schedules for FFmpeg mode...")
-#     embedding_dir = os.path.join(BASE_DIR, "media", "embeddings")
-#
-#     now = datetime.now()
-#     today_weekday = now.strftime('%a')[:3]
-#
-#     active_cameras = []
-#     camera_schedules_map = {}
-#
-#     for camera in Camera.objects.filter(is_active=True):
-#         schedules = RecognitionSchedule.objects.filter(is_active=True, cameras=camera)
-#         valid_schedules = [
-#             s for s in schedules
-#             if today_weekday in s.weekdays and s.start_time <= now.time() <= s.end_time
-#         ]
-#         if valid_schedules:
-#             active_cameras.append(camera)
-#             camera_schedules_map[camera.id] = valid_schedules
-#
-#     processes = []
-#     for camera in active_cameras:
-#         print(f"🚀 FFmpeg spawning process for: {camera.name}")
-#         p = multiprocessing.Process(target=run_camera_ffmpeg, args=(camera, camera_schedules_map[camera.id], embedding_dir))
-#         p.start()
-#         processes.append(p)
-#
-#     for p in processes:
-#         p.join()
-#
-#
-#     print("✅ All FFmpeg-based camera processes have completed.")
 
 
 def recognize_and_log_ffmpeg():

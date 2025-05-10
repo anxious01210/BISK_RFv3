@@ -85,7 +85,7 @@ def main(force=False):
 
 
     # Paths
-    IMG_FOLDER = os.path.join(settings.BASE_DIR, "media/student_faces")
+    IMG_FOLDER = os.path.join(settings.BASE_DIR, "media/student_faces/face_images")
     EMBEDDING_DIR = os.path.join(settings.BASE_DIR, "media/embeddings")
     PKL_PATH = os.path.join(settings.BASE_DIR, "media/face_embeddings.pkl")
     os.makedirs(EMBEDDING_DIR, exist_ok=True)
