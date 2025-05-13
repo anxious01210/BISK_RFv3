@@ -117,6 +117,8 @@ class Camera(models.Model):
     is_active = models.BooleanField(default=True)
     stream_start_time = models.TimeField(null=True, blank=True)
     stream_end_time = models.TimeField(null=True, blank=True)
+    last_status = models.CharField(max_length=20, default='unknown')  # 'online', 'offline', 'error'
+    last_checked = models.DateTimeField(default=now)
 
     def __str__(self):
         return self.name

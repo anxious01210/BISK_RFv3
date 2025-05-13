@@ -17,9 +17,9 @@ EMBEDDING_DIR = os.path.join(SAVE_DIR, "embeddings")
 PKL_PATH = os.path.join(SAVE_DIR, "face_embeddings.pkl")
 
 DETECTION_SIZE = (2048, 2048)
-MAX_FRAMES = 50
-# MIN_CONFIDENCE = 0.98
-MIN_CONFIDENCE = 0.80
+MAX_FRAMES = 100
+MIN_CONFIDENCE = 0.88
+# MIN_CONFIDENCE = 0.80
 
 # Ensure directories exist
 os.makedirs(FACE_DIR, exist_ok=True)
@@ -44,6 +44,7 @@ def extract_frames_ffmpeg(src, max_frames=50):
     probe = ffmpeg.probe(src) if isinstance(src, str) and src.startswith("rtsp") else {}
     width = 1280
     height = 720
+
     try:
         for stream in probe.get("streams", []):
             if stream["codec_type"] == "video":

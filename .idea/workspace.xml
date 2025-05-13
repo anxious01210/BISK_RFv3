@@ -5,8 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/dashboard/scripts_.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dashboard/templates/dashboard/dashboard_.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dashboard/views_.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel_.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_opencv_parallel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/stream_utils_opencv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extras/utils_opencv.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/templates/dashboard/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/templates/dashboard/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attendance/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dashboard/scripts.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/scripts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance_parallel.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_parallel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extras/utils_ffmpeg.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/utils_ffmpeg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H123456.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H123456.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/face_embeddings.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/media/face_embeddings.pkl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,36 +68,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django Server.BISK_RFv3.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/rio/PycharmProjects/BISK_RFv3/extras",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django Server.BISK_RFv3.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rio/PycharmProjects/BISK_RFv3/dashboard/templates/dashboard&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dashboard/templates/dashboard" />
+      <recent name="$PROJECT_DIR$/dashboard" />
       <recent name="$PROJECT_DIR$/extras" />
     </key>
   </component>
@@ -167,7 +185,11 @@
       <workItem from="1746856188308" duration="10306000" />
       <workItem from="1746870575786" duration="2768000" />
       <workItem from="1746874570041" duration="6819000" />
-      <workItem from="1746882086508" duration="17112000" />
+      <workItem from="1746882086508" duration="17506000" />
+      <workItem from="1746973877052" duration="2699000" />
+      <workItem from="1746984352053" duration="11804000" />
+      <workItem from="1747068075914" duration="703000" />
+      <workItem from="1747149158311" duration="8291000" />
     </task>
     <servers />
   </component>

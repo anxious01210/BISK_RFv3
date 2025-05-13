@@ -16,6 +16,8 @@ from extras.utils_ffmpeg import process_camera_stream_ffmpeg, RESTART_LIMIT, RES
 
 
 def run_camera_ffmpeg(camera, schedules, embedding_dir):
+    from django.db import connections
+    connections.close_all()
     from insightface.app import FaceAnalysis
     from extras.log_utils import get_camera_logger
     import time
@@ -35,7 +37,19 @@ def run_camera_ffmpeg(camera, schedules, embedding_dir):
     # face_analyzer.prepare(ctx_id=0, det_size=(3840, 3840))
 
     # ✅ Allow the model to handle resizing automatically instead of specifying det_size
-    face_analyzer.prepare(ctx_id=0)
+    # face_analyzer.prepare(ctx_id=0)
+
+    # ✅ to get value from the Dashboard det_set DropDown.
+    det_set_env = os.environ.get("DET_SET", "auto")
+    if det_set_env.lower() == "auto":
+        face_analyzer.prepare(ctx_id=0)
+    else:
+        try:
+            w, h = map(int, det_set_env.split(","))
+            face_analyzer.prepare(ctx_id=0, det_size=(w, h))
+        except Exception as e:
+            print(f"⚠️ Invalid DET_SET '{det_set_env}', falling back to auto. Error: {e}")
+            face_analyzer.prepare(ctx_id=0)
 
     embeddings_map = load_embeddings(embedding_dir)
 
@@ -91,4 +105,6 @@ def recognize_and_log_ffmpeg():
 
 if __name__ == "__main__":
     print("🚀 Starting FFmpeg-based parallel face recognition and logging...")
+    from django.db import connections
+    connections.close_all()
     recognize_and_log_ffmpeg()

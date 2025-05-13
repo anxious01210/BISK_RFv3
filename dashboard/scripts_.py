@@ -3,6 +3,7 @@ import subprocess
 import os
 import signal
 import time
+from attendance.models import Camera
 
 SCRIPT_PROCESS = None
 SCRIPT_START_TIME = None
@@ -14,8 +15,7 @@ def run_script_by_type(script_type, det_set):
     stop_running_scripts()
 
     script_map = {
-        # 'opencv': 'extras/recognize_and_log_attendance_parallel.py',
-        'opencv': 'extras/recognize_and_log_attendance_opencv_parallel.py',
+        'opencv': 'extras/recognize_and_log_attendance_parallel.py',
         'ffmpeg': 'extras/recognize_and_log_attendance_ffmpeg_parallel.py',
     }
     script_path = script_map.get(script_type)
@@ -39,11 +39,14 @@ def stop_running_scripts():
 
 def get_running_script_info():
     if SCRIPT_PROCESS and SCRIPT_PROCESS.poll() is None:
+        failed_cameras = Camera.objects.filter(is_active=True, last_status='offline').count()
         return {
             'running': True,
             'uptime': time.time() - SCRIPT_START_TIME,
             'type': SCRIPT_TYPE,
             'det_set': DET_SET,
+            'partial_failure': failed_cameras > 0,
+            'failed_count': failed_cameras,
         }
     return {
         'running': False

@@ -1,3 +1,4 @@
+# extras/recognize_and_log_attendance.py
 import cv2
 import os
 import numpy as np

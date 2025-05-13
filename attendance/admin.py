@@ -65,8 +65,8 @@ class PeriodAdmin(ImportExportModelAdmin):
 @admin.register(Camera)
 class CameraAdmin(ImportExportModelAdmin):
     resource_class = CameraResource
-    list_display = ('name', 'location', 'is_active', 'stream_start_time', 'stream_end_time', 'view_logs_button')
-    list_filter = ('is_active',)
+    list_display = ('name', 'location', 'is_active', 'stream_start_time', 'stream_end_time', 'view_logs_button', 'last_status', 'last_checked')
+    list_filter = ('is_active', 'last_status')
 
     def get_urls(self):
         urls = super().get_urls()
