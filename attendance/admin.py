@@ -9,6 +9,11 @@ from import_export.admin import ImportExportModelAdmin
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.utils.html import format_html
+from django.contrib import messages
+import subprocess
 import os
 from datetime import date
 
@@ -48,9 +53,79 @@ class StudentAdmin(ImportExportModelAdmin):
 @admin.register(FaceImage)
 class FaceImageAdmin(ImportExportModelAdmin):
     resource_class = FaceImageResource
-    list_display = ('student', 'image_tag', 'embedding_path', 'uploaded_at')
+    change_list_template = "admin/attendance/faceimage/change_list.html"
+    list_display = ('student', 'image_tag', 'embedding_path', 'uploaded_at', 'run_script_button')
     readonly_fields = ('image_tag',)
     search_fields = ('student__h_code', 'image_path')
+
+    # def run_script_button(self, obj):
+    #     return format_html(
+    #         '<button class="button" data-id="{}" onclick="openScriptModal(this)">Run Script</button>',
+    #         obj.id
+    #     )
+
+    def run_script_button(self, obj):
+        return format_html(
+            '<button type="button" class="button" data-id="{}" onclick="openScriptModal(this)">Run Script</button>',
+            obj.id
+        )
+
+    run_script_button.short_description = "Action"
+
+    # Add custom URL to trigger script execution
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('run-script/<int:face_image_id>/', self.admin_site.admin_view(self.run_script), name='run-script'),
+        ]
+        return custom_urls + urls
+
+    # def run_script(self, request, face_image_id):
+    #     face_image = FaceImage.objects.get(id=face_image_id)
+    #     selected_type = request.GET.get('type')
+    #
+    #     if selected_type == '1':  # FFmpeg-based script
+    #         self.run_ffmpeg_script(face_image)
+    #     elif selected_type == '2':  # OpenCV-based script
+    #         self.run_opencv_script(face_image)
+    #
+    #     messages.success(request, f"Script executed for {face_image.student.h_code}")
+    #     return JsonResponse({'status': 'success'})
+
+    def run_script(self, request, face_image_id):
+        face_image = FaceImage.objects.get(id=face_image_id)
+        selected_type = request.GET.get('type', '1')
+        det_set = request.GET.get('det_set', '2048,2048')
+        max_frames = request.GET.get('max_frames', '100')
+        min_conf = request.GET.get('min_conf', '0.88')
+
+        if selected_type == '1':
+            self.run_ffmpeg_script(face_image, det_set, max_frames, min_conf)
+        elif selected_type == '2':
+            self.run_opencv_script(face_image)
+
+        return JsonResponse({'status': 'success'})
+
+    def run_ffmpeg_script(self, face_image, det_set="2048,2048", max_frames="100", min_conf="0.88"):
+        script_path = os.path.abspath('extras/capture_embeddings_ffmpeg.py')
+        subprocess.run([
+            'python3', script_path,
+            '--h_code', face_image.student.h_code,
+            '--det_set', det_set,
+            '--max_frames', max_frames,
+            '--min_conf', min_conf
+        ])
+
+    # def run_ffmpeg_script(self, face_image):
+    #     # Call your FFmpeg script here
+    #     script_path = 'extras/capture_embeddings_ffmpeg.py'
+    #     subprocess.run(['python3', script_path])
+
+    def run_opencv_script(self, face_image):
+        # Call your OpenCV script here
+        script_path = 'extras/capture_embeddings_opencv.py'
+        subprocess.run(['python3', script_path])
+
 
 @admin.register(Period)
 class PeriodAdmin(ImportExportModelAdmin):

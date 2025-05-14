@@ -1,0 +1,377 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .modal-content h4 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .modal-content input[type="radio"] {
+            margin-right: 8px;
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        body[data-theme="dark"] .modal-content {
+            background-color: #2e2e2e;
+            color: #ffffff;
+        }
+
+        body[data-theme="dark"] .modal-content h4 {
+            color: #ffffff;
+        }
+
+        body[data-theme="dark"] .modal-content label {
+            color: #dddddd;
+        }
+
+        .modal-content button {
+            margin-top: 10px;
+            padding: 6px 12px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        body[data-theme="dark"] .modal-content button {
+            background-color: #1a73e8;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        body[data-theme="dark"] .modal-content button:hover {
+            background-color: #0b57d0;
+        }
+    </style>
+{% endblock %}
+
+
+{#    <div id="scriptModal" class="modal">#}
+{% block content %}
+    {{ block.super }}
+    <div id="scriptModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h4>Select Script Type</h4>
+            <form id="runScriptForm">
+                <label><input type="radio" name="script_type" value="1" checked> Type 1 (FFmpeg)</label><br>
+                <label><input type="radio" name="script_type" value="2"> Type 2 (OpenCV)</label><br><br>
+
+                <label>Detection Size:</label>
+                <select name="det_set">
+                    <option value="auto" selected>auto</option>
+                    <option value="320,320">320×320</option>
+                    <option value="480,480">480×480</option>
+                    <option value="640,640">640×640</option>
+                    <option value="800,800">800×800</option>
+                    <option value="1024,1024">1024×1024</option>
+                    <option value="1280,1280">1280×1280</option>
+                    <option value="1600,1600">1600×1600</option>
+                    <option value="1920,1920">1920×1920</option>
+                    <option value="2048,2048">2048×2048</option>
+                </select><br><br>
+
+                <label>Max Frames (1–100):</label>
+                <input type="number" name="max_frames" value="100" min="1" max="100"><br><br>
+
+                <label>Min Confidence (0.1–1):</label>
+                <input type="number" name="min_conf" value="0.95" min="0.1" max="1" step="0.01"><br><br>
+
+                <button type="submit">Run</button>
+                <button type="button" onclick="closeScriptModal()">Cancel</button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+        let selectedFaceImageId = null;
+
+        function openScriptModal(button) {
+            selectedFaceImageId = button.getAttribute('data-id');
+            document.getElementById('scriptModal').style.display = 'flex';
+        }
+
+        function closeScriptModal() {
+            document.getElementById('scriptModal').style.display = 'none';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("runScriptForm");
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const selectedType = form.script_type.value;
+                const detSet = form.det_set.value;
+                const maxFrames = form.max_frames.value;
+                const minConf = form.min_conf.value;
+
+                const params = new URLSearchParams({
+                    type: selectedType,
+                    det_set: detSet,
+                    max_frames: maxFrames,
+                    min_conf: minConf
+                });
+
+                fetch(`/admin/attendance/faceimage/run-script/${selectedFaceImageId}/?${params.toString()}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        alert("Script executed successfully!");
+                        closeScriptModal();
+                    })
+                    .catch(error => {
+                        alert("Script failed: " + error);
+                        closeScriptModal();
+                    });
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+{#{% block extrahead %}#}
+{#    {{ block.super }}#}
+{#    <script>#}
+{#        let selectedFaceImageId = null;#}
+{##}
+{#        function openScriptModal(button) {#}
+{#            selectedFaceImageId = button.getAttribute('data-id');#}
+{#            const modal = document.getElementById('scriptModal');#}
+{#            modal.style.display = 'flex';#}
+{#        }#}
+{##}
+{#        function closeScriptModal() {#}
+{#            const modal = document.getElementById('scriptModal');#}
+{#            modal.style.display = 'none';#}
+{#        }#}
+{##}
+{#        document.addEventListener("DOMContentLoaded", function () {#}
+{#            document.getElementById("runScriptForm").addEventListener("submit", function (e) {#}
+{#                e.preventDefault();#}
+{#                const selectedType = document.querySelector('input[name="script_type"]:checked').value;#}
+{##}
+{#                fetch(`/admin/attendance/faceimage/run-script/${selectedFaceImageId}/?type=${selectedType}`)#}
+{#                    .then(response => response.json())#}
+{#                    .then(data => {#}
+{#                        alert("Script executed successfully!");#}
+{#                        closeScriptModal();#}
+{#                    })#}
+{#                    .catch(error => {#}
+{#                        alert("Script failed: " + error);#}
+{#                        closeScriptModal();#}
+{#                    });#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}
+
+
+
+
+
+
+
+
+
+{#{% extends "admin/change_list.html" %}#}
+{#{% load static %}#}
+{##}
+{#{% block extrahead %}#}
+{#    {{ block.super }}#}
+{#    <style>#}
+{#        .modal {#}
+{#            position: fixed;#}
+{#            top: 0;#}
+{#            left: 0;#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            background-color: rgba(0, 0, 0, 0.5);#}
+{#            display: flex;#}
+{#            justify-content: center;#}
+{#            align-items: center;#}
+{#            z-index: 1000;#}
+{#        }#}
+{##}
+{#        .modal-content {#}
+{#            background-color: white;#}
+{#            padding: 20px;#}
+{#            border-radius: 5px;#}
+{#            width: 300px;#}
+{#        }#}
+{#    </style>#}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    {{ block.super }}#}
+{##}
+{#    <div id="scriptModal" class="modal" style="display:none;">#}
+{#        <div class="modal-content">#}
+{#            <h4>Select Script Type</h4>#}
+{#            <form id="runScriptForm">#}
+{#                <input type="radio" name="script_type" value="1" checked> Type 1 (FFmpeg)<br>#}
+{#                <input type="radio" name="script_type" value="2"> Type 2 (OpenCV)#}
+{#                <br><br>#}
+{#                <button type="submit">Run</button>#}
+{#                <button type="button" onclick="closeScriptModal()">Cancel</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <script>#}
+{#        function openScriptModal(button) {#}
+{#            window.selectedFaceImageId = button.getAttribute('data-id');#}
+{#            document.getElementById('scriptModal').style.display = 'flex';#}
+{#        }#}
+{##}
+{#        function closeScriptModal() {#}
+{#            document.getElementById('scriptModal').style.display = 'none';#}
+{#        }#}
+{##}
+{#        document.addEventListener('DOMContentLoaded', function () {#}
+{#            document.getElementById('runScriptForm').addEventListener('submit', function (e) {#}
+{#                e.preventDefault();#}
+{##}
+{#                const selectedType = document.querySelector('input[name="script_type"]:checked').value;#}
+{##}
+{#                fetch(`/admin/attendance/faceimage/run-script/${window.selectedFaceImageId}/?type=${selectedType}`)#}
+{#                    .then(response => response.json())#}
+{#                    .then(data => {#}
+{#                        alert('Script executed successfully!');#}
+{#                        closeScriptModal();#}
+{#                    })#}
+{#                    .catch(error => {#}
+{#                        alert('Failed to run the script.');#}
+{#                        closeScriptModal();#}
+{#                    });#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}
+{##}
+
+
+
+
+
+
+
+
+{#{% extends 'admin/change_list.html' %}#}
+{#{% block content %}#}
+{#    <style>#}
+{#        .modal {#}
+{#            position: fixed;#}
+{#            top: 0;#}
+{#            left: 0;#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            background-color: rgba(0, 0, 0, 0.5);#}
+{#            display: flex;#}
+{#            justify-content: center;#}
+{#            align-items: center;#}
+{#        }#}
+{##}
+{#        .modal-content {#}
+{#            background-color: white;#}
+{#            padding: 20px;#}
+{#            border-radius: 5px;#}
+{#            width: 300px;#}
+{#        }#}
+{##}
+{#        button {#}
+{#            padding: 10px;#}
+{#            margin: 5px;#}
+{#            border: none;#}
+{#            background-color: #007bff;#}
+{#            color: white;#}
+{#            cursor: pointer;#}
+{#        }#}
+{#    </style>#}
+{##}
+{#    <div id="scriptModal" class="modal" style="display:none;">#}
+{#        <div class="modal-content">#}
+{#            <h4>Select Script Type</h4>#}
+{#            <form id="runScriptForm">#}
+{#                <input type="radio" name="script_type" value="1" checked> Type 1 (FFmpeg)#}
+{#                <input type="radio" name="script_type" value="2"> Type 2 (OpenCV)#}
+{#                <br><br>#}
+{#                <button type="submit">Run</button>#}
+{#                <button type="button" onclick="closeScriptModal()">Cancel</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    {{ block.super }}#}
+{##}
+{#    <script>#}
+{#        function openScriptModal(button) {#}
+{#            var faceImageId = button.getAttribute('data-id');#}
+{#            document.getElementById('scriptModal').style.display = 'block';#}
+{#            #}
+{#            // Store the faceImageId globally#}
+{#            window.selectedFaceImageId = faceImageId;#}
+{#        }#}
+{##}
+{#        function closeScriptModal() {#}
+{#            document.getElementById('scriptModal').style.display = 'none';#}
+{#        }#}
+{##}
+{#        document.getElementById('runScriptForm').onsubmit = function(e) {#}
+{#            e.preventDefault();#}
+{##}
+{#            var selectedType = document.querySelector('input[name="script_type"]:checked').value;#}
+{#            #}
+{#            // Perform an AJAX request to run the script#}
+{#            fetch(`/admin/attendance/faceimage/run-script/${window.selectedFaceImageId}/?type=${selectedType}`)#}
+{#                .then(response => response.json())#}
+{#                .then(data => {#}
+{#                    alert('Script executed successfully!');#}
+{#                    closeScriptModal();#}
+{#                })#}
+{#                .catch(error => {#}
+{#                    alert('Failed to run the script!');#}
+{#                    closeScriptModal();#}
+{#                });#}
+{#        }#}
+{#    </script>#}
+{#{% endblock %}#}

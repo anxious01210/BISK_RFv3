@@ -5,22 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dashboard/scripts_.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/templates/dashboard/dashboard_.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/views_.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel_.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_opencv_parallel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/stream_utils_opencv.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/utils_opencv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/attendance/templates/admin/attendance/faceimage/change_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/scripts.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/scripts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_ffmpeg_parallel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/recognize_and_log_attendance_parallel.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/recognize_and_log_attendance_parallel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/utils_ffmpeg.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/utils_ffmpeg.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H123456.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H123456.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/face_embeddings.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/media/face_embeddings.pkl" afterDir="false" />
     </list>
@@ -35,8 +23,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -101,6 +89,10 @@
       <recent name="$PROJECT_DIR$/dashboard/templates/dashboard" />
       <recent name="$PROJECT_DIR$/dashboard" />
       <recent name="$PROJECT_DIR$/extras" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/attendance/templates/admin" />
+      <recent name="$PROJECT_DIR$/templates/admin/attendance" />
     </key>
   </component>
   <component name="RunManager">
@@ -189,7 +181,7 @@
       <workItem from="1746973877052" duration="2699000" />
       <workItem from="1746984352053" duration="11804000" />
       <workItem from="1747068075914" duration="703000" />
-      <workItem from="1747149158311" duration="8291000" />
+      <workItem from="1747149158311" duration="18674000" />
     </task>
     <servers />
   </component>

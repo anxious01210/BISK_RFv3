@@ -1,3 +1,4 @@
+# capture_embeddings_ffmpeg.py
 import os
 import cv2
 import ffmpeg
@@ -5,9 +6,24 @@ import pickle
 import numpy as np
 from datetime import datetime
 from insightface.app import FaceAnalysis
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--h_code', required=True)
+parser.add_argument('--det_set', default='2048,2048')
+parser.add_argument('--max_frames', type=int, default=33)
+parser.add_argument('--min_conf', type=float, default=0.88)
+args = parser.parse_args()
+
+H_CODE = args.h_code
+DETECTION_SIZE = None if args.det_set == 'auto' else tuple(map(int, args.det_set.split(',')))
+MAX_FRAMES = args.max_frames
+MIN_CONFIDENCE = args.min_conf
+
+
 
 # --- Configuration ---
-H_CODE = "H123456"  # ← Set this before running for each student
+# H_CODE = "H123456"  # ← Set this before running for each student
 # CAMERA_SOURCE = 0  # 0 = webcam | "rtsp://..." = IP camera
 CAMERA_SOURCE = "rtsp://admin:B!sk2025@192.168.137.95:554/Streaming/Channels/101/"  # 0 = webcam | "rtsp://..." = IP camera
 
@@ -16,9 +32,9 @@ FACE_DIR = os.path.join(SAVE_DIR, "stream_faces", H_CODE)
 EMBEDDING_DIR = os.path.join(SAVE_DIR, "embeddings")
 PKL_PATH = os.path.join(SAVE_DIR, "face_embeddings.pkl")
 
-DETECTION_SIZE = (2048, 2048)
-MAX_FRAMES = 100
-MIN_CONFIDENCE = 0.88
+# DETECTION_SIZE = (2048, 2048)
+# MAX_FRAMES = 100
+# MIN_CONFIDENCE = 0.88
 # MIN_CONFIDENCE = 0.80
 
 # Ensure directories exist
@@ -27,7 +43,9 @@ os.makedirs(EMBEDDING_DIR, exist_ok=True)
 
 # --- Load model ---
 face_app = FaceAnalysis(name='buffalo_l', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
-face_app.prepare(ctx_id=0, det_size=DETECTION_SIZE)
+# face_app.prepare(ctx_id=0, det_size=DETECTION_SIZE)
+face_app.prepare(ctx_id=0, det_size=DETECTION_SIZE if DETECTION_SIZE else (800, 800))
+
 
 # --- FFmpeg Input Setup ---
 def get_ffmpeg_input(src):
