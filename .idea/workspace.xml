@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/attendance/templates/admin/attendance/faceimage/change_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attendance/templates/admin/attendance/faceimage/change_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/templates/admin/attendance/faceimage/change_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H123456.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H123456.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/face_embeddings.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/media/face_embeddings.pkl" afterDir="false" />
     </list>
@@ -181,7 +180,7 @@
       <workItem from="1746973877052" duration="2699000" />
       <workItem from="1746984352053" duration="11804000" />
       <workItem from="1747068075914" duration="703000" />
-      <workItem from="1747149158311" duration="18674000" />
+      <workItem from="1747149158311" duration="22737000" />
     </task>
     <servers />
   </component>

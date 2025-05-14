@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.html import format_html
 from django.contrib import messages
+from django.http import StreamingHttpResponse
 import subprocess
 import os
 from datetime import date
@@ -92,7 +93,22 @@ class FaceImageAdmin(ImportExportModelAdmin):
     #     messages.success(request, f"Script executed for {face_image.student.h_code}")
     #     return JsonResponse({'status': 'success'})
 
+    # def run_script(self, request, face_image_id):
+    #     face_image = FaceImage.objects.get(id=face_image_id)
+    #     selected_type = request.GET.get('type', '1')
+    #     det_set = request.GET.get('det_set', '2048,2048')
+    #     max_frames = request.GET.get('max_frames', '100')
+    #     min_conf = request.GET.get('min_conf', '0.88')
+    #
+    #     if selected_type == '1':
+    #         self.run_ffmpeg_script(face_image, det_set, max_frames, min_conf)
+    #     elif selected_type == '2':
+    #         self.run_opencv_script(face_image)
+    #
+    #     return JsonResponse({'status': 'success'})
+
     def run_script(self, request, face_image_id):
+        from urllib.parse import unquote
         face_image = FaceImage.objects.get(id=face_image_id)
         selected_type = request.GET.get('type', '1')
         det_set = request.GET.get('det_set', '2048,2048')
@@ -100,11 +116,17 @@ class FaceImageAdmin(ImportExportModelAdmin):
         min_conf = request.GET.get('min_conf', '0.88')
 
         if selected_type == '1':
-            self.run_ffmpeg_script(face_image, det_set, max_frames, min_conf)
+            return self.stream_script_output(
+                script='extras/capture_embeddings_ffmpeg.py',
+                h_code=face_image.student.h_code,
+                det_set=det_set,
+                max_frames=max_frames,
+                min_conf=min_conf
+            )
         elif selected_type == '2':
-            self.run_opencv_script(face_image)
+            return JsonResponse({'status': 'OpenCV script not yet supported for streaming'})
 
-        return JsonResponse({'status': 'success'})
+
 
     def run_ffmpeg_script(self, face_image, det_set="2048,2048", max_frames="100", min_conf="0.88"):
         script_path = os.path.abspath('extras/capture_embeddings_ffmpeg.py')
@@ -120,6 +142,31 @@ class FaceImageAdmin(ImportExportModelAdmin):
     #     # Call your FFmpeg script here
     #     script_path = 'extras/capture_embeddings_ffmpeg.py'
     #     subprocess.run(['python3', script_path])
+
+    def stream_script_output(self, script, h_code, det_set, max_frames, min_conf):
+        cmd = [
+            'python3', script,
+            '--h_code', h_code,
+            '--det_set', det_set,
+            '--max_frames', max_frames,
+            '--min_conf', min_conf,
+        ]
+
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            bufsize=1,
+            universal_newlines=True
+        )
+
+        def stream():
+            for line in iter(process.stdout.readline, ''):
+                yield line
+            process.stdout.close()
+            process.wait()
+
+        return StreamingHttpResponse(stream(), content_type='text/plain')
 
     def run_opencv_script(self, face_image):
         # Call your OpenCV script here

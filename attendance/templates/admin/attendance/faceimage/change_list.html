@@ -2,376 +2,283 @@
 {% load static %}
 
 {% block extrastyle %}
-    {{ block.super }}
-    <style>
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
+{{ block.super }}
+<style>
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    padding: 22px; /* ensures 22px space from all edges */
+    box-sizing: border-box;
+}
 
-        .modal-content {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 20px;
-            border-radius: 5px;
-            width: 300px;
-        }
+.modal-content {
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
 
-        .modal-content h4 {
-            margin-top: 0;
-            font-size: 18px;
-            color: #000000;
-        }
+.modal-content.maximized {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+}
 
-        .modal-content label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 15px;
-            cursor: pointer;
-        }
+body[data-theme="dark"] .modal-content {
+    background-color: #2e2e2e;
+    color: #fff;
+}
 
-        .modal-content input[type="radio"] {
-            margin-right: 8px;
-            transform: scale(1.1);
-            cursor: pointer;
-        }
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        body[data-theme="dark"] .modal-content {
-            background-color: #2e2e2e;
-            color: #ffffff;
-        }
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #000;
+}
+body[data-theme="dark"] .modal-header h3 {
+    color: #fff;
+}
 
-        body[data-theme="dark"] .modal-content h4 {
-            color: #ffffff;
-        }
+.header-buttons {
+    display: flex;
+    gap: 8px;
+}
 
-        body[data-theme="dark"] .modal-content label {
-            color: #dddddd;
-        }
+.control-button {
+    font-size: 13px; /* reduced by ~30% */
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 2px 6px;
+}
 
-        .modal-content button {
-            margin-top: 10px;
-            padding: 6px 12px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            border-radius: 3px;
-        }
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    margin: 20px 0;
+}
 
-        body[data-theme="dark"] .modal-content button {
-            background-color: #1a73e8;
-        }
+.form-row label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
-        .modal-content button:hover {
-            background-color: #0056b3;
-        }
+.form-row select,
+.form-row input[type="number"] {
+    padding: 4px;
+    font-size: 14px;
+}
 
-        body[data-theme="dark"] .modal-content button:hover {
-            background-color: #0b57d0;
-        }
-    </style>
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.modal-content button {
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+body[data-theme="dark"] .modal-content button {
+    background-color: #1a73e8;
+}
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+body[data-theme="dark"] .modal-content button:hover {
+    background-color: #0b57d0;
+}
+
+.terminal {
+    background: #111;
+    color: #0f0;
+    padding: 12px;
+    font-family: monospace;
+    font-size: 13px;
+    height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    border-radius: 4px;
+    transition: height 0.3s ease, padding 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.modal-content.maximized .terminal {
+    height: 100%;
+    flex-grow: 1;
+    padding: 12px;
+}
+</style>
 {% endblock %}
 
-
-{#    <div id="scriptModal" class="modal">#}
 {% block content %}
-    {{ block.super }}
-    <div id="scriptModal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <h4>Select Script Type</h4>
-            <form id="runScriptForm">
-                <label><input type="radio" name="script_type" value="1" checked> Type 1 (FFmpeg)</label><br>
-                <label><input type="radio" name="script_type" value="2"> Type 2 (OpenCV)</label><br><br>
+{{ block.super }}
 
-                <label>Detection Size:</label>
-                <select name="det_set">
-                    <option value="auto" selected>auto</option>
-                    <option value="320,320">320×320</option>
-                    <option value="480,480">480×480</option>
-                    <option value="640,640">640×640</option>
-                    <option value="800,800">800×800</option>
-                    <option value="1024,1024">1024×1024</option>
-                    <option value="1280,1280">1280×1280</option>
-                    <option value="1600,1600">1600×1600</option>
-                    <option value="1920,1920">1920×1920</option>
-                    <option value="2048,2048">2048×2048</option>
-                </select><br><br>
+<div id="scriptModal" class="modal">
+    <div class="modal-content" id="modalContent">
+        <div class="modal-header">
+            <h3>🎯 Capture Face Embeddings (FFmpeg / OpenCV)</h3>
+            <div class="header-buttons">
+                <button class="control-button" id="maximizeButton" onclick="toggleModalSize()">🗖</button>
+                <button class="control-button" onclick="closeScriptModal()">×</button>
+            </div>
+        </div>
 
-                <label>Max Frames (1–100):</label>
-                <input type="number" name="max_frames" value="100" min="1" max="100"><br><br>
+        <form id="runScriptForm">
+            <div class="form-row">
+                <label><input type="radio" name="script_type" value="1" checked> FFmpeg</label>
+                <label><input type="radio" name="script_type" value="2"> OpenCV</label>
 
-                <label>Min Confidence (0.1–1):</label>
-                <input type="number" name="min_conf" value="0.95" min="0.1" max="1" step="0.01"><br><br>
+                <label>Detection Size:
+                    <select name="det_set">
+                        <option value="auto">auto</option>
+                        <option value="320,320">320×320</option>
+                        <option value="480,480">480×480</option>
+                        <option value="640,640">640×640</option>
+                        <option value="800,800">800×800</option>
+                        <option value="1024,1024">1024×1024</option>
+                        <option value="1280,1280">1280×1280</option>
+                        <option value="1600,1600">1600×1600</option>
+                        <option value="1920,1920">1920×1920</option>
+                        <option value="2048,2048" selected>2048×2048</option>
+                    </select>
+                </label>
 
-                <button type="submit">Run</button>
-                <button type="button" onclick="closeScriptModal()">Cancel</button>
-            </form>
+                <label>Max Frames:
+                    <input type="number" name="max_frames" value="100" min="1" max="100">
+                </label>
 
+                <label>Min Confidence:
+                    <input type="number" name="min_conf" value="0.95" min="0.1" max="1" step="0.01">
+                </label>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">▶ Run</button>
+                <button type="button" onclick="closeScriptModal()">✖ Cancel</button>
+            </div>
+        </form>
+
+        <hr style="margin: 20px 0;">
+
+        <div id="scriptOutput" class="terminal">
+            <strong>Output:</strong><br>
+            <em>(Live script output will appear here)</em>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block extrahead %}
-    {{ block.super }}
-    <script>
-        let selectedFaceImageId = null;
+{{ block.super }}
+<script>
+let selectedFaceImageId = null;
+let isMaximized = false;
 
-        function openScriptModal(button) {
-            selectedFaceImageId = button.getAttribute('data-id');
-            document.getElementById('scriptModal').style.display = 'flex';
-        }
+function openScriptModal(button) {
+    selectedFaceImageId = button.getAttribute('data-id');
+    document.getElementById('scriptModal').style.display = 'flex';
+    document.getElementById('scriptOutput').innerHTML = '<strong>Output:</strong><br><em>(Live script output will appear here)</em>';
+    isMaximized = false;
+    document.getElementById('modalContent').classList.remove('maximized');
+    document.getElementById('maximizeButton').textContent = '🗖';
+}
 
-        function closeScriptModal() {
-            document.getElementById('scriptModal').style.display = 'none';
-        }
+function closeScriptModal() {
+    document.getElementById('scriptModal').style.display = 'none';
+}
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const form = document.getElementById("runScriptForm");
+function toggleModalSize() {
+    const modal = document.getElementById('modalContent');
+    isMaximized = !isMaximized;
+    modal.classList.toggle('maximized');
+    document.getElementById('maximizeButton').textContent = isMaximized ? '🗗' : '🗖';
+}
 
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("runScriptForm");
 
-                const selectedType = form.script_type.value;
-                const detSet = form.det_set.value;
-                const maxFrames = form.max_frames.value;
-                const minConf = form.min_conf.value;
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-                const params = new URLSearchParams({
-                    type: selectedType,
-                    det_set: detSet,
-                    max_frames: maxFrames,
-                    min_conf: minConf
-                });
+        const selectedType = form.script_type.value;
+        const detSet = form.det_set.value;
+        const maxFrames = form.max_frames.value;
+        const minConf = form.min_conf.value;
 
-                fetch(`/admin/attendance/faceimage/run-script/${selectedFaceImageId}/?${params.toString()}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        alert("Script executed successfully!");
-                        closeScriptModal();
-                    })
-                    .catch(error => {
-                        alert("Script failed: " + error);
-                        closeScriptModal();
-                    });
-            });
+        const params = new URLSearchParams({
+            type: selectedType,
+            det_set: detSet,
+            max_frames: maxFrames,
+            min_conf: minConf
         });
-    </script>
+
+        const outputDiv = document.getElementById('scriptOutput');
+        outputDiv.innerHTML = "<strong>Output:</strong><br>Running script...<br><br>";
+
+        fetch(`/admin/attendance/faceimage/run-script/${selectedFaceImageId}/?${params.toString()}`)
+            .then(response => {
+                if (!response.body || !window.TextDecoder) {
+                    return response.json().then(data => {
+                        outputDiv.innerHTML += "<br>✅ Script completed.";
+                    });
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                function readChunk() {
+                    reader.read().then(({ done, value }) => {
+                        if (done) {
+                            outputDiv.innerHTML += "<br><span style='color:lightgreen;'>✅ Script finished successfully.</span>";
+                            outputDiv.scrollTop = outputDiv.scrollHeight;
+                            return;
+                        }
+
+                        const chunk = decoder.decode(value);
+                        outputDiv.innerHTML += chunk.replace(/\n/g, "<br>");
+                        outputDiv.scrollTop = outputDiv.scrollHeight;
+                        readChunk();
+                    });
+                }
+
+                readChunk();
+            })
+            .catch(error => {
+                outputDiv.innerHTML += "<br><span style='color:red;'>❌ Error:</span> " + error;
+            });
+    });
+});
+</script>
 {% endblock %}
-
-
-
-{#{% block extrahead %}#}
-{#    {{ block.super }}#}
-{#    <script>#}
-{#        let selectedFaceImageId = null;#}
-{##}
-{#        function openScriptModal(button) {#}
-{#            selectedFaceImageId = button.getAttribute('data-id');#}
-{#            const modal = document.getElementById('scriptModal');#}
-{#            modal.style.display = 'flex';#}
-{#        }#}
-{##}
-{#        function closeScriptModal() {#}
-{#            const modal = document.getElementById('scriptModal');#}
-{#            modal.style.display = 'none';#}
-{#        }#}
-{##}
-{#        document.addEventListener("DOMContentLoaded", function () {#}
-{#            document.getElementById("runScriptForm").addEventListener("submit", function (e) {#}
-{#                e.preventDefault();#}
-{#                const selectedType = document.querySelector('input[name="script_type"]:checked').value;#}
-{##}
-{#                fetch(`/admin/attendance/faceimage/run-script/${selectedFaceImageId}/?type=${selectedType}`)#}
-{#                    .then(response => response.json())#}
-{#                    .then(data => {#}
-{#                        alert("Script executed successfully!");#}
-{#                        closeScriptModal();#}
-{#                    })#}
-{#                    .catch(error => {#}
-{#                        alert("Script failed: " + error);#}
-{#                        closeScriptModal();#}
-{#                    });#}
-{#            });#}
-{#        });#}
-{#    </script>#}
-{#{% endblock %}#}
-
-
-
-
-
-
-
-
-
-{#{% extends "admin/change_list.html" %}#}
-{#{% load static %}#}
-{##}
-{#{% block extrahead %}#}
-{#    {{ block.super }}#}
-{#    <style>#}
-{#        .modal {#}
-{#            position: fixed;#}
-{#            top: 0;#}
-{#            left: 0;#}
-{#            width: 100%;#}
-{#            height: 100%;#}
-{#            background-color: rgba(0, 0, 0, 0.5);#}
-{#            display: flex;#}
-{#            justify-content: center;#}
-{#            align-items: center;#}
-{#            z-index: 1000;#}
-{#        }#}
-{##}
-{#        .modal-content {#}
-{#            background-color: white;#}
-{#            padding: 20px;#}
-{#            border-radius: 5px;#}
-{#            width: 300px;#}
-{#        }#}
-{#    </style>#}
-{#{% endblock %}#}
-{##}
-{#{% block content %}#}
-{#    {{ block.super }}#}
-{##}
-{#    <div id="scriptModal" class="modal" style="display:none;">#}
-{#        <div class="modal-content">#}
-{#            <h4>Select Script Type</h4>#}
-{#            <form id="runScriptForm">#}
-{#                <input type="radio" name="script_type" value="1" checked> Type 1 (FFmpeg)<br>#}
-{#                <input type="radio" name="script_type" value="2"> Type 2 (OpenCV)#}
-{#                <br><br>#}
-{#                <button type="submit">Run</button>#}
-{#                <button type="button" onclick="closeScriptModal()">Cancel</button>#}
-{#            </form>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#    <script>#}
-{#        function openScriptModal(button) {#}
-{#            window.selectedFaceImageId = button.getAttribute('data-id');#}
-{#            document.getElementById('scriptModal').style.display = 'flex';#}
-{#        }#}
-{##}
-{#        function closeScriptModal() {#}
-{#            document.getElementById('scriptModal').style.display = 'none';#}
-{#        }#}
-{##}
-{#        document.addEventListener('DOMContentLoaded', function () {#}
-{#            document.getElementById('runScriptForm').addEventListener('submit', function (e) {#}
-{#                e.preventDefault();#}
-{##}
-{#                const selectedType = document.querySelector('input[name="script_type"]:checked').value;#}
-{##}
-{#                fetch(`/admin/attendance/faceimage/run-script/${window.selectedFaceImageId}/?type=${selectedType}`)#}
-{#                    .then(response => response.json())#}
-{#                    .then(data => {#}
-{#                        alert('Script executed successfully!');#}
-{#                        closeScriptModal();#}
-{#                    })#}
-{#                    .catch(error => {#}
-{#                        alert('Failed to run the script.');#}
-{#                        closeScriptModal();#}
-{#                    });#}
-{#            });#}
-{#        });#}
-{#    </script>#}
-{#{% endblock %}#}
-{##}
-
-
-
-
-
-
-
-
-{#{% extends 'admin/change_list.html' %}#}
-{#{% block content %}#}
-{#    <style>#}
-{#        .modal {#}
-{#            position: fixed;#}
-{#            top: 0;#}
-{#            left: 0;#}
-{#            width: 100%;#}
-{#            height: 100%;#}
-{#            background-color: rgba(0, 0, 0, 0.5);#}
-{#            display: flex;#}
-{#            justify-content: center;#}
-{#            align-items: center;#}
-{#        }#}
-{##}
-{#        .modal-content {#}
-{#            background-color: white;#}
-{#            padding: 20px;#}
-{#            border-radius: 5px;#}
-{#            width: 300px;#}
-{#        }#}
-{##}
-{#        button {#}
-{#            padding: 10px;#}
-{#            margin: 5px;#}
-{#            border: none;#}
-{#            background-color: #007bff;#}
-{#            color: white;#}
-{#            cursor: pointer;#}
-{#        }#}
-{#    </style>#}
-{##}
-{#    <div id="scriptModal" class="modal" style="display:none;">#}
-{#        <div class="modal-content">#}
-{#            <h4>Select Script Type</h4>#}
-{#            <form id="runScriptForm">#}
-{#                <input type="radio" name="script_type" value="1" checked> Type 1 (FFmpeg)#}
-{#                <input type="radio" name="script_type" value="2"> Type 2 (OpenCV)#}
-{#                <br><br>#}
-{#                <button type="submit">Run</button>#}
-{#                <button type="button" onclick="closeScriptModal()">Cancel</button>#}
-{#            </form>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#    {{ block.super }}#}
-{##}
-{#    <script>#}
-{#        function openScriptModal(button) {#}
-{#            var faceImageId = button.getAttribute('data-id');#}
-{#            document.getElementById('scriptModal').style.display = 'block';#}
-{#            #}
-{#            // Store the faceImageId globally#}
-{#            window.selectedFaceImageId = faceImageId;#}
-{#        }#}
-{##}
-{#        function closeScriptModal() {#}
-{#            document.getElementById('scriptModal').style.display = 'none';#}
-{#        }#}
-{##}
-{#        document.getElementById('runScriptForm').onsubmit = function(e) {#}
-{#            e.preventDefault();#}
-{##}
-{#            var selectedType = document.querySelector('input[name="script_type"]:checked').value;#}
-{#            #}
-{#            // Perform an AJAX request to run the script#}
-{#            fetch(`/admin/attendance/faceimage/run-script/${window.selectedFaceImageId}/?type=${selectedType}`)#}
-{#                .then(response => response.json())#}
-{#                .then(data => {#}
-{#                    alert('Script executed successfully!');#}
-{#                    closeScriptModal();#}
-{#                })#}
-{#                .catch(error => {#}
-{#                    alert('Failed to run the script!');#}
-{#                    closeScriptModal();#}
-{#                });#}
-{#        }#}
-{#    </script>#}
-{#{% endblock %}#}
