@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Manager</title>
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'file_manager/explorer.js' %}"></script>
+    {% load django_browser_reload %}
+    {% django_browser_reload_script %}
+</head>
+<body class="bg-zinc-900 text-gray-100 font-sans p-5">
+<div class="max-w-screen-xl mx-auto">
+    <div id="breadcrumb" class="text-sm mb-3 text-gray-400"></div>
+
+    <div class="mb-4 flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex items-center gap-4 flex-wrap">
+            <button id="refreshBtn" class="bg-zinc-800 border border-zinc-700 px-3 py-1 rounded text-sm hover:bg-zinc-700">🔄 Refresh</button>
+
+            <label class="text-sm text-gray-400">Show
+                <select id="limitSelect" class="ml-1 bg-zinc-800 border border-zinc-700 text-sm px-2 py-1 rounded">
+                    <option value="50" selected>50</option>
+                    <option value="100">100</option>
+                    <option value="150">150</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                    <option value="400">400</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                    <option value="all">All</option>
+                </select>
+            </label>
+
+            <label class="text-sm text-gray-400">View:
+                <select id="viewToggle" class="ml-1 bg-zinc-800 border border-zinc-700 text-sm px-2 py-1 rounded">
+                    <option value="grid" selected>Grid</option>
+                    <option value="list">List</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="actionToolbar" class="hidden flex-wrap gap-2">
+            <button id="renameBtn" class="bg-zinc-800 border border-zinc-700 px-3 py-1 rounded text-sm">✏️ Rename</button>
+            <button id="deleteBtn" class="bg-zinc-800 border border-zinc-700 px-3 py-1 rounded text-sm">🗑 Delete</button>
+            <button id="moveBtn" class="bg-zinc-800 border border-zinc-700 px-3 py-1 rounded text-sm">📁 Move</button>
+            <button id="copyBtn" class="bg-zinc-800 border border-zinc-700 px-3 py-1 rounded text-sm">📄 Copy</button>
+            <button id="favoriteBtn" class="bg-zinc-800 border border-zinc-700 px-3 py-1 rounded text-sm">⭐ Favorite</button>
+        </div>
+    </div>
+
+    <div class="flex gap-4">
+        <div id="folderContents" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 w-full">
+            🔍 Loading files...
+        </div>
+
+        <div id="infoPanel" class="w-[280px] bg-zinc-900 border border-zinc-700 rounded-lg p-4 text-sm text-gray-200 overflow-y-auto max-h-[90vh]">
+            <h3 class="text-base font-semibold mb-2">ℹ️ Info</h3>
+            <hr class="my-2 border-zinc-600">
+            <div id="infoDetails" class="space-y-1 text-sm text-gray-300">
+                Click a file or folder
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

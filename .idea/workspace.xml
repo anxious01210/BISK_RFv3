@@ -5,11 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/file_manager/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer_Tailwind.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/style_NoTailwind.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/templates/file_manager/explorer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/templates/file_manager/explorer_Tailwind.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_manager/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_manager/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_manager/static/media_manager/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_manager/static/media_manager/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_manager/templates/media_manager/browser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_manager/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media_manager/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/templates/admin/attendance/faceimage/change_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/templates/admin/attendance/faceimage/change_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H123456.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H123456.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/face_embeddings.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/media/face_embeddings.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BISK_RFv3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BISK_RFv3/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/debug_crop.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +36,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -68,7 +84,8 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/rio/PycharmProjects/BISK_RFv3/dashboard/templates/dashboard&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rio/PycharmProjects/BISK_RFv3/file_manager/static/file_manager&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -85,11 +102,14 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/file_manager/static/file_manager" />
+      <recent name="$PROJECT_DIR$/file_manager/templates/file_manager" />
+      <recent name="$PROJECT_DIR$/media_manager/templates" />
       <recent name="$PROJECT_DIR$/dashboard/templates/dashboard" />
       <recent name="$PROJECT_DIR$/dashboard" />
-      <recent name="$PROJECT_DIR$/extras" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/theme/static/theme" />
       <recent name="$PROJECT_DIR$/attendance/templates/admin" />
       <recent name="$PROJECT_DIR$/templates/admin/attendance" />
     </key>
@@ -180,7 +200,9 @@
       <workItem from="1746973877052" duration="2699000" />
       <workItem from="1746984352053" duration="11804000" />
       <workItem from="1747068075914" duration="703000" />
-      <workItem from="1747149158311" duration="22737000" />
+      <workItem from="1747149158311" duration="24766000" />
+      <workItem from="1747321339403" duration="49291000" />
+      <workItem from="1747419395894" duration="18778000" />
     </task>
     <servers />
   </component>

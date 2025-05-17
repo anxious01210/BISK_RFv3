@@ -18,19 +18,23 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from filebrowser.sites import site as filebrowser_site
 urlpatterns = [
+    path('admin/filebrowser/', filebrowser_site.urls),
     path('admin/', admin.site.urls),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
+    path('media-manager/', include('media_manager.urls', namespace='media_manager')),
+    path('file-manager/', include('file_manager.urls', namespace='file_manager')),
+    path("__reload__/", include("django_browser_reload.urls")),
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-#Modify Site Header
+# Modify Site Header
 admin.site.site_header = 'BISK Admin Panel'
-#Modify Site Title
+# Modify Site Title
 admin.site.site_title = "BISK site admin "
-#Modify Site Index Title
+# Modify Site Index Title
 admin.site.index_title = "BISK Portal"

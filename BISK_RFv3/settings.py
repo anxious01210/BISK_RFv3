@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os.path
 # # Make Django use localtime when rendering datetimes in templates (including admin)
 # from django.utils.timezone import activate
 # import pytz
@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'filebrowser',  # Add this BEFORE admin if using default admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +50,16 @@ INSTALLED_APPS = [
     'face_inspector',
     'django_extensions',
     'dashboard',
+    'media_manager',
+    'file_manager',
+    # Tailwind
+    'tailwind',
+    'theme',  # this is your Tailwind app you’ll create
+    'django_browser_reload',  # optional for live reload
 ]
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = ["127.0.0.1"]  # required for live reload
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +70,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'django.middleware.timezone.TimeZoneMiddleware',
-
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'BISK_RFv3.urls'
@@ -145,6 +155,14 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = [
+    # BASE_DIR / "staticfiles",
+    # os.path.join(BASE_DIR, "static"),
+    # BASE_DIR / 'static',
+#     # "/var/www/static/",
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -187,3 +205,23 @@ LOG_ATTENDANCE_UPDATED = True
 LOG_MATCHES = True
 LOG_MATCH_THRESHOLD = True
 LOG_CROPPED_DEBUG = True
+
+
+# media_manager
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
+
+
+# file_manager (Toggle for calculating folder sizes recursively)
+RECURSIVE_FOLDER_SIZE = True
+
+
+# Optional:
+FILEBROWSER_EXTENSIONS = {
+    'Folder': [''],
+    'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff'],
+    'Document': ['.pdf', '.doc', '.rtf', '.txt'],
+    'Video': ['.mov', '.wmv', '.mpeg', '.mpg', '.avi'],
+    'Audio': ['.mp3', '.mp4', '.wav', '.aiff', '.midi'],
+}
+
+FILEBROWSER_DIRECTORY = ''  # Refers to MEDIA_ROOT/

@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Media Manager</title>
+    <link rel="stylesheet" href="{% static 'media_manager/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'media_manager/script.js' %}"></script>
+</head>
+<body>
+<div class="container">
+    <h2>🗂️ Path: /media/{{ current_path }}</h2>
+
+    {% if request.GET.moved %}
+        <div class="alert success">
+            📁 Moved {{ request.GET.moved }} file(s) to /media/{{ request.GET.dest }}
+        </div>
+    {% endif %}
+
+    {% if current_path %}
+        <a href="?path={{ parent_path }}">⬅️ Go Up</a>
+    {% endif %}
+
+    <div class="folder-grid">
+        {% for d in dirs %}
+            <div class="folder-item">
+                <a href="?path={{ d.path }}">
+                    📁 {{ d.name }}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'media_manager:upload_files' %}">
+        {% csrf_token %}
+        <div id="dropzone" class="dropzone">
+            📂 Drag and drop files here, or click to select
+            <br>
+            <input type="file" name="files" multiple style="margin-top:10px;" onclick="event.stopPropagation();">
+            <input type="hidden" name="target_path" value="{{ current_path }}">
+            <br><br>
+            <button type="submit">📤 Upload</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <div class="file-grid">
+        <form id="actionForm" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="target_path" value="{{ current_path }}">
+            <input type="hidden" id="selectedFilesInput" name="selected_files">
+            <div style="margin: 10px 0;">
+                <button formaction="{% url 'media_manager:delete_files' %}" formmethod="post">🗑 Delete Selected</button>
+                <button formaction="{% url 'media_manager:download_files' %}" formmethod="post">📦 Download as ZIP</button>
+                <button type="button" onclick="openMoveModal()">📁 Move Selected</button>
+            </div>
+        </form>
+
+        {% for f in files %}
+            <div class="file-item">
+                <input type="checkbox" class="file-select" value="{{ f.path }}">
+                {% if f.is_image %}
+{#                    <img src="{{ MEDIA_URL }}{{ f.path }}" alt="{{ f.name }}" class="thumbnail">#}
+                    <img src="{{ MEDIA_URL }}{{ f.path|urlencode }}" alt="{{ f.name }}" class="thumbnail">
+                {% else %}
+                    📄 {{ f.name }}
+                {% endif %}
+                <div class="file-name">{{ f.name }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Move Modal -->
+    <div id="moveModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeMoveModal()">&times;</span>
+            <h3>📁 Move Files</h3>
+            <form method="post" action="{% url 'media_manager:move_files' %}" onsubmit="return validateMoveForm()">
+                {% csrf_token %}
+                <input type="hidden" name="selected_files" id="moveSelectedInput">
+                <input type="hidden" name="target_path" value="{{ current_path }}">
+                <input type="hidden" name="destination" id="destinationInput">
+
+                <label>Select Destination Folder:</label>
+                <div id="folderList" class="folder-list">
+                    🔄 Loading folders...
+                </div>
+
+                <br>
+                <button type="submit">Move</button>
+                <button type="button" onclick="closeMoveModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

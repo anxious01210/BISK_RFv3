@@ -1,0 +1,114 @@
+{% load static %}
+{% load django_browser_reload %}
+{% django_browser_reload_script %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File Manager</title>
+    <link rel="stylesheet" href="{% static 'file_manager/style.css' %}">
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'file_manager/explorer.js' %}"></script>
+    <!-- Use latest Font Awesome 6.5.1 from jsDelivr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">#}
+
+</head>
+
+
+<body>
+<div class="file-manager-container">
+    <div id="breadcrumb"></div>
+
+    <div class="toolbar">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div>
+                <button id="refreshBtn" class="action-button">🔄 Refresh</button>
+
+
+                <!-- Upload Files -->
+                <label id="uploadLabel" class="button" style="cursor: pointer;">
+                    ⬆️ Upload Files
+                    <input type="file" id="uploadInput" multiple style="display: none;">
+                </label>
+
+                <!-- Upload Folder -->
+                <label id="folderUploadLabel" class="button" style="cursor: pointer;">
+                    📁 Upload Folder
+{#                    <input type="file" id="folderUploadInput" webkitdirectory style="display: none;">#}
+                    <input type="file" id="folderUploadInput" webkitdirectory multiple style="display: none;">
+                </label>
+
+
+
+                <label for="limitSelect" style="font-size: 13px; color: #aaa;">Show</label>
+                <select id="limitSelect">
+                    <option value="50" selected>50</option>
+                    <option value="100">100</option>
+                    <option value="150">150</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                    <option value="400">400</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                    <option value="all">All</option>
+                </select>
+
+                <label style="font-size: 13px; color: #aaa;">
+                    View:
+                    <select id="viewToggle">
+                        <option value="grid" selected>Grid</option>
+                        <option value="list">List</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="actionToolbar" style="display: none; gap: 8px; flex-wrap: wrap;">
+                <button id="renameBtn">✏️ Rename</button>
+                <button id="deleteBtn">🗑 Delete</button>
+                <button id="moveBtn">📁 Move</button>
+                <button id="copyBtn">📄 Copy</button>
+                <button id="favoriteBtn">⭐ Favorite</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="folderContents" class="grid-view">
+            🔍 Loading files...
+        </div>
+        <div id="infoPanel">
+            <h3>ℹ️ Info</h3>
+            <hr style="margin: 8px 0; border: 1px solid #444;">
+            <div id="infoDetails">Click a file or folder</div>
+        </div>
+    </div>
+
+{#    <input type="file" id="debugFolder" webkitdirectory multiple>#}
+{#    <script>#}
+{#        document.getElementById('debugFolder').addEventListener('change', function () {#}
+{#            console.log("🧪 FOLDER PICKED");#}
+{#            console.log("files.length =", this.files.length);#}
+{#            if (this.files.length > 0) {#}
+{#                console.log("Sample:", this.files[0]);#}
+{#                console.log("webkitRelativePath:", this.files[0].webkitRelativePath);#}
+{#            }#}
+{#        });#}
+{#    </script>#}
+
+    <div id="uploadModeModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>Select Upload Mode</h3>
+            <p>How should we handle folder upload?</p>
+            <button id="uploadFlat" class="upload-option">📂 Upload files only (flat)</button>
+            <button id="uploadPreserve" class="upload-option">📁 Preserve folder structure</button>
+            <button onclick="document.getElementById('uploadModeModal').style.display='none'" style="margin-top: 10px;">Cancel</button>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

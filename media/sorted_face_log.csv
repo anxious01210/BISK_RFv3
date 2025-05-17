@@ -1,0 +1,1344 @@
+filename,face_w,face_h,score,sharpness,recommended_det_set,hint
+H230231.JPG,-,-,-,174.24,bad,no face detected
+H180043.JPG,-,-,-,54.02,bad,no face detected
+H220231.JPG,-,-,-,159.5,bad,no face detected
+H160080.JPG,-,-,-,266.47,bad,no face detected
+H160101.JPG,-,-,-,178.62,bad,no face detected
+H230014_01_01.JPG,678,830,0.804,42.48,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H220023.JPG,-,-,-,185.8,bad,no face detected
+H230224_2.jpg,-,-,-,64.52,bad,no face detected
+H210039.JPG,-,-,-,35.48,bad,no face detected
+H200043.JPG,-,-,-,65.54,bad,no face detected
+Nergz.png,-,-,-,136.54,bad,no face detected
+H190079.JPG,-,-,-,213.71,bad,no face detected
+H250052.JPG,-,-,-,199.99,bad,no face detected
+H180026_01_01.JPG,681,842,0.782,17.96,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230015.JPG,-,-,-,118.47,bad,no face detected
+H210021_01_01.JPG,701,936,0.631,23.99,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; image blurry; stabilize camera
+H220209_01_01.JPG,647,775,0.811,58.3,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+BISK264.png,-,-,-,15.27,bad,no face detected
+H190075.JPG,-,-,-,64.5,bad,no face detected
+H210038.JPG,-,-,-,72.54,bad,no face detected
+H250074_01_01.JPG,-,-,-,19.57,bad,no face detected
+H130471_01_01.JPG,-,-,-,49.11,bad,no face detected
+H220197.JPG,-,-,-,77.46,bad,no face detected
+H210182_01_01.JPG,-,-,-,18.9,bad,no face detected
+H220041.JPG,-,-,-,175.3,bad,no face detected
+H220215.JPG,-,-,-,73.36,bad,no face detected
+H250013000001_01_01.JPG,-,-,-,86.0,bad,no face detected
+BISK401.png,-,-,-,53.11,bad,no face detected
+H210007_01_01.JPG,693,882,0.736,23.23,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H220124_01_01.JPG,-,-,-,61.98,bad,no face detected
+H250036.JPG,-,-,-,163.37,bad,no face detected
+H250104.jpg,-,-,-,56.33,bad,no face detected
+H18004500000_01_01.JPG,-,-,-,26.72,bad,no face detected
+H140209.JPG,-,-,-,152.37,bad,no face detected
+H220196_01_01.JPG,718,910,0.649,28.82,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250026_01_01.JPG,555,737,0.814,20.65,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230175_01_01.JPG,-,-,-,41.17,bad,no face detected
+H160101_01_01.JPG,720,912,0.588,53.91,2048x2048,very low detection score; improve lighting; slightly soft image; avoid motion blur
+H190071.JPG,-,-,-,730.99,bad,no face detected
+H180077_01_01.JPG,-,-,-,7.59,bad,no face detected
+H210220_01_01.JPG,706,962,0.534,27.09,2048x2048,very low detection score; improve lighting; non-frontal or tilted face; image blurry; stabilize camera
+H130292_01_01.JPG,-,-,-,32.66,bad,no face detected
+H250113_01_01.JPG,651,869,0.794,32.05,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H230062.JPG,-,-,-,47.95,bad,no face detected
+H150057.JPG,-,-,-,137.25,bad,no face detected
+BISK230.png,-,-,-,66.18,bad,no face detected
+H250092_01_01.JPG,668,946,0.706,32.8,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; image blurry; stabilize camera
+H220086.JPG,-,-,-,38.28,bad,no face detected
+H130247_01_01.JPG,643,752,0.804,9.37,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210149_01_01.JPG,743,854,0.688,77.28,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H220162.JPG,-,-,-,104.77,bad,no face detected
+H180064_01_01.JPG,606,759,0.852,36.99,2048x2048,good quality; image blurry; stabilize camera
+H250034_01_01.JPG,-,-,-,6.68,bad,no face detected
+H180079.JPG,-,-,-,59.66,bad,no face detected
+H220197_01_01.JPG,-,-,-,28.89,bad,no face detected
+H210253.JPG,-,-,-,114.57,bad,no face detected
+H20004300000_01_01.JPG,-,-,-,27.59,bad,no face detected
+H230150_01_01.JPG,-,-,-,30.64,bad,no face detected
+BISK-F16.png,583,799,0.845,70.65,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; slightly soft image; avoid motion blur
+H230185.JPG,-,-,-,89.83,bad,no face detected
+H190005.JPG,-,-,-,387.73,bad,no face detected
+H230149.JPG,-,-,-,164.48,bad,no face detected
+H210145_01_01.JPG,683,829,0.812,23.13,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H140119.JPG,-,-,-,132.8,bad,no face detected
+H170130.JPG,-,-,-,81.33,bad,no face detected
+BISK202.png,-,-,-,92.02,bad,no face detected
+H200051_01_01.JPG,-,-,-,36.98,bad,no face detected
+H290058_01_01.JPG,660,822,0.804,33.29,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H130185.JPG,-,-,-,319.57,bad,no face detected
+H220308_01_01.JPG,-,-,-,39.4,bad,no face detected
+H230063.JPG,-,-,-,358.78,bad,no face detected
+H220268_01_01.JPG,664,850,0.815,95.21,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H230152.JPG,-,-,-,194.26,bad,no face detected
+H210009.JPG,-,-,-,153.69,bad,no face detected
+H180017.JPG,-,-,-,14.32,bad,no face detected
+H210087.JPG,-,-,-,149.06,bad,no face detected
+H210221.JPG,-,-,-,226.99,bad,no face detected
+H230224.jpg,-,-,-,260.02,bad,no face detected
+H230016.JPG,-,-,-,43.77,bad,no face detected
+H250096_01_01.JPG,-,-,-,55.86,bad,no face detected
+BISK434.JPG,-,-,-,67.05,bad,no face detected
+BISK413.png,-,-,-,48.69,bad,no face detected
+H170045.JPG,-,-,-,217.59,bad,no face detected
+H210238.JPG,-,-,-,165.74,bad,no face detected
+BISK367.png,-,-,-,2.04,bad,no face detected
+H220106.JPG,-,-,-,193.4,bad,no face detected
+H210215.JPG,-,-,-,200.48,bad,no face detected
+H210268.JPG,-,-,-,151.86,bad,no face detected
+BISK279.png,-,-,-,187.43,bad,no face detected
+H170088_01_01.JPG,620,862,0.847,28.0,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+BISK321.png,-,-,-,149.41,bad,no face detected
+H250081_01_01.JPG,580,673,0.851,36.64,1024x1024,good quality; image blurry; stabilize camera
+H220023_01_01.JPG,-,-,-,35.84,bad,no face detected
+H230121.JPG,-,-,-,65.61,bad,no face detected
+H250005.JPG,-,-,-,105.02,bad,no face detected
+H220309.JPG,-,-,-,749.7,bad,no face detected
+BISK343.png,-,-,-,884.38,bad,no face detected
+H160080_01_01.JPG,-,-,-,91.26,bad,no face detected
+H210067.JPG,-,-,-,142.58,bad,no face detected
+H250004.JPG,-,-,-,117.65,bad,no face detected
+H120025.JPG,-,-,-,307.67,bad,no face detected
+H210018.JPG,-,-,-,64.8,bad,no face detected
+H190043_01_01.JPG,-,-,-,20.37,bad,no face detected
+H230090.JPG,-,-,-,111.56,bad,no face detected
+H220036_01_01.JPG,-,-,-,12.64,bad,no face detected
+H22006700000_01_01.JPG,-,-,-,43.68,bad,no face detected
+H210039_01_01.JPG,-,-,-,15.05,bad,no face detected
+H130528.JPG,-,-,-,176.73,bad,no face detected
+H20007900000_01_01.JPG,-,-,-,51.38,bad,no face detected
+H130524.JPG,-,-,-,338.83,bad,no face detected
+H210113_01_01.JPG,639,928,0.753,28.69,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H200080.JPG,-,-,-,95.43,bad,no face detected
+H250085.JPG,-,-,-,316.19,bad,no face detected
+H250073.JPG,-,-,-,78.73,bad,no face detected
+H230099.JPG,-,-,-,237.47,bad,no face detected
+H220163_01_01.JPG,-,-,-,62.12,bad,no face detected
+H220004.JPG,-,-,-,34.94,bad,no face detected
+H230220.JPG,-,-,-,235.39,bad,no face detected
+H220262_01_01.JPG,-,-,-,28.13,bad,no face detected
+H210148.JPG,-,-,-,89.21,bad,no face detected
+H230204.JPG,-,-,-,132.16,bad,no face detected
+H210253_01_01.JPG,679,957,0.6,22.34,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; image blurry; stabilize camera
+H230076.JPG,-,-,-,105.03,bad,no face detected
+H25002000000_01_01.JPG,-,-,-,49.69,bad,no face detected
+H170089.JPG,-,-,-,50.49,bad,no face detected
+H220045.JPG,-,-,-,170.8,bad,no face detected
+BISK384.png,-,-,-,132.1,bad,no face detected
+H220066.JPG,-,-,-,53.4,bad,no face detected
+H23018100000_01_01.JPG,-,-,-,32.81,bad,no face detected
+H170090_01_01.JPG,-,-,-,69.78,bad,no face detected
+H210198_01_01.JPG,-,-,-,32.18,bad,no face detected
+BISK276.png,-,-,-,95.59,bad,no face detected
+H200025.JPG,-,-,-,212.64,bad,no face detected
+H210195_01_01.JPG,-,-,-,24.59,bad,no face detected
+H250107.jpg,-,-,-,103.01,bad,no face detected
+H250063.JPG,-,-,-,233.13,bad,no face detected
+H18014300000_01_01.JPG,-,-,-,32.97,bad,no face detected
+H220227.JPG,-,-,-,152.82,bad,no face detected
+H190009.JPG,-,-,-,224.18,bad,no face detected
+H25009000000_01_01.JPG,-,-,-,26.37,bad,no face detected
+H210243.JPG,-,-,-,23.97,bad,no face detected
+H180118.JPG,-,-,-,35.57,bad,no face detected
+BISK381.png,-,-,-,68.7,bad,no face detected
+H170004_01_01.JPG,680,771,0.773,63.78,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H210011.JPG,-,-,-,374.41,bad,no face detected
+H180035.JPG,-,-,-,596.83,bad,no face detected
+H220034.JPG,-,-,-,163.01,bad,no face detected
+H190060.JPG,-,-,-,56.07,bad,no face detected
+H220036.JPG,-,-,-,14.18,bad,no face detected
+H220162_01_01.JPG,709,924,0.648,37.54,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H23007800001_01_01.JPG,-,-,-,29.16,bad,no face detected
+H230059_01_01.JPG,-,-,-,8.86,bad,no face detected
+H210238_01_01.JPG,682,848,0.813,30.58,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H250051_01_01.JPG,-,-,-,25.18,bad,no face detected
+H200123_01_01.JPG,-,-,-,49.37,bad,no face detected
+H180090.JPG,-,-,-,63.02,bad,no face detected
+BISK291.png,-,-,-,68.92,bad,no face detected
+H230107.JPG,-,-,-,141.87,bad,no face detected
+H25001700000_01_01.JPG,452,546,0.756,14.51,1024x1024,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+BISK372.png,-,-,-,129.73,bad,no face detected
+H230120_01_01.JPG,690,933,0.567,25.19,2048x2048,very low detection score; improve lighting; non-frontal or tilted face; image blurry; stabilize camera
+H230083.JPG,-,-,-,136.37,bad,no face detected
+H250107_01_01.jpg,-,-,-,40.21,bad,no face detected
+H180113_01_01.JPG,-,-,-,11.8,bad,no face detected
+H250025.JPG,-,-,-,40.49,bad,no face detected
+H250068.JPG,-,-,-,201.95,bad,no face detected
+H25007300001_01_01.JPG,-,-,-,27.01,bad,no face detected
+H123456_2.jpg,-,-,-,201.21,bad,no face detected
+H220065.JPG,-,-,-,63.61,bad,no face detected
+H220032.JPG,-,-,-,144.11,bad,no face detected
+BISK375.png,-,-,-,460.28,bad,no face detected
+H180072_01_01.JPG,-,-,-,25.09,bad,no face detected
+H210163.JPG,-,-,-,109.65,bad,no face detected
+H140188.JPG,-,-,-,209.4,bad,no face detected
+BISK271.png,-,-,-,36.82,bad,no face detected
+H180027_01_01.JPG,-,-,-,33.01,bad,no face detected
+BISK275.png,-,-,-,256.23,bad,no face detected
+H220231_01_01.JPG,707,883,0.676,33.78,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250060.JPG,-,-,-,73.69,bad,no face detected
+H230002.JPG,-,-,-,16.56,bad,no face detected
+H25002900004_01_01.JPG,-,-,-,50.6,bad,no face detected
+H220253_01_01.JPG,703,899,0.742,13.59,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H150010_01_01.JPG,-,-,-,58.28,bad,no face detected
+H220093.JPG,-,-,-,204.47,bad,no face detected
+BISK416.png,-,-,-,432.12,bad,no face detected
+H160059_01_01.JPG,-,-,-,73.2,bad,no face detected
+H220259.JPG,-,-,-,83.54,bad,no face detected
+H250103_01_01.JPG,-,-,-,23.29,bad,no face detected
+H19020300000_01_01.JPG,-,-,-,24.1,bad,no face detected
+BISK075.png,-,-,-,151.95,bad,no face detected
+H220063_01_01.JPG,671,834,0.754,34.88,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H200078_01_01.JPG,-,-,-,34.77,bad,no face detected
+H190080.JPG,-,-,-,328.5,bad,no face detected
+H21010700000_01_01.JPG,-,-,-,37.22,bad,no face detected
+H210149.JPG,-,-,-,350.48,bad,no face detected
+H230105_01_01.JPG,-,-,-,20.72,bad,no face detected
+BISK332.png,-,-,-,89.3,bad,no face detected
+H170007.jpg,-,-,-,51.26,bad,no face detected
+BISK397.png,-,-,-,4.59,bad,no face detected
+H140119_01_01.JPG,-,-,-,22.79,bad,no face detected
+H230078000001_01_01.JPG,-,-,-,124.38,bad,no face detected
+H210092.JPG,-,-,-,49.34,bad,no face detected
+H170006_01_01.JPG,-,-,-,29.72,bad,no face detected
+H210164.JPG,-,-,-,63.47,bad,no face detected
+H160048_01_01.JPG,-,-,-,27.46,bad,no face detected
+H210164_01_01.JPG,664,880,0.816,19.59,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H220078_01_01.JPG,-,-,-,34.9,bad,no face detected
+H250009.JPG,-,-,-,240.17,bad,no face detected
+H210168_01_01.JPG,-,-,-,78.13,bad,no face detected
+H220260_01_01.JPG,612,835,0.829,88.73,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; slightly soft image; avoid motion blur
+H17001700000_01_01.JPG,-,-,-,28.09,bad,no face detected
+H250025_01_01.JPG,-,-,-,17.83,bad,no face detected
+BISK410.png,-,-,-,461.7,bad,no face detected
+H220033_01_01.JPG,-,-,-,101.84,bad,no face detected
+H18011800000_01_01.JPG,-,-,-,21.47,bad,no face detected
+H200050_01_01.JPG,672,838,0.793,52.31,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H210221_01_01.JPG,-,-,-,53.7,bad,no face detected
+H230082_01_01.JPG,-,-,-,32.54,bad,no face detected
+H190080_01_01.JPG,-,-,-,67.67,bad,no face detected
+H25003500000_01_01.JPG,-,-,-,25.72,bad,no face detected
+BISK342.png,-,-,-,387.8,bad,no face detected
+H220153.JPG,-,-,-,299.77,bad,no face detected
+BISK247.png,-,-,-,87.48,bad,no face detected
+H250016_01_01.JPG,-,-,-,39.9,bad,no face detected
+BISK361.png,-,-,-,118.57,bad,no face detected
+H190100_01_01.JPG,660,885,0.725,81.97,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H123456_5.jpg,-,-,-,226.31,bad,no face detected
+BISK008.png,-,-,-,492.0,bad,no face detected
+BISK222.png,-,-,-,56.37,bad,no face detected
+BISK204.png,-,-,-,159.82,bad,no face detected
+H220149_01_01.JPG,-,-,-,88.86,bad,no face detected
+H250007.JPG,-,-,-,171.44,bad,no face detected
+H200040.JPG,-,-,-,81.56,bad,no face detected
+BISK033.png,-,-,-,169.11,bad,no face detected
+H230074.JPG,-,-,-,22.92,bad,no face detected
+H160068_01_01.JPG,653,851,0.803,35.71,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210196_01_01.JPG,590,796,0.877,13.48,2048x2048,good quality; non-frontal or tilted face; image blurry; stabilize camera
+H22022700000_01_01.JPG,613,785,0.854,41.04,2048x2048,good quality; image blurry; stabilize camera
+H170001_01_01.JPG,-,-,-,56.72,bad,no face detected
+H250095.JPG,-,-,-,105.01,bad,no face detected
+H170094.JPG,-,-,-,121.64,bad,no face detected
+H220041_01_01.JPG,-,-,-,38.2,bad,no face detected
+H25003000000_01_01.JPG,475,591,0.58,76.58,1024x1024,very low detection score; improve lighting; slightly soft image; avoid motion blur
+H160011_01_01.JPG,-,-,-,18.41,bad,no face detected
+H180143.JPG,-,-,-,56.76,bad,no face detected
+H250075_01_01.JPG,689,857,0.749,27.31,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230139_01_01.JPG,-,-,-,29.22,bad,no face detected
+H230148.JPG,-,-,-,15.55,bad,no face detected
+H180150_01_01.JPG,706,900,0.619,35.13,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230100.JPG,-,-,-,71.17,bad,no face detected
+H140071_01_01.JPG,-,-,-,29.99,bad,no face detected
+H220251_01_01.JPG,589,746,0.83,28.08,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H220263_01_01.JPG,-,-,-,47.78,bad,no face detected
+H250042_01_01.JPG,633,863,0.857,56.11,2048x2048,good quality; non-frontal or tilted face; slightly soft image; avoid motion blur
+H180050.jpg,-,-,-,122.8,bad,no face detected
+H19005100000_01_01.JPG,-,-,-,25.8,bad,no face detected
+H210063_01_01.JPG,717,934,0.616,17.27,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230205.JPG,-,-,-,178.23,bad,no face detected
+BISK434.png,-,-,-,123.45,bad,no face detected
+BISK394.png,-,-,-,146.12,bad,no face detected
+H120081.JPG,-,-,-,12.08,bad,no face detected
+H220217.JPG,-,-,-,452.52,bad,no face detected
+BISK246.png,-,-,-,65.15,bad,no face detected
+BISK297.png,-,-,-,181.51,bad,no face detected
+H210166.JPG,-,-,-,102.39,bad,no face detected
+H220277.JPG,-,-,-,17.36,bad,no face detected
+H230145.JPG,-,-,-,213.66,bad,no face detected
+H200079.JPG,-,-,-,81.51,bad,no face detected
+H220308.JPG,-,-,-,116.27,bad,no face detected
+H210226.JPG,-,-,-,10.68,bad,no face detected
+H230234.JPG,-,-,-,70.69,bad,no face detected
+H123456_4.jpg,-,-,-,148.24,bad,no face detected
+H220153_01_01.JPG,645,921,0.668,47.5,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; image blurry; stabilize camera
+H250100.JPG,-,-,-,104.79,bad,no face detected
+H200081.JPG,-,-,-,126.28,bad,no face detected
+BISK399.png,-,-,-,123.17,bad,no face detected
+H190196.JPG,-,-,-,93.19,bad,no face detected
+H180029_01_01.JPG,-,-,-,12.98,bad,no face detected
+H25001900000_01_01.JPG,-,-,-,31.46,bad,no face detected
+H170164_01_01.JPG,727,910,0.63,37.4,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H170090.JPG,-,-,-,284.6,bad,no face detected
+H230216.JPG,-,-,-,96.91,bad,no face detected
+H18007500000_01_01.JPG,-,-,-,19.36,bad,no face detected
+H230102_01_01.JPG,-,-,-,55.79,bad,no face detected
+H200015_01_01.jpg,-,-,-,76.49,bad,no face detected
+H230092.JPG,-,-,-,46.68,bad,no face detected
+H230016_01_01.JPG,696,875,0.689,15.27,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H19015600000_01_01.JPG,-,-,-,24.7,bad,no face detected
+H170164.JPG,-,-,-,95.12,bad,no face detected
+H230026.JPG,-,-,-,215.84,bad,no face detected
+H250097.JPG,-,-,-,263.27,bad,no face detected
+H160134.JPG,-,-,-,204.44,bad,no face detected
+H230226_01_01.jpg,472,610,0.85,22.24,1024x1024,good quality; image blurry; stabilize camera
+H230025.JPG,-,-,-,269.37,bad,no face detected
+H250013.JPG,-,-,-,55.6,bad,no face detected
+H170017.JPG,-,-,-,107.21,bad,no face detected
+H170025_01_01.JPG,-,-,-,19.45,bad,no face detected
+H150072.JPG,-,-,-,119.53,bad,no face detected
+H220063.JPG,-,-,-,168.74,bad,no face detected
+H230178.JPG,-,-,-,300.08,bad,no face detected
+H123456_7.jpg,-,-,-,189.32,bad,no face detected
+H220284_01_01.JPG,648,730,0.75,34.6,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210159.JPG,-,-,-,128.86,bad,no face detected
+H180044.JPG,-,-,-,191.89,bad,no face detected
+H230002_01_01.JPG,-,-,-,9.72,bad,no face detected
+H250051.JPG,-,-,-,128.77,bad,no face detected
+H180091.JPG,-,-,-,154.35,bad,no face detected
+H22004000000_01_01.JPG,-,-,-,23.89,bad,no face detected
+BISK429.png,-,-,-,89.22,bad,no face detected
+H210115_01_01.JPG,605,773,0.843,28.79,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H250036_01_01.JPG,646,900,0.795,35.33,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+BISK177.png,-,-,-,105.4,bad,no face detected
+H220014_01_01.JPG,-,-,-,74.62,bad,no face detected
+H230100_01_01.JPG,702,883,0.662,27.66,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250067.JPG,-,-,-,199.48,bad,no face detected
+H220164_01_01.JPG,579,805,0.871,160.21,2048x2048,good quality; non-frontal or tilted face; sharp image
+H230043.JPG,-,-,-,95.8,bad,no face detected
+H21014800000_01_01.JPG,-,-,-,36.93,bad,no face detected
+H230014.JPG,-,-,-,187.12,bad,no face detected
+H230063_01_01.JPG,483,545,0.621,82.47,1024x1024,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H190005_01_01.JPG,664,924,0.742,75.5,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H150080.JPG,-,-,-,144.62,bad,no face detected
+H230094_01_01.JPG,-,-,-,26.39,bad,no face detected
+H210126.JPG,-,-,-,135.53,bad,no face detected
+H150010.JPG,-,-,-,211.17,bad,no face detected
+H220103_01_01.JPG,731,860,0.705,23.99,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H220273_01_01.JPG,-,-,-,89.49,bad,no face detected
+H230179_01_01.JPG,-,-,-,115.3,bad,no face detected
+H250089_01_01.JPG,537,708,0.778,17.56,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230178_01_01.JPG,695,837,0.754,127.75,2048x2048,acceptable score; frontal & higher res helps; sharp image
+H210009_01_01.JPG,-,-,-,40.02,bad,no face detected
+BISK402.png,-,-,-,58.42,bad,no face detected
+H230138.JPG,-,-,-,178.71,bad,no face detected
+H200078.JPG,-,-,-,110.46,bad,no face detected
+BISK351.png,-,-,-,333.94,bad,no face detected
+H230008.JPG,-,-,-,128.36,bad,no face detected
+H230011.JPG,-,-,-,403.26,bad,no face detected
+H180051.jpg,-,-,-,17.46,bad,no face detected
+H21008800000_01_01.JPG,-,-,-,15.42,bad,no face detected
+H160059.JPG,-,-,-,216.28,bad,no face detected
+H220159.JPG,-,-,-,88.97,bad,no face detected
+H250019.JPG,-,-,-,91.22,bad,no face detected
+H220032_01_01.JPG,686,856,0.784,37.37,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230216_01_01.JPG,697,902,0.689,31.28,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230013.JPG,-,-,-,118.28,bad,no face detected
+H210117_01_01.JPG,-,-,-,50.38,bad,no face detected
+H210096.JPG,-,-,-,134.81,bad,no face detected
+H250103.JPG,-,-,-,90.5,bad,no face detected
+H230132.JPG,-,-,-,167.96,bad,no face detected
+H250048.JPG,-,-,-,406.24,bad,no face detected
+BISK368.png,-,-,-,218.62,bad,no face detected
+H180035_01_01.JPG,667,941,0.736,112.47,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; sharp image
+H200082.jpg,-,-,-,36.33,bad,no face detected
+H220011_01_01.JPG,719,961,0.588,37.61,2048x2048,very low detection score; improve lighting; non-frontal or tilted face; image blurry; stabilize camera
+H210262_01_01.JPG,692,857,0.78,94.46,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H220107.JPG,-,-,-,211.64,bad,no face detected
+H220106_01_01.JPG,600,813,0.855,33.25,2048x2048,good quality; non-frontal or tilted face; image blurry; stabilize camera
+H230020_01_01.JPG,-,-,-,40.94,bad,no face detected
+H190088_01_01.JPG,673,926,0.689,82.15,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H230101.JPG,-,-,-,94.53,bad,no face detected
+H130472.JPG,-,-,-,118.07,bad,no face detected
+BISK433.png,-,-,-,410.29,bad,no face detected
+BISK035.png,-,-,-,76.23,bad,no face detected
+H250094.JPG,-,-,-,231.79,bad,no face detected
+H200121.JPG,-,-,-,298.08,bad,no face detected
+BISK232.png,-,-,-,33.28,bad,no face detected
+H250043_01_01.JPG,-,-,-,25.22,bad,no face detected
+H250026.JPG,-,-,-,71.71,bad,no face detected
+H220159_01_01.JPG,-,-,-,30.98,bad,no face detected
+H170129_01_01.JPG,-,-,-,109.67,bad,no face detected
+H22018000000_01_01.JPG,-,-,-,36.16,bad,no face detected
+H210177.JPG,-,-,-,85.57,bad,no face detected
+H220226.JPG,-,-,-,49.38,bad,no face detected
+H230066.JPG,-,-,-,178.44,bad,no face detected
+H130377.JPG,-,-,-,261.71,bad,no face detected
+H180051_01_01.jpg,-,-,-,17.72,bad,no face detected
+H210182.JPG,-,-,-,37.15,bad,no face detected
+H220018_01_01.JPG,700,851,0.775,37.33,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210058_01_01.JPG,749,899,0.526,30.77,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H190138.JPG,-,-,-,126.16,bad,no face detected
+H200069_01_01.JPG,716,863,0.737,55.97,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H210085.JPG,-,-,-,149.7,bad,no face detected
+H230017.JPG,-,-,-,168.07,bad,no face detected
+H230151_01_01.JPG,-,-,-,43.78,bad,no face detected
+H250116_01_01.JPG,-,-,-,41.0,bad,no face detected
+H210199.JPG,-,-,-,259.87,bad,no face detected
+H230042.JPG,-,-,-,102.0,bad,no face detected
+BISK431.JPG,754,880,0.507,20.35,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H190052.JPG,-,-,-,66.18,bad,no face detected
+H230070.JPG,-,-,-,49.36,bad,no face detected
+H210198.JPG,-,-,-,80.8,bad,no face detected
+H230162.JPG,-,-,-,38.28,bad,no face detected
+H250116.JPG,-,-,-,101.84,bad,no face detected
+BISK433.JPG,-,-,-,167.65,bad,no face detected
+H200080_01_01.JPG,-,-,-,28.84,bad,no face detected
+H230105.JPG,-,-,-,65.68,bad,no face detected
+H220279_01_01.JPG,-,-,-,20.45,bad,no face detected
+H230001.jpg,-,-,-,18.26,bad,no face detected
+H230157_01_01.JPG,-,-,-,47.21,bad,no face detected
+H170131_01_01.JPG,231,248,0.576,53.41,640x640,very low detection score; improve lighting; slightly soft image; avoid motion blur
+H230153.JPG,-,-,-,97.4,bad,no face detected
+H130579_01_01.JPG,681,808,0.774,38.42,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210249_01_01.JPG,-,-,-,44.37,bad,no face detected
+BISK421.png,-,-,-,93.78,bad,no face detected
+H210058.JPG,-,-,-,113.38,bad,no face detected
+H220309_01_01.JPG,-,-,-,289.6,bad,no face detected
+H210110_01_01.JPG,662,875,0.791,59.46,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H220130.JPG,-,-,-,88.47,bad,no face detected
+H210168.JPG,-,-,-,166.71,bad,no face detected
+H25007100000_01_01.JPG,496,545,0.57,14.01,1024x1024,very low detection score; improve lighting; image blurry; stabilize camera
+H130579.JPG,-,-,-,145.92,bad,no face detected
+H250010.JPG,-,-,-,107.25,bad,no face detected
+H130247.JPG,-,-,-,13.1,bad,no face detected
+H21019400000_01_01.JPG,-,-,-,26.92,bad,no face detected
+H220179.JPG,-,-,-,303.31,bad,no face detected
+H25000600000_01_01.JPG,-,-,-,91.71,bad,no face detected
+BISK395.png,-,-,-,45.11,bad,no face detected
+H170055_01_01.JPG,-,-,-,75.72,bad,no face detected
+H230151.JPG,-,-,-,167.93,bad,no face detected
+H140209_01_01.JPG,625,854,0.824,32.75,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H220133_01_01.JPG,-,-,-,48.73,bad,no face detected
+H230150.JPG,-,-,-,108.59,bad,no face detected
+H220095.JPG,-,-,-,120.59,bad,no face detected
+H250050.JPG,-,-,-,408.33,bad,no face detected
+H220015.JPG,-,-,-,236.47,bad,no face detected
+H250091_01_01.JPG,-,-,-,19.17,bad,no face detected
+H200042.JPG,-,-,-,34.61,bad,no face detected
+H220047.JPG,-,-,-,208.99,bad,no face detected
+H19006000000_01_01.JPG,-,-,-,22.55,bad,no face detected
+H19000800000_01_01.JPG,-,-,-,27.34,bad,no face detected
+H220124.JPG,-,-,-,285.05,bad,no face detected
+BISK383.png,-,-,-,82.59,bad,no face detected
+H160042.JPG,-,-,-,317.92,bad,no face detected
+BISK432.JPG,-,-,-,60.18,bad,no face detected
+H190186.JPG,-,-,-,171.45,bad,no face detected
+H230131.JPG,-,-,-,17.55,bad,no face detected
+H170148_01_01.JPG,-,-,-,23.95,bad,no face detected
+H200008_01_01.JPG,-,-,-,27.56,bad,no face detected
+H210087_01_01.JPG,609,783,0.853,50.26,2048x2048,good quality; slightly soft image; avoid motion blur
+H220062_01_01.JPG,-,-,-,109.45,bad,no face detected
+H230088.JPG,-,-,-,21.35,bad,no face detected
+H250070_01_01.JPG,674,920,0.776,38.72,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H210192_01_01.JPG,733,906,0.504,29.75,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H210144_01_01.JPG,670,932,0.68,38.33,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; image blurry; stabilize camera
+H220065_01_01.JPG,-,-,-,29.27,bad,no face detected
+H220155_01_01.JPG,-,-,-,30.07,bad,no face detected
+H250002_01_01.JPG,733,917,0.588,32.55,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H25002900000_01_01.JPG,492,573,0.541,30.5,1024x1024,very low detection score; improve lighting; image blurry; stabilize camera
+BISK134.png,-,-,-,84.52,bad,no face detected
+H190018_01_01.jpg,-,-,-,108.09,bad,no face detected
+H220264.JPG,-,-,-,120.7,bad,no face detected
+H180053_01_01.JPG,-,-,-,6.61,bad,no face detected
+H220011.JPG,-,-,-,101.6,bad,no face detected
+H210181.JPG,-,-,-,154.03,bad,no face detected
+H250093.JPG,-,-,-,190.8,bad,no face detected
+H210217_01_01.JPG,-,-,-,42.14,bad,no face detected
+H290058.JPG,-,-,-,145.11,bad,no face detected
+H180150.JPG,-,-,-,136.62,bad,no face detected
+H210226_01_01.JPG,-,-,-,7.82,bad,no face detected
+H180027.JPG,-,-,-,122.54,bad,no face detected
+H210250_01_01.JPG,721,893,0.671,102.98,2048x2048,low score; try frontal face & better lighting; sharp image
+H220066_01_01.JPG,711,775,0.733,25.17,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230041.JPG,-,-,-,162.96,bad,no face detected
+H230037.JPG,-,-,-,156.96,bad,no face detected
+H250101_01_01.JPG,683,853,0.757,31.09,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230058_01_01.JPG,-,-,-,22.51,bad,no face detected
+H220085_01_01.JPG,697,863,0.761,32.83,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230148_01_01.JPG,-,-,-,9.48,bad,no face detected
+H200076.JPG,-,-,-,51.78,bad,no face detected
+H20006200000_01_01.JPG,-,-,-,27.81,bad,no face detected
+H220305.JPG,-,-,-,30.0,bad,no face detected
+H22006800000_01_01.JPG,-,-,-,22.25,bad,no face detected
+BISK025.png,-,-,-,29.95,bad,no face detected
+BISK431.png,755,875,0.504,44.09,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H220277_01_01.JPG,-,-,-,10.05,bad,no face detected
+H230102.JPG,-,-,-,129.99,bad,no face detected
+BISK-F15.png,-,-,-,49.16,bad,no face detected
+H160048.JPG,-,-,-,44.31,bad,no face detected
+H220305_01_01.JPG,-,-,-,17.55,bad,no face detected
+H190196_01_01.JPG,-,-,-,84.65,bad,no face detected
+BISK338.png,-,-,-,283.33,bad,no face detected
+H210241.JPG,-,-,-,179.53,bad,no face detected
+H170088.JPG,-,-,-,103.46,bad,no face detected
+BISK266.png,-,-,-,81.07,bad,no face detected
+H190045.JPG,-,-,-,53.84,bad,no face detected
+H250070.JPG,-,-,-,284.28,bad,no face detected
+H250033_01_01.JPG,687,870,0.72,39.29,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H180021_01_01.JPG,-,-,-,13.69,bad,no face detected
+H140011.JPG,-,-,-,45.51,bad,no face detected
+H25005900000_01_01.JPG,-,-,-,19.46,bad,no face detected
+BISK110.png,-,-,-,138.18,bad,no face detected
+H220062.JPG,-,-,-,309.13,bad,no face detected
+BISK007.png,-,-,-,231.9,bad,no face detected
+H200086.jpg,-,-,-,7.78,bad,no face detected
+H250053_01_01.JPG,-,-,-,11.53,bad,no face detected
+BISK053.png,-,-,-,125.63,bad,no face detected
+H230195_01_01.JPG,467,580,0.685,20.21,1024x1024,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250055_01_01.JPG,-,-,-,25.6,bad,no face detected
+H210115.JPG,-,-,-,108.01,bad,no face detected
+H210180.JPG,-,-,-,47.13,bad,no face detected
+BISK170.png,-,-,-,53.93,bad,no face detected
+H210026.JPG,-,-,-,52.96,bad,no face detected
+H210012.JPG,-,-,-,181.06,bad,no face detected
+H210192.JPG,-,-,-,70.67,bad,no face detected
+H250111.JPG,-,-,-,28.89,bad,no face detected
+H230154_01_01.JPG,739,877,0.596,36.84,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H250055.JPG,-,-,-,112.62,bad,no face detected
+H220102_01_01.JPG,-,-,-,18.69,bad,no face detected
+H220306_01_01.JPG,660,803,0.824,29.2,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210067_01_01.JPG,-,-,-,66.75,bad,no face detected
+H250086.JPG,-,-,-,9.93,bad,no face detected
+H250092.JPG,-,-,-,117.68,bad,no face detected
+H250046.JPG,-,-,-,180.88,bad,no face detected
+H220260.JPG,-,-,-,179.7,bad,no face detected
+H200001_01_01.JPG,-,-,-,31.27,bad,no face detected
+BISK385.png,-,-,-,112.12,bad,no face detected
+H210107.JPG,-,-,-,109.85,bad,no face detected
+H180026.JPG,-,-,-,52.66,bad,no face detected
+H250003.JPG,-,-,-,72.13,bad,no face detected
+H210110.JPG,-,-,-,357.53,bad,no face detected
+H180050_01_01.jpg,-,-,-,146.59,bad,no face detected
+H180105_01_01.JPG,-,-,-,33.33,bad,no face detected
+H210181_01_01.JPG,-,-,-,47.67,bad,no face detected
+H19003700000_01_01.JPG,-,-,-,24.4,bad,no face detected
+H230106_01_01.JPG,-,-,-,25.36,bad,no face detected
+H210194.JPG,-,-,-,110.05,bad,no face detected
+H220180.JPG,-,-,-,227.17,bad,no face detected
+H160024.JPG,-,-,-,159.87,bad,no face detected
+H230169.JPG,-,-,-,177.46,bad,no face detected
+H220130_01_01.JPG,-,-,-,34.57,bad,no face detected
+H250100_01_01.JPG,-,-,-,34.24,bad,no face detected
+H180032.JPG,-,-,-,147.2,bad,no face detected
+H160133.JPG,-,-,-,181.06,bad,no face detected
+H210093_01_01.JPG,735,897,0.621,43.97,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250087.JPG,-,-,-,123.76,bad,no face detected
+H230131_01_01.JPG,-,-,-,13.86,bad,no face detected
+H250066_01_01.JPG,-,-,-,77.53,bad,no face detected
+H200057.JPG,-,-,-,267.35,bad,no face detected
+H220092_01_01.JPG,-,-,-,74.91,bad,no face detected
+H230058.JPG,-,-,-,55.8,bad,no face detected
+H220209.JPG,-,-,-,191.91,bad,no face detected
+H220093_01_01.JPG,-,-,-,59.59,bad,no face detected
+BISK310.png,-,-,-,46.39,bad,no face detected
+H140189.JPG,-,-,-,181.67,bad,no face detected
+H230170.JPG,-,-,-,165.94,bad,no face detected
+H170130_01_01.JPG,665,866,0.797,25.21,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+BISK382.png,-,-,-,22.36,bad,no face detected
+H250002.JPG,-,-,-,100.61,bad,no face detected
+H230076_01_01.JPG,-,-,-,29.59,bad,no face detected
+H220012.JPG,-,-,-,157.03,bad,no face detected
+BISK414.png,-,-,-,216.66,bad,no face detected
+H170139.JPG,-,-,-,146.84,bad,no face detected
+H130472_01_01.JPG,-,-,-,34.15,bad,no face detected
+BISK363.png,-,-,-,177.28,bad,no face detected
+H230065.JPG,-,-,-,79.84,bad,no face detected
+H180103_01_01.JPG,-,-,-,42.91,bad,no face detected
+BISK293.png,-,-,-,74.98,bad,no face detected
+H230015_01_01.JPG,-,-,-,55.07,bad,no face detected
+H140190_01_01.JPG,-,-,-,25.81,bad,no face detected
+H230095.JPG,-,-,-,108.61,bad,no face detected
+H230132_01_01.JPG,-,-,-,43.2,bad,no face detected
+H220201.JPG,-,-,-,74.56,bad,no face detected
+H23023400000_01_01.JPG,-,-,-,32.83,bad,no face detected
+H220253.JPG,-,-,-,25.6,bad,no face detected
+H190120.JPG,-,-,-,17.56,bad,no face detected
+H220009.JPG,-,-,-,120.68,bad,no face detected
+H18015600000_01_01.JPG,-,-,-,24.28,bad,no face detected
+H170002_01_01.JPG,707,918,0.54,73.71,2048x2048,very low detection score; improve lighting; slightly soft image; avoid motion blur
+BISK-F07.png,-,-,-,172.7,bad,no face detected
+H200033.JPG,-,-,-,132.87,bad,no face detected
+H250118_01_01.jpg,613,827,0.82,33.31,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H220044_01_01.JPG,-,-,-,20.14,bad,no face detected
+H230087_01_01.JPG,-,-,-,54.83,bad,no face detected
+H23004800000_01_01.JPG,-,-,-,18.96,bad,no face detected
+BISK380.png,-,-,-,134.29,bad,no face detected
+H200013_01_01.JPG,-,-,-,71.42,bad,no face detected
+H250061.JPG,-,-,-,23.16,bad,no face detected
+H220107_01_01.JPG,555,774,0.876,46.14,2048x2048,good quality; non-frontal or tilted face; image blurry; stabilize camera
+H150104_01_01.JPG,-,-,-,36.35,bad,no face detected
+H250030.JPG,-,-,-,267.62,bad,no face detected
+H210017_01_01.JPG,-,-,-,36.24,bad,no face detected
+H220068.JPG,-,-,-,51.61,bad,no face detected
+H230119.JPG,-,-,-,125.45,bad,no face detected
+H210013.JPG,-,-,-,81.7,bad,no face detected
+H210242_01_01.JPG,-,-,-,46.97,bad,no face detected
+H230008_01_01.JPG,-,-,-,37.07,bad,no face detected
+H220192.JPG,-,-,-,91.85,bad,no face detected
+H22025900000_01_01.JPG,-,-,-,29.84,bad,no face detected
+H22000400000_01_01.JPG,-,-,-,19.3,bad,no face detected
+H250082.JPG,-,-,-,158.56,bad,no face detected
+BISK148.png,-,-,-,222.33,bad,no face detected
+H180032_01_01.JPG,-,-,-,45.62,bad,no face detected
+H230149_01_01.JPG,700,963,0.547,52.97,2048x2048,very low detection score; improve lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H230181.JPG,-,-,-,65.64,bad,no face detected
+H200024_01_01.JPG,733,918,0.592,31.24,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H120081_01_01.JPG,-,-,-,8.04,bad,no face detected
+BISK388.png,-,-,-,96.12,bad,no face detected
+H230007.JPG,-,-,-,292.15,bad,no face detected
+H25006700001_01_01.JPG,-,-,-,160.28,bad,no face detected
+H220025_01_01.JPG,-,-,-,39.84,bad,no face detected
+BISK348.png,-,-,-,336.1,bad,no face detected
+H22016800000_01_01.JPG,-,-,-,28.55,bad,no face detected
+H230137.JPG,-,-,-,170.44,bad,no face detected
+H140071.JPG,-,-,-,78.4,bad,no face detected
+H250076_01_01.JPG,-,-,-,57.28,bad,no face detected
+H180044_01_01.JPG,-,-,-,41.76,bad,no face detected
+H210195.JPG,-,-,-,81.02,bad,no face detected
+H230120.JPG,-,-,-,78.22,bad,no face detected
+H220155.JPG,-,-,-,68.01,bad,no face detected
+H250059.JPG,-,-,-,44.77,bad,no face detected
+H190079_01_01.JPG,-,-,-,69.24,bad,no face detected
+H210166_01_01.JPG,-,-,-,28.5,bad,no face detected
+H230119_01_01.JPG,654,856,0.804,34.45,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H250004_01_01.JPG,-,-,-,30.28,bad,no face detected
+H210237_01_01.JPG,-,-,-,42.28,bad,no face detected
+H25002900007_01_01.JPG,-,-,-,68.72,bad,no face detected
+H220009_01_01.JPG,-,-,-,26.72,bad,no face detected
+H220002.JPG,-,-,-,85.73,bad,no face detected
+H230096.JPG,-,-,-,135.2,bad,no face detected
+H230092_01_01.JPG,-,-,-,23.32,bad,no face detected
+H250041.JPG,-,-,-,46.01,bad,no face detected
+BISK428.png,-,-,-,146.11,bad,no face detected
+H250079_01_01.JPG,-,-,-,29.62,bad,no face detected
+H200016_01_01.JPG,619,754,0.806,84.14,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H130471.JPG,-,-,-,153.14,bad,no face detected
+H230177.JPG,-,-,-,46.5,bad,no face detected
+H140235_01_01.JPG,647,873,0.806,39.87,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H19009800000_01_01.JPG,-,-,-,23.74,bad,no face detected
+H23006200000_01_01.JPG,-,-,-,24.37,bad,no face detected
+H250047_01_01.JPG,684,842,0.735,27.24,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H160022.JPG,-,-,-,257.61,bad,no face detected
+H250028.JPG,-,-,-,46.63,bad,no face detected
+H180129.JPG,-,-,-,99.95,bad,no face detected
+H210215_01_01.JPG,667,877,0.735,40.02,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H220047_01_01.JPG,-,-,-,49.74,bad,no face detected
+H250033.JPG,-,-,-,172.38,bad,no face detected
+H220015_01_01.JPG,-,-,-,66.18,bad,no face detected
+BISK407.png,-,-,-,244.53,bad,no face detected
+H230205_01_01.JPG,-,-,-,59.47,bad,no face detected
+BISK430.png,-,-,-,745.02,bad,no face detected
+H13018_01_01.JPG,744,912,0.516,76.02,2048x2048,very low detection score; improve lighting; slightly soft image; avoid motion blur
+H180142.JPG,-,-,-,142.44,bad,no face detected
+H160156.JPG,-,-,-,68.38,bad,no face detected
+H210125.JPG,-,-,-,246.06,bad,no face detected
+H220258.JPG,-,-,-,76.24,bad,no face detected
+H210160.JPG,-,-,-,24.67,bad,no face detected
+H20005500000_01_01.JPG,-,-,-,33.47,bad,no face detected
+H230143.JPG,-,-,-,109.85,bad,no face detected
+H210237.JPG,-,-,-,140.72,bad,no face detected
+H220085.JPG,-,-,-,163.04,bad,no face detected
+H210262.JPG,-,-,-,352.12,bad,no face detected
+H220034_01_01.JPG,650,778,0.808,35.4,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H25001200000_01_01.JPG,-,-,-,27.69,bad,no face detected
+H200062.JPG,-,-,-,98.32,bad,no face detected
+H19013800000_01_01.JPG,-,-,-,25.63,bad,no face detected
+H210252.JPG,-,-,-,42.14,bad,no face detected
+BISK396.png,-,-,-,47.79,bad,no face detected
+H123456_3.jpg,-,-,-,91.39,bad,no face detected
+BISK196.png,-,-,-,80.13,bad,no face detected
+H230020.JPG,-,-,-,141.72,bad,no face detected
+H230094.JPG,-,-,-,82.33,bad,no face detected
+H150080_01_01.JPG,699,902,0.597,40.51,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H210014.JPG,-,-,-,123.79,bad,no face detected
+H190053_01_01.JPG,-,-,-,27.99,bad,no face detected
+BISK392.png,-,-,-,79.55,bad,no face detected
+BISK305.png,-,-,-,418.39,bad,no face detected
+H220163.JPG,-,-,-,194.07,bad,no face detected
+H220168.JPG,-,-,-,70.73,bad,no face detected
+barza.png,-,-,-,37.51,bad,no face detected
+H210139.JPG,-,-,-,106.58,bad,no face detected
+H210199_01_01.JPG,-,-,-,50.62,bad,no face detected
+H180075.JPG,-,-,-,44.69,bad,no face detected
+H220012_01_01.JPG,-,-,-,50.88,bad,no face detected
+H210017.JPG,-,-,-,118.25,bad,no face detected
+H250078.JPG,-,-,-,74.32,bad,no face detected
+H160143.JPG,-,-,-,256.81,bad,no face detected
+H230089.JPG,-,-,-,322.96,bad,no face detected
+H250065.JPG,-,-,-,67.04,bad,no face detected
+H170103_01_01.JPG,703,827,0.804,26.94,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230175.JPG,-,-,-,227.22,bad,no face detected
+H220033.JPG,-,-,-,284.88,bad,no face detected
+H210022.JPG,-,-,-,141.03,bad,no face detected
+H250022_01_01.JPG,466,544,0.746,26.06,1024x1024,low score; try frontal face & better lighting; image blurry; stabilize camera
+H190051.JPG,-,-,-,49.3,bad,no face detected
+H230204_01_01.JPG,-,-,-,60.6,bad,no face detected
+H250056.JPG,-,-,-,66.81,bad,no face detected
+BISK389.png,-,-,-,116.57,bad,no face detected
+H220022.JPG,-,-,-,87.93,bad,no face detected
+H230091_01_01.JPG,487,521,0.699,31.89,1024x1024,low score; try frontal face & better lighting; image blurry; stabilize camera
+H210011_01_01.JPG,688,879,0.73,104.59,2048x2048,low score; try frontal face & better lighting; sharp image
+BISK412.png,-,-,-,132.94,bad,no face detected
+H25009900000_01_01.JPG,-,-,-,129.72,bad,no face detected
+H180142_01_01.JPG,-,-,-,40.6,bad,no face detected
+H170045_01_01.JPG,-,-,-,85.61,bad,no face detected
+BISK120.png,-,-,-,32.33,bad,no face detected
+H230214.JPG,-,-,-,364.93,bad,no face detected
+H130286_01_01.JPG,-,-,-,102.08,bad,no face detected
+H150086_01_01.JPG,-,-,-,22.09,bad,no face detected
+H230171.JPG,-,-,-,9.42,bad,no face detected
+H250094_01_01.JPG,-,-,-,71.3,bad,no face detected
+H210260_01_01.JPG,658,850,0.809,59.52,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H190186_01_01.JPG,631,750,0.827,35.13,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+BISK223.png,-,-,-,73.33,bad,no face detected
+H230103.JPG,-,-,-,475.44,bad,no face detected
+BISK353.png,-,-,-,44.7,bad,no face detected
+H230073_01_01.JPG,-,-,-,83.56,bad,no face detected
+H200033_01_01.JPG,646,802,0.848,22.2,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H190018.jpg,-,-,-,172.09,bad,no face detected
+H190056.JPG,-,-,-,80.1,bad,no face detected
+H250040.JPG,-,-,-,504.87,bad,no face detected
+H190001_01_01.JPG,727,820,0.705,28.8,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250087_01_01.JPG,-,-,-,45.52,bad,no face detected
+H130287.JPG,-,-,-,353.68,bad,no face detected
+H230228_01_01.JPG,650,927,0.764,43.62,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+BISK243.png,-,-,-,45.79,bad,no face detected
+H220284.JPG,-,-,-,116.9,bad,no face detected
+H210090.JPG,-,-,-,48.25,bad,no face detected
+H23007800000_01_01.JPG,-,-,-,25.72,bad,no face detected
+H180117.JPG,-,-,-,299.53,bad,no face detected
+H160068.JPG,-,-,-,116.04,bad,no face detected
+H230079.JPG,-,-,-,88.73,bad,no face detected
+H250069_01_01.JPG,691,799,0.806,31.66,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+BISK386.png,-,-,-,13.91,bad,no face detected
+H250057.JPG,-,-,-,36.59,bad,no face detected
+H200069.JPG,-,-,-,277.07,bad,no face detected
+H190071_01_01.JPG,-,-,-,202.91,bad,no face detected
+H220304_01_01.JPG,-,-,-,49.13,bad,no face detected
+H230170_01_01.JPG,-,-,-,33.48,bad,no face detected
+H230144.JPG,-,-,-,183.05,bad,no face detected
+H200077.JPG,-,-,-,54.03,bad,no face detected
+H220035_01_01.JPG,-,-,-,42.08,bad,no face detected
+BISK199.png,-,-,-,546.28,bad,no face detected
+BISK409.png,-,-,-,43.14,bad,no face detected
+H170131.JPG,-,-,-,138.2,bad,no face detected
+H230059.JPG,-,-,-,17.93,bad,no face detected
+H220189_01_01.JPG,-,-,-,35.53,bad,no face detected
+BISK340.png,-,-,-,60.59,bad,no face detected
+H25001300002_01_01.JPG,-,-,-,31.49,bad,no face detected
+H230001_01_01.jpg,645,734,0.79,11.99,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+BISK258.png,-,-,-,66.36,bad,no face detected
+H210008.JPG,-,-,-,175.08,bad,no face detected
+H25002900006_01_01.JPG,-,-,-,62.81,bad,no face detected
+H230073.JPG,-,-,-,299.92,bad,no face detected
+H220169.JPG,-,-,-,76.17,bad,no face detected
+H25000700000_01_01.JPG,-,-,-,77.57,bad,no face detected
+H190029.JPG,-,-,-,152.86,bad,no face detected
+H250102.JPG,-,-,-,64.59,bad,no face detected
+H220127_01_01.JPG,-,-,-,38.09,bad,no face detected
+H160004_01_01.JPG,-,-,-,35.17,bad,no face detected
+H130292.JPG,-,-,-,119.91,bad,no face detected
+H200024.JPG,-,-,-,207.58,bad,no face detected
+H230162_01_01.JPG,480,578,0.506,13.21,1024x1024,very low detection score; improve lighting; image blurry; stabilize camera
+H230067.JPG,-,-,-,174.73,bad,no face detected
+H220035.JPG,-,-,-,139.05,bad,no face detected
+H25005600000_01_01.JPG,-,-,-,28.49,bad,no face detected
+H210113.JPG,-,-,-,136.76,bad,no face detected
+H170006.JPG,-,-,-,88.12,bad,no face detected
+H220102.JPG,-,-,-,54.27,bad,no face detected
+H230317.JPG,-,-,-,158.98,bad,no face detected
+H230068_01_01.JPG,-,-,-,33.85,bad,no face detected
+H210126_01_01.JPG,685,810,0.735,32.23,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230010_01_01.JPG,470,591,0.636,40.17,1024x1024,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230021_01_01.JPG,-,-,-,26.83,bad,no face detected
+H250075.JPG,-,-,-,121.83,bad,no face detected
+BISK262.png,-,-,-,89.28,bad,no face detected
+H210001.JPG,-,-,-,64.28,bad,no face detected
+H250101.JPG,-,-,-,94.11,bad,no face detected
+H180036.JPG,-,-,-,180.24,bad,no face detected
+H23005300000_01_01.JPG,-,-,-,22.42,bad,no face detected
+H123456_6.jpg,-,-,-,131.6,bad,no face detected
+H170004.JPG,-,-,-,219.55,bad,no face detected
+H220236_01_01.JPG,673,963,0.622,70.38,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H210165_01_01.JPG,715,936,0.646,27.5,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H190126.JPG,-,-,-,30.15,bad,no face detected
+BISK296.png,-,-,-,123.19,bad,no face detected
+H190098.JPG,-,-,-,52.27,bad,no face detected
+H230060_01_01.JPG,-,-,-,31.79,bad,no face detected
+H230025_01_01.JPG,614,768,0.858,45.99,2048x2048,good quality; image blurry; stabilize camera
+H250081.JPG,-,-,-,277.63,bad,no face detected
+H250085_01_01.JPG,-,-,-,74.98,bad,no face detected
+H25002900001_01_01.JPG,475,598,0.641,21.64,1024x1024,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250020.JPG,-,-,-,168.1,bad,no face detected
+H190136_01_01.JPG,659,956,0.717,117.42,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; sharp image
+H230012_01_01.JPG,-,-,-,60.08,bad,no face detected
+H230061_01_01.JPG,688,809,0.794,28.72,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H250045_01_01.JPG,569,765,0.867,71.66,2048x2048,good quality; non-frontal or tilted face; slightly soft image; avoid motion blur
+H210220.JPG,-,-,-,73.2,bad,no face detected
+H180064.JPG,-,-,-,129.34,bad,no face detected
+H220312_01_01.JPG,674,779,0.752,106.24,2048x2048,acceptable score; frontal & higher res helps; sharp image
+H230227.JPG,-,-,-,136.38,bad,no face detected
+H230064.JPG,-,-,-,423.9,bad,no face detected
+H22025800000_01_01.JPG,-,-,-,28.42,bad,no face detected
+H180156.JPG,-,-,-,65.98,bad,no face detected
+H220101.JPG,-,-,-,11.74,bad,no face detected
+H170002.JPG,-,-,-,245.45,bad,no face detected
+H230095_01_01.JPG,727,889,0.701,27.51,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H220010.JPG,-,-,-,173.47,bad,no face detected
+H230004.JPG,-,-,-,268.35,bad,no face detected
+H180102_01_01.JPG,-,-,-,89.85,bad,no face detected
+H230010.JPG,-,-,-,283.98,bad,no face detected
+H250011.JPG,-,-,-,69.07,bad,no face detected
+H250021.JPG,-,-,-,97.86,bad,no face detected
+H230060.JPG,-,-,-,236.71,bad,no face detected
+H180103.JPG,-,-,-,200.85,bad,no face detected
+H250091.JPG,-,-,-,40.1,bad,no face detected
+H21009000000_01_01.JPG,-,-,-,22.84,bad,no face detected
+H210041_01_01.JPG,-,-,-,32.5,bad,no face detected
+H190009_01_01.JPG,-,-,-,96.8,bad,no face detected
+H210092_01_01.JPG,-,-,-,21.46,bad,no face detected
+H230171_01_01.JPG,-,-,-,6.88,bad,no face detected
+H220018.JPG,-,-,-,137.9,bad,no face detected
+H180021.JPG,-,-,-,37.9,bad,no face detected
+H220040.JPG,-,-,-,43.29,bad,no face detected
+H180017_01_01.JPG,-,-,-,9.72,bad,no face detected
+H250093_01_01.JPG,-,-,-,39.69,bad,no face detected
+H220067.JPG,-,-,-,187.69,bad,no face detected
+H220251.JPG,-,-,-,153.55,bad,no face detected
+H160023.JPG,-,-,-,235.61,bad,no face detected
+H200014_01_01.JPG,-,-,-,13.42,bad,no face detected
+H160005_01_01.JPG,614,804,0.784,127.57,2048x2048,acceptable score; frontal & higher res helps; sharp image
+H190053.JPG,-,-,-,91.2,bad,no face detected
+H140185_01_01.JPG,684,861,0.813,34.43,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H190041.JPG,-,-,-,14.0,bad,no face detected
+H230139.JPG,-,-,-,154.34,bad,no face detected
+H230144_01_01.JPG,628,725,0.765,27.67,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230143_01_01.JPG,682,855,0.776,17.9,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210246.JPG,-,-,-,151.44,bad,no face detected
+H230047_01_01.JPG,-,-,-,69.12,bad,no face detected
+H230104_01_01.JPG,-,-,-,38.24,bad,no face detected
+BISK379.png,-,-,-,34.35,bad,no face detected
+H200086_01_01.jpg,-,-,-,6.43,bad,no face detected
+H220189.JPG,-,-,-,83.81,bad,no face detected
+BISK257.png,-,-,-,127.54,bad,no face detected
+H210159_01_01.JPG,690,918,0.697,27.74,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H180102.JPG,-,-,-,343.58,bad,no face detected
+H123456_9.jpg,97,131,0.78,57.8,bad,face too small; retake closer; acceptable score; frontal & higher res helps; non-frontal or tilted face; slightly soft image; avoid motion blur
+H180036_01_01.JPG,-,-,-,39.66,bad,no face detected
+H230224_01_01.jpg,680,852,0.784,33.54,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H160004.JPG,-,-,-,76.41,bad,no face detected
+H19011200000_01_01.JPG,-,-,-,24.53,bad,no face detected
+H23018500000_01_01.JPG,-,-,-,37.17,bad,no face detected
+H120025_01_01.JPG,615,784,0.812,43.42,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+BISK311.png,-,-,-,289.64,bad,no face detected
+H220014.JPG,-,-,-,207.71,bad,no face detected
+H200001.JPG,-,-,-,114.98,bad,no face detected
+H200057_01_01.JPG,-,-,-,43.26,bad,no face detected
+H210086.JPG,-,-,-,344.96,bad,no face detected
+H23009700000_01_01.JPG,-,-,-,27.81,bad,no face detected
+BISK337.png,-,-,-,242.39,bad,no face detected
+H190040.JPG,-,-,-,513.44,bad,no face detected
+H230233_01_01.JPG,-,-,-,27.45,bad,no face detected
+H220264_01_01.JPG,-,-,-,36.78,bad,no face detected
+H250044.JPG,-,-,-,98.31,bad,no face detected
+H220314.JPG,-,-,-,78.73,bad,no face detected
+H210117.JPG,-,-,-,214.98,bad,no face detected
+H220262.JPG,-,-,-,121.34,bad,no face detected
+H25002700000_01_01.JPG,-,-,-,67.75,bad,no face detected
+H250054_01_01.JPG,-,-,-,41.37,bad,no face detected
+H230098_01_01.JPG,712,886,0.731,35.13,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H220179_01_01.JPG,-,-,-,94.45,bad,no face detected
+H250006.JPG,-,-,-,99.91,bad,no face detected
+H210165.JPG,-,-,-,70.09,bad,no face detected
+H220046_01_01.JPG,-,-,-,53.5,bad,no face detected
+H250022.JPG,-,-,-,102.75,bad,no face detected
+BISK391.png,-,-,-,138.04,bad,no face detected
+H210108.JPG,-,-,-,85.3,bad,no face detected
+H230153_01_01.JPG,-,-,-,33.9,bad,no face detected
+H19009900000_01_01.JPG,-,-,-,22.26,bad,no face detected
+H250122_01_01.jpg,-,-,-,34.06,bad,no face detected
+H250018.JPG,-,-,-,45.35,bad,no face detected
+H250108.JPG,-,-,-,99.68,bad,no face detected
+H210022_01_01.JPG,629,877,0.775,30.06,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H21017700000_01_01.JPG,-,-,-,26.07,bad,no face detected
+H190037.JPG,-,-,-,55.99,bad,no face detected
+H160143_01_01.JPG,-,-,-,69.5,bad,no face detected
+H220232.JPG,-,-,-,76.68,bad,no face detected
+H25001500000_01_01.JPG,-,-,-,7.34,bad,no face detected
+H230195.JPG,-,-,-,57.27,bad,no face detected
+H250069.JPG,-,-,-,170.6,bad,no face detected
+H220113.JPG,-,-,-,127.96,bad,no face detected
+H160056.JPG,-,-,-,92.26,bad,no face detected
+H200123.JPG,-,-,-,219.49,bad,no face detected
+H250118.jpg,-,-,-,206.13,bad,no face detected
+H180020_01_01.jpg,-,-,-,165.51,bad,no face detected
+H140076_01_01.JPG,-,-,-,28.54,bad,no face detected
+H210035_01_01.JPG,-,-,-,46.37,bad,no face detected
+H250102_01_01.JPG,-,-,-,27.19,bad,no face detected
+H190088.JPG,-,-,-,425.58,bad,no face detected
+H220064_01_01.JPG,675,948,0.645,96.86,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H190203.JPG,-,-,-,54.79,bad,no face detected
+H150153.JPG,-,-,-,96.14,bad,no face detected
+H190029_01_01.JPG,685,808,0.827,26.91,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H220005.JPG,-,-,-,144.59,bad,no face detected
+H25001500002_01_01.JPG,-,-,-,57.12,bad,no face detected
+H220005_01_01.JPG,-,-,-,48.21,bad,no face detected
+H220169_01_01.JPG,-,-,-,45.26,bad,no face detected
+H230157.JPG,-,-,-,203.36,bad,no face detected
+H140011_01_01.JPG,-,-,-,117.03,bad,no face detected
+H180076_01_01.JPG,-,-,-,15.02,bad,no face detected
+H250064.JPG,-,-,-,119.97,bad,no face detected
+H230083_01_01.JPG,649,881,0.82,36.28,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H230107_01_01.JPG,-,-,-,68.26,bad,no face detected
+H220037_01_01.JPG,-,-,-,40.3,bad,no face detected
+H180126_01_01.JPG,709,888,0.724,36.06,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+BISK359.png,-,-,-,55.81,bad,no face detected
+H250113.JPG,-,-,-,171.29,bad,no face detected
+H250016.JPG,-,-,-,177.45,bad,no face detected
+H230109_01_01.JPG,-,-,-,33.38,bad,no face detected
+H230093_01_01.JPG,-,-,-,26.46,bad,no face detected
+H160005.JPG,-,-,-,455.22,bad,no face detected
+H250018_01_01.JPG,-,-,-,24.8,bad,no face detected
+H230220_01_01.JPG,-,-,-,47.07,bad,no face detected
+H210006_01_01.JPG,668,835,0.831,27.33,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210012_01_01.JPG,682,981,0.522,58.52,2048x2048,very low detection score; improve lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H210125_01_01.JPG,695,825,0.725,53.18,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H210086_01_01.JPG,582,782,0.868,55.62,2048x2048,good quality; non-frontal or tilted face; slightly soft image; avoid motion blur
+H130528_01_01.JPG,-,-,-,84.95,bad,no face detected
+H250111_01_01.JPG,-,-,-,13.43,bad,no face detected
+H180043_01_01.JPG,-,-,-,21.24,bad,no face detected
+H210261.JPG,-,-,-,98.24,bad,no face detected
+H210026_01_01.JPG,711,836,0.769,18.91,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H170148.JPG,-,-,-,85.53,bad,no face detected
+H250109.JPG,-,-,-,89.03,bad,no face detected
+H220103.JPG,-,-,-,87.82,bad,no face detected
+H170139_01_01.JPG,-,-,-,53.34,bad,no face detected
+H220116.JPG,-,-,-,146.0,bad,no face detected
+BISK085.png,-,-,-,31.49,bad,no face detected
+H250123_01_01.JPG,-,-,-,21.88,bad,no face detected
+H230066_01_01.JPG,-,-,-,68.36,bad,no face detected
+H230061.JPG,-,-,-,109.92,bad,no face detected
+H160023_01_01.JPG,604,749,0.824,94.86,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H18007900000_01_01.JPG,-,-,-,24.46,bad,no face detected
+H23023100000_01_01.JPG,-,-,-,41.92,bad,no face detected
+H230026_01_01.JPG,474,588,0.647,52.74,1024x1024,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H170055.JPG,-,-,-,144.04,bad,no face detected
+H220022_01_01.JPG,-,-,-,23.59,bad,no face detected
+H200014.JPG,-,-,-,18.94,bad,no face detected
+H210001_01_01.JPG,697,952,0.505,24.74,2048x2048,very low detection score; improve lighting; non-frontal or tilted face; image blurry; stabilize camera
+H180072.JPG,-,-,-,65.62,bad,no face detected
+H220254_01_01.JPG,734,787,0.71,22.53,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+BISK419.png,-,-,-,84.39,bad,no face detected
+H210260.JPG,-,-,-,198.64,bad,no face detected
+H250061_01_01.JPG,-,-,-,11.41,bad,no face detected
+H210108_01_01.JPG,729,855,0.725,24.36,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H19005200000_01_01.JPG,-,-,-,24.09,bad,no face detected
+H21001300000_01_01.JPG,-,-,-,25.81,bad,no face detected
+H23015200000_01_01.JPG,461,555,0.743,109.46,1024x1024,low score; try frontal face & better lighting; sharp image
+H23007000000_01_01.JPG,-,-,-,20.17,bad,no face detected
+H230169_01_01.JPG,-,-,-,45.08,bad,no face detected
+H230104.JPG,-,-,-,164.12,bad,no face detected
+H250083_01_01.JPG,-,-,-,11.11,bad,no face detected
+H170110.JPG,-,-,-,46.31,bad,no face detected
+H220113_01_01.JPG,507,554,0.577,30.44,1024x1024,very low detection score; improve lighting; image blurry; stabilize camera
+H210196.JPG,-,-,-,36.12,bad,no face detected
+H190120_01_01.JPG,648,899,0.81,9.76,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; image blurry; stabilize camera
+H220247_01_01.JPG,699,917,0.722,64.27,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H200013.JPG,-,-,-,298.4,bad,no face detected
+H250062.JPG,-,-,-,114.77,bad,no face detected
+BISK-F08.png,-,-,-,56.03,bad,no face detected
+H250060_01_01.JPG,-,-,-,27.38,bad,no face detected
+H210172.jpg,-,-,-,52.21,bad,no face detected
+H190056_01_01.JPG,-,-,-,24.44,bad,no face detected
+H250054.JPG,-,-,-,115.83,bad,no face detected
+H19010100000_01_01.JPG,-,-,-,30.19,bad,no face detected
+H160055.JPG,-,-,-,86.02,bad,no face detected
+H160133_01_01.JPG,615,761,0.821,42.72,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210111_01_01.JPG,639,771,0.838,13.21,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H160108_01_01.JPG,580,713,0.796,65.15,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H19007500000_01_01.JPG,718,906,0.5,24.37,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H190041_01_01.JPG,706,924,0.603,8.54,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250071.JPG,-,-,-,119.59,bad,no face detected
+BISK020.png,-,-,-,1440.49,bad,no face detected
+H220154.jpg,-,-,-,241.31,bad,no face detected
+H140185.JPG,-,-,-,89.16,bad,no face detected
+H210021.JPG,-,-,-,82.94,bad,no face detected
+H250088_01_01.JPG,-,-,-,37.47,bad,no face detected
+H23006500001_01_01.JPG,-,-,-,24.15,bad,no face detected
+BISK411.png,-,-,-,19.98,bad,no face detected
+H200091.JPG,-,-,-,102.3,bad,no face detected
+H25002800000_01_01.JPG,-,-,-,13.52,bad,no face detected
+H220304.JPG,-,-,-,202.51,bad,no face detected
+H230154.JPG,-,-,-,113.62,bad,no face detected
+H230177_01_01.JPG,-,-,-,20.89,bad,no face detected
+BISK093.png,-,-,-,39.39,bad,no face detected
+H210064.JPG,-,-,-,79.24,bad,no face detected
+H250042.JPG,-,-,-,149.22,bad,no face detected
+BISK418.png,-,-,-,218.76,bad,no face detected
+H123456_1.jpg,-,-,-,126.79,bad,no face detected
+BISK405.png,-,-,-,14.88,bad,no face detected
+H150086.JPG,-,-,-,59.81,bad,no face detected
+H250104_01_01.jpg,-,-,-,19.79,bad,no face detected
+H140009.JPG,-,-,-,279.63,bad,no face detected
+H25001500001_01_01.JPG,-,-,-,54.8,bad,no face detected
+H170129.JPG,-,-,-,261.33,bad,no face detected
+BISK021.png,-,-,-,41.97,bad,no face detected
+H200008.JPG,-,-,-,80.65,bad,no face detected
+H180091_01_01.JPG,-,-,-,65.53,bad,no face detected
+H250046_01_01.JPG,-,-,-,49.85,bad,no face detected
+H21019700000_01_01.JPG,-,-,-,14.88,bad,no face detected
+H130524_01_01.JPG,692,950,0.684,74.81,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H25010900004_01_01.JPG,-,-,-,32.07,bad,no face detected
+H230137_01_01.JPG,-,-,-,49.55,bad,no face detected
+H210018_01_01.JPG,753,857,0.642,21.12,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H190001.JPG,-,-,-,124.51,bad,no face detected
+H160090.JPG,-,-,-,58.67,bad,no face detected
+H25007800000_01_01.JPG,-,-,-,32.38,bad,no face detected
+H210065.JPG,-,-,-,135.25,bad,no face detected
+H180125.JPG,-,-,-,95.9,bad,no face detected
+BISK432.png,-,-,-,64.74,bad,no face detected
+H210172_01_01.jpg,-,-,-,45.28,bad,no face detected
+H250015.JPG,-,-,-,118.84,bad,no face detected
+H160056_01_01.JPG,746,880,0.545,30.59,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H250034.JPG,-,-,-,7.24,bad,no face detected
+H220300_01_01.JPG,-,-,-,65.31,bad,no face detected
+BISK074.png,-,-,-,259.43,bad,no face detected
+H250003_01_01.JPG,-,-,-,28.64,bad,no face detected
+H230097.JPG,-,-,-,68.98,bad,no face detected
+H250095_01_01.JPG,-,-,-,26.54,bad,no face detected
+BISK141.png,-,-,-,46.99,bad,no face detected
+H230078.JPG,-,-,-,134.01,bad,no face detected
+H220164.JPG,-,-,-,700.31,bad,no face detected
+H230012.JPG,-,-,-,192.53,bad,no face detected
+H250112.JPG,-,-,-,176.13,bad,no face detected
+H170089_01_01.JPG,621,791,0.84,17.2,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230053.JPG,-,-,-,55.79,bad,no face detected
+H20000121_01_01.JPG,702,898,0.716,61.66,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H180129_01_01.JPG,-,-,-,40.1,bad,no face detected
+H230004_01_01.JPG,-,-,-,50.76,bad,no face detected
+BISK376.png,-,-,-,60.81,bad,no face detected
+H210094.JPG,-,-,-,210.76,bad,no face detected
+BISK269.png,-,-,-,27.76,bad,no face detected
+H220273.JPG,-,-,-,253.38,bad,no face detected
+H220154_01_01.jpg,-,-,-,156.08,bad,no face detected
+H230233.JPG,-,-,-,73.78,bad,no face detected
+H130377_01_01.JPG,-,-,-,82.67,bad,no face detected
+H220116_01_01.JPG,742,851,0.68,40.2,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H220054.JPG,-,-,-,203.13,bad,no face detected
+H210008_01_01.JPG,687,839,0.773,32.06,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H210145.JPG,-,-,-,155.93,bad,no face detected
+H130286.JPG,-,-,-,422.1,bad,no face detected
+H210006.JPG,-,-,-,120.32,bad,no face detected
+BISK404.png,-,-,-,56.58,bad,no face detected
+H190040_01_01.JPG,555,766,0.844,94.41,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; slightly soft image; avoid motion blur
+H25001000000_01_01.JPG,-,-,-,25.3,bad,no face detected
+H230093.JPG,-,-,-,71.32,bad,no face detected
+BISK205.png,-,-,-,150.29,bad,no face detected
+H250017.JPG,-,-,-,76.72,bad,no face detected
+H230089_01_01.JPG,-,-,-,71.88,bad,no face detected
+H230108_01_01.JPG,-,-,-,26.58,bad,no face detected
+H230041_01_01.JPG,-,-,-,65.16,bad,no face detected
+H230228.JPG,-,-,-,212.21,bad,no face detected
+H220226_01_01.JPG,631,804,0.724,25.07,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H230085.JPG,-,-,-,11.07,bad,no face detected
+H220254.JPG,-,-,-,64.35,bad,no face detected
+BISK002.png,-,-,-,64.55,bad,no face detected
+H160024_01_01.JPG,584,773,0.852,68.64,2048x2048,good quality; slightly soft image; avoid motion blur
+H210147_01_01.JPG,-,-,-,37.02,bad,no face detected
+H220044.JPG,-,-,-,58.63,bad,no face detected
+H220108.JPG,-,-,-,54.75,bad,no face detected
+H210089_01_01.JPG,645,757,0.769,7.67,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H250024.JPG,-,-,-,302.35,bad,no face detected
+BISK374.png,-,-,-,109.48,bad,no face detected
+H230084_01_01.JPG,722,910,0.58,26.2,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H220268.JPG,-,-,-,330.16,bad,no face detected
+H250047.JPG,-,-,-,126.41,bad,no face detected
+H220096_01_01.JPG,694,759,0.728,20.6,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H210246_01_01.JPG,683,876,0.799,33.94,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H150104.JPG,-,-,-,134.42,bad,no face detected
+H190023_01_01.JPG,-,-,-,12.46,bad,no face detected
+H220279.JPG,-,-,-,91.24,bad,no face detected
+H140189_01_01.JPG,634,805,0.848,57.86,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H220278.JPG,-,-,-,54.62,bad,no face detected
+BISK430.JPG,-,-,-,693.49,bad,no face detected
+H250009_01_01.JPG,707,880,0.65,59.21,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H230007_01_01.JPG,679,880,0.722,55.2,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H230082.JPG,-,-,-,106.36,bad,no face detected
+H210252_01_01.JPG,-,-,-,19.73,bad,no face detected
+H230317_01_01.JPG,-,-,-,39.42,bad,no face detected
+H220314_01_01.JPG,-,-,-,44.97,bad,no face detected
+H210230.JPG,-,-,-,63.06,bad,no face detected
+H210180_01_01.JPG,734,907,0.504,21.34,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H230088_01_01.JPG,-,-,-,15.37,bad,no face detected
+H140235.JPG,-,-,-,149.64,bad,no face detected
+H170001.JPG,-,-,-,166.04,bad,no face detected
+H220133.JPG,-,-,-,230.98,bad,no face detected
+H220064.JPG,-,-,-,184.57,bad,no face detected
+BISK339.png,-,-,-,1.21,bad,no face detected
+BISK426.png,-,-,-,116.07,bad,no face detected
+H230017_01_01.JPG,-,-,-,59.83,bad,no face detected
+H250035.JPG,-,-,-,76.9,bad,no face detected
+H220313.JPG,-,-,-,366.87,bad,no face detected
+H250089.JPG,-,-,-,83.01,bad,no face detected
+H250012.JPG,-,-,-,60.26,bad,no face detected
+H210250.JPG,-,-,-,269.19,bad,no face detected
+H220037.JPG,-,-,-,168.03,bad,no face detected
+H250090.JPG,-,-,-,91.89,bad,no face detected
+H230048.JPG,-,-,-,43.56,bad,no face detected
+BISK241.png,-,-,-,66.51,bad,no face detected
+H150065_01_01.JPG,683,890,0.736,57.67,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H200091_01_01.JPG,744,888,0.628,27.8,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H160090_01_01.JPG,709,865,0.707,25.31,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H25006700000_01_01.JPG,-,-,-,95.7,bad,no face detected
+H210041.JPG,-,-,-,67.9,bad,no face detected
+H220196.JPG,-,-,-,96.34,bad,no face detected
+H180105.JPG,-,-,-,71.33,bad,no face detected
+H250068_01_01.JPG,-,-,-,42.72,bad,no face detected
+H220115.JPG,-,-,-,78.85,bad,no face detected
+H170103.JPG,-,-,-,58.41,bad,no face detected
+H220045_01_01.JPG,648,851,0.787,72.27,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H220149.JPG,-,-,-,285.88,bad,no face detected
+H190187.JPG,-,-,-,87.33,bad,no face detected
+H230085_01_01.JPG,-,-,-,7.93,bad,no face detected
+H220122.JPG,-,-,-,378.63,bad,no face detected
+BISK346.png,-,-,-,295.58,bad,no face detected
+BISK330.png,-,-,-,63.43,bad,no face detected
+H140188_01_01.JPG,-,-,-,95.19,bad,no face detected
+BISK403.png,-,-,-,139.59,bad,no face detected
+H25011200000_01_01.JPG,-,-,-,33.1,bad,no face detected
+H20004200000_01_01.JPG,-,-,-,22.72,bad,no face detected
+H160134_01_01.JPG,719,909,0.571,61.46,2048x2048,very low detection score; improve lighting; slightly soft image; avoid motion blur
+H230098.JPG,-,-,-,90.3,bad,no face detected
+H250063_01_01.JPG,470,584,0.703,54.65,1024x1024,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+H230099_01_01.JPG,654,850,0.797,118.19,2048x2048,acceptable score; frontal & higher res helps; sharp image
+H220306.JPG,-,-,-,128.25,bad,no face detected
+H200050.JPG,-,-,-,267.03,bad,no face detected
+BISK244.png,-,-,-,136.06,bad,no face detected
+H230011_01_01.JPG,-,-,-,40.15,bad,no face detected
+H160108.JPG,-,-,-,352.94,bad,no face detected
+H250096.JPG,-,-,-,175.7,bad,no face detected
+H250108_01_01.JPG,-,-,-,25.43,bad,no face detected
+H123456.png,-,-,-,56.34,bad,no face detected
+H250086_01_01.JPG,-,-,-,8.48,bad,no face detected
+H250024_01_01.JPG,651,937,0.555,70.57,2048x2048,very low detection score; improve lighting; non-frontal or tilted face; slightly soft image; avoid motion blur
+H25007100001_01_01.JPG,492,531,0.581,29.89,1024x1024,very low detection score; improve lighting; image blurry; stabilize camera
+BISK298.png,-,-,-,189.82,bad,no face detected
+H230084.JPG,-,-,-,118.08,bad,no face detected
+BISK333.png,-,-,-,141.13,bad,no face detected
+H250072_01_01.JPG,698,971,0.64,33.39,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; image blurry; stabilize camera
+H190156.JPG,-,-,-,42.16,bad,no face detected
+H220108_01_01.JPG,-,-,-,20.26,bad,no face detected
+H220101_01_01.JPG,685,836,0.781,12.09,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H180113.JPG,-,-,-,24.61,bad,no face detected
+H230090_01_01.JPG,463,566,0.706,30.13,1024x1024,low score; try frontal face & better lighting; image blurry; stabilize camera
+H210111.JPG,-,-,-,62.53,bad,no face detected
+H220078.JPG,-,-,-,130.04,bad,no face detected
+H140076.JPG,-,-,-,79.42,bad,no face detected
+BISK213.png,-,-,-,114.16,bad,no face detected
+H210088.JPG,-,-,-,22.34,bad,no face detected
+H190023.JPG,-,-,-,25.05,bad,no face detected
+BISK302.png,-,-,-,300.32,bad,no face detected
+H250074.JPG,-,-,-,42.31,bad,no face detected
+BISK398.png,-,-,-,143.04,bad,no face detected
+H250029.JPG,-,-,-,173.08,bad,no face detected
+H20004000000_01_01.JPG,-,-,-,30.06,bad,no face detected
+H220300.JPG,-,-,-,157.36,bad,no face detected
+H22019200000_01_01.JPG,-,-,-,61.48,bad,no face detected
+H220002_01_01.JPG,662,882,0.775,24.06,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+.png,-,-,-,61.24,bad,no face detected
+H200082_01_01.jpg,-,-,-,16.51,bad,no face detected
+H210163_01_01.JPG,-,-,-,39.05,bad,no face detected
+H220096.JPG,-,-,-,43.55,bad,no face detected
+BISK427.png,-,-,-,259.76,bad,no face detected
+H170025.JPG,-,-,-,64.33,bad,no face detected
+H25002900003_01_01.JPG,403,634,0.585,29.8,1024x1024,very low detection score; improve lighting; non-frontal or tilted face; image blurry; stabilize camera
+H200015.jpg,45,50,0.513,70.63,bad,face too small; retake closer; very low detection score; improve lighting; slightly soft image; avoid motion blur
+H230145_01_01.JPG,-,-,-,45.17,bad,no face detected
+H190043.JPG,-,-,-,43.43,bad,no face detected
+H180076.JPG,-,-,-,31.02,bad,no face detected
+H25001300001_01_01.JPG,-,-,-,34.47,bad,no face detected
+BISK377.png,-,-,-,40.74,bad,no face detected
+H210242.JPG,-,-,-,126.32,bad,no face detected
+H19018700000_01_01.JPG,-,-,-,27.42,bad,no face detected
+H25004100000_01_01.JPG,-,-,-,18.97,bad,no face detected
+BISK292.png,-,-,-,80.32,bad,no face detected
+H180045.JPG,-,-,-,72.97,bad,no face detected
+H190136.JPG,-,-,-,250.21,bad,no face detected
+H170110_01_01.JPG,-,-,-,19.03,bad,no face detected
+H210241_01_01.JPG,-,-,-,48.3,bad,no face detected
+H210144.JPG,-,-,-,200.91,bad,no face detected
+H150153_01_01.JPG,714,893,0.585,37.92,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H180029.JPG,-,-,-,24.63,bad,no face detected
+H230096_01_01.JPG,669,839,0.794,46.76,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H190100.JPG,-,-,-,445.69,bad,no face detected
+H25005700000_01_01.JPG,-,-,-,15.84,bad,no face detected
+BISK408.png,-,-,-,89.37,bad,no face detected
+H250076.JPG,-,-,-,203.6,bad,no face detected
+H180117_01_01.JPG,-,-,-,90.31,bad,no face detected
+H220092.JPG,-,-,-,232.04,bad,no face detected
+H21026100000_01_01.JPG,-,-,-,32.46,bad,no face detected
+H230064_01_01.JPG,-,-,-,49.39,bad,no face detected
+H250053.JPG,-,-,-,22.07,bad,no face detected
+H250083.JPG,-,-,-,16.55,bad,no face detected
+H250048_01_01.JPG,-,-,-,85.4,bad,no face detected
+H210064_01_01.JPG,-,-,-,24.75,bad,no face detected
+H250082_01_01.JPG,-,-,-,45.27,bad,no face detected
+H210093.JPG,-,-,-,159.35,bad,no face detected
+H210268_01_01.JPG,-,-,-,34.55,bad,no face detected
+BISK216.png,-,-,-,135.77,bad,no face detected
+H150057_01_01.JPG,-,-,-,37.83,bad,no face detected
+H250062_01_01.JPG,731,897,0.614,31.38,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H200055.JPG,-,-,-,81.94,bad,no face detected
+H220086_01_01.JPG,714,922,0.678,18.58,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H160067_01_01.JPG,644,843,0.785,74.0,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H230037_01_01.JPG,456,584,0.617,39.77,1024x1024,low score; try frontal face & better lighting; image blurry; stabilize camera
+H210089.JPG,-,-,-,13.98,bad,no face detected
+H25002900002_01_01.JPG,-,-,-,69.61,bad,no face detected
+H220201_01_01.JPG,-,-,-,35.07,bad,no face detected
+H250088.JPG,-,-,-,134.59,bad,no face detected
+H23004300000_01_01.JPG,-,-,-,26.47,bad,no face detected
+H220215_01_01.JPG,650,768,0.79,31.86,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+BISK047.png,-,-,-,264.24,bad,no face detected
+BISK115.png,-,-,-,230.38,bad,no face detected
+BISK172.png,-,-,-,18.76,bad,no face detected
+H250005_01_01.JPG,-,-,-,33.99,bad,no face detected
+H200016.JPG,-,-,-,447.87,bad,no face detected
+H160067.JPG,-,-,-,281.79,bad,no face detected
+H220232_01_01.JPG,-,-,-,28.95,bad,no face detected
+H250045.JPG,-,-,-,337.02,bad,no face detected
+H210035.JPG,-,-,-,292.93,bad,no face detected
+H17094_01_01.JPG,-,-,-,47.01,bad,no face detected
+H250027.JPG,-,-,-,165.32,bad,no face detected
+H23007900000_01_01.JPG,-,-,-,56.2,bad,no face detected
+H220046.JPG,-,-,-,439.1,bad,no face detected
+H180125_01_01.JPG,-,-,-,44.87,bad,no face detected
+H250099.JPG,-,-,-,312.15,bad,no face detected
+H250065_01_01.JPG,632,824,0.793,20.63,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H230021.JPG,-,-,-,62.2,bad,no face detected
+H23004200000_01_01.JPG,-,-,-,34.52,bad,no face detected
+H230074_01_01.JPG,783,913,0.553,17.39,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H210038_01_01.JPG,638,827,0.803,22.49,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H180126.JPG,-,-,-,121.4,bad,no face detected
+H230087.JPG,-,-,-,159.4,bad,no face detected
+H210146.JPG,-,-,-,329.92,bad,no face detected
+H210096_01_01.JPG,717,888,0.627,34.34,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H210139_01_01.JPG,-,-,-,23.05,bad,no face detected
+H230013_01_01.JPG,-,-,-,27.78,bad,no face detected
+H210217.JPG,-,-,-,139.66,bad,no face detected
+H250080.JPG,-,-,-,107.42,bad,no face detected
+H140009_01_01.JPG,671,920,0.769,54.75,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; slightly soft image; avoid motion blur
+H180053.JPG,-,-,-,8.0,bad,no face detected
+BISK328.png,-,-,-,82.49,bad,no face detected
+H220278_01_01.JPG,-,-,-,21.93,bad,no face detected
+H190181.JPG,-,-,-,97.65,bad,no face detected
+H250021_01_01.JPG,-,-,-,41.72,bad,no face detected
+H25001100000_01_01.JPG,735,909,0.51,22.78,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+BISK415.png,-,-,-,60.0,bad,no face detected
+H230155.JPG,-,-,-,99.35,bad,no face detected
+H180022.JPG,-,-,-,27.54,bad,no face detected
+H18009000000_01_01.JPG,-,-,-,27.03,bad,no face detected
+H230106.JPG,-,-,-,56.55,bad,no face detected
+BISK406.png,-,-,-,55.52,bad,no face detected
+BISK425.png,-,-,-,124.14,bad,no face detected
+H200051.JPG,-,-,-,70.53,bad,no face detected
+H190181_01_01.JPG,-,-,-,27.45,bad,no face detected
+H150065.JPG,-,-,-,204.35,bad,no face detected
+H250123.JPG,-,-,-,62.46,bad,no face detected
+H250023.JPG,-,-,-,33.71,bad,no face detected
+H210014_01_01.JPG,704,890,0.713,45.77,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250043.JPG,-,-,-,122.92,bad,no face detected
+H220312.JPG,-,-,-,135.41,bad,no face detected
+H190099.JPG,-,-,-,44.16,bad,no face detected
+H230226.jpg,-,-,-,25.99,bad,no face detected
+H21024300000_01_01.JPG,-,-,-,16.9,bad,no face detected
+H230103_01_01.JPG,589,756,0.819,110.8,2048x2048,acceptable score; frontal & higher res helps; sharp image
+H200081_01_01.JPG,-,-,-,47.7,bad,no face detected
+H250052_01_01.JPG,-,-,-,37.96,bad,no face detected
+BISK336.png,-,-,-,108.17,bad,no face detected
+H250050_01_01.JPG,-,-,-,65.44,bad,no face detected
+H190112.JPG,-,-,-,81.96,bad,no face detected
+H210146_01_01.JPG,-,-,-,64.56,bad,no face detected
+H250122.jpg,-,-,-,152.91,bad,no face detected
+H190126_01_01.JPG,696,895,0.676,18.62,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H190101.JPG,-,-,-,62.84,bad,no face detected
+BISK393.png,-,-,-,192.82,bad,no face detected
+H230138_01_01.JPG,723,836,0.653,65.99,2048x2048,low score; try frontal face & better lighting; slightly soft image; avoid motion blur
+BISK390.png,-,-,-,149.09,bad,no face detected
+H25002900005_01_01.JPG,-,-,-,39.57,bad,no face detected
+H19004500000_01_01.JPG,-,-,-,20.85,bad,no face detected
+BISK420.png,-,-,-,233.37,bad,no face detected
+Barza-2.png,-,-,-,35.14,bad,no face detected
+H160022_01_01.JPG,682,836,0.81,76.73,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+BISK023.png,-,-,-,285.98,bad,no face detected
+H210063.JPG,-,-,-,39.25,bad,no face detected
+H230101_01_01.JPG,-,-,-,32.34,bad,no face detected
+H220010_01_01.JPG,-,-,-,34.74,bad,no face detected
+H230121_01_01.JPG,-,-,-,27.78,bad,no face detected
+H21006500000_01_01.JPG,-,-,-,27.66,bad,no face detected
+H250080_01_01.JPG,562,730,0.854,41.87,2048x2048,good quality; image blurry; stabilize camera
+H210007.JPG,-,-,-,83.93,bad,no face detected
+H230227_01_01.JPG,-,-,-,31.44,bad,no face detected
+H130287_01_01.JPG,-,-,-,81.34,bad,no face detected
+H230047.JPG,-,-,-,200.98,bad,no face detected
+H170110 01_01_01.jpg,-,-,-,152.8,bad,no face detected
+H230108.JPG,-,-,-,61.32,bad,no face detected
+BISK250.png,-,-,-,35.64,bad,no face detected
+BISK280.png,-,-,-,1009.21,bad,no face detected
+H230155_01_01.JPG,-,-,-,49.17,bad,no face detected
+H210249.JPG,-,-,-,125.79,bad,no face detected
+H220263.JPG,-,-,-,86.9,bad,no face detected
+H160042_01_01.JPG,657,830,0.842,58.46,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H210160_01_01.JPG,-,-,-,13.41,bad,no face detected
+H220247.JPG,-,-,-,183.72,bad,no face detected
+H230214_01_01.JPG,-,-,-,110.73,bad,no face detected
+BISK267.png,-,-,-,159.78,bad,no face detected
+H210197.JPG,-,-,-,25.28,bad,no face detected
+H210230_01_01.JPG,-,-,-,23.05,bad,no face detected
+H230179.JPG,-,-,-,403.49,bad,no face detected
+H250105.JPG,-,-,-,244.24,bad,no face detected
+H220127.JPG,-,-,-,175.32,bad,no face detected
+H180022_01_01.JPG,695,936,0.668,15.64,2048x2048,low score; try frontal face & better lighting; non-frontal or tilted face; image blurry; stabilize camera
+H160011.JPG,-,-,-,32.92,bad,no face detected
+H250066.JPG,-,-,-,293.71,bad,no face detected
+H220122_01_01.JPG,644,838,0.808,61.1,2048x2048,acceptable score; frontal & higher res helps; slightly soft image; avoid motion blur
+H220115_01_01.JPG,-,-,-,27.23,bad,no face detected
+H250072.JPG,-,-,-,107.02,bad,no face detected
+BISK387.png,-,-,-,228.76,bad,no face detected
+H180077.JPG,-,-,-,9.31,bad,no face detected
+H160055_01_01.JPG,701,924,0.528,25.29,2048x2048,very low detection score; improve lighting; image blurry; stabilize camera
+H210085_01_01.JPG,682,825,0.821,36.43,2048x2048,acceptable score; frontal & higher res helps; image blurry; stabilize camera
+H220095_01_01.JPG,725,789,0.724,31.98,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H210094_01_01.JPG,681,910,0.777,51.05,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; slightly soft image; avoid motion blur
+BISK345.png,-,-,-,66.24,bad,no face detected
+H230109.JPG,-,-,-,179.81,bad,no face detected
+H20007700000_01_01.JPG,-,-,-,22.67,bad,no face detected
+H200076_01_01.JPG,-,-,-,22.0,bad,no face detected
+H250023_01_01.JPG,-,-,-,15.7,bad,no face detected
+H250040_01_01.JPG,571,844,0.838,115.56,2048x2048,acceptable score; frontal & higher res helps; non-frontal or tilted face; sharp image
+BISK424.png,-,-,-,71.45,bad,no face detected
+H210147.JPG,-,-,-,188.67,bad,no face detected
+H220054_01_01.JPG,-,-,-,55.55,bad,no face detected
+H220236.JPG,-,-,-,284.79,bad,no face detected
+H150072_01_01.JPG,714,898,0.677,43.91,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H250079.JPG,-,-,-,91.43,bad,no face detected
+H160156_01_01.JPG,-,-,-,27.74,bad,no face detected
+H230091.JPG,-,-,-,133.92,bad,no face detected
+H220217_01_01.JPG,-,-,-,155.74,bad,no face detected
+H250044_01_01.JPG,707,897,0.632,43.35,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H200070_01_01.JPG,642,828,0.73,19.65,2048x2048,low score; try frontal face & better lighting; image blurry; stabilize camera
+H190008.JPG,-,-,-,81.9,bad,no face detected
+H200070.JPG,-,-,-,57.33,bad,no face detected
+H140190.JPG,-,-,-,93.94,bad,no face detected
+H25006400000_01_01.JPG,-,-,-,74.76,bad,no face detected
+H250105_01_01.JPG,-,-,-,72.84,bad,no face detected
