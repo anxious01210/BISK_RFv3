@@ -123,9 +123,9 @@ def upload_files(request):
     except json.JSONDecodeError:
         return JsonResponse({"status": "error", "message": "Invalid relative_paths"})
 
-    print("📥 Upload endpoint triggered")
-    print("POST:", request.POST)
-    print("FILES:", request.FILES)
+    # print("📥 Upload endpoint triggered")
+    # print("POST:", request.POST)
+    # print("FILES:", request.FILES)
 
     files = request.FILES.getlist("files")
     if len(files) != len(relative_paths):
@@ -151,33 +151,168 @@ def upload_files(request):
 
 
 
+import os
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.conf import settings
+from extras.embedding_utils import run_embedding_on_paths
+# from extras.embedding_utils import generate_embeddings_from_paths
+from urllib.parse import unquote
 
-# from pathlib import Path
+
+@csrf_exempt
+@require_POST
+def run_embeddings_script(request):
+    try:
+        data = json.loads(request.body)
+        rel_paths = data.get("paths", [])
+        det_set = data.get("det_set", "auto")
+        force = data.get("force", False)
+
+        print("📥 Received paths:", rel_paths)
+
+        abs_paths = []
+        for rel in rel_paths:
+            rel = unquote(rel)
+            if rel.startswith("/media/"):
+                rel = rel[len("/media/"):]
+            full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
+            print("🔍 Checking:", full_path)
+            if os.path.exists(full_path):
+                abs_paths.append(full_path)
+
+        print("✅ Valid paths:", abs_paths)
+
+        if not abs_paths:
+            return JsonResponse({"error": "No valid files or folders found."}, status=400)
+
+        result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
+        return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+
+
+
+# def run_embeddings_script(request):
+#     try:
+#         data = json.loads(request.body)
+#         rel_paths = data.get("paths", [])
+#         det_set = data.get("det_set", "auto")
+#         force = data.get("force", False)
 #
+#         print("📥 Received paths:", rel_paths)  # <--- DEBUG LINE
+#
+#         abs_paths = []
+#         for rel in rel_paths:
+#             rel = unquote(rel)
+#             if rel.startswith("/media/"):
+#                 rel = rel[len("/media/"):]
+#             full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
+#             print("🔍 Checking:", full_path)  # <--- DEBUG LINE
+#             if os.path.exists(full_path):
+#                 abs_paths.append(full_path)
+#
+#         print("✅ Valid paths:", abs_paths)  # <--- DEBUG LINE
+#
+#         if not abs_paths:
+#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
+#
+#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
+#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
+#     except Exception as e:
+#         return JsonResponse({"error": str(e)}, status=500)
+
+
+
+
+
+
+
 # @csrf_exempt
 # @require_POST
-# def upload_file(request):
-#     rel_path = request.POST.get("path", "").strip("/")
-#     abs_path = safe_join(settings.MEDIA_ROOT, rel_path)
+# def run_embeddings_script(request):
+#     try:
+#         data = json.loads(request.body)
+#         rel_paths = data.get("paths", [])
+#         det_set = data.get("det_set", "auto")
+#         force = data.get("force", False)
 #
-#     uploaded_files = request.FILES.getlist("files")
-#     folder_mode = request.POST.get("folder_mode", "flat")  # "flat" or "preserve"
+#         abs_paths = []
+#         for rel in rel_paths:
+#             rel = unquote(rel)
+#             if rel.startswith("/media/"):
+#                 rel = rel[len("/media/"):]
+#             full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
+#             if os.path.exists(full_path):
+#                 abs_paths.append(full_path)
 #
-#     saved = []
-#     for f in uploaded_files:
-#         # Preserve full relative path if requested
-#         if folder_mode == "preserve" and "/" in f.name:
-#             relative_target = f.name  # e.g. sub1/img.png or sub1/sub2/doc.txt
-#         else:
-#             relative_target = os.path.basename(f.name)
+#         if not abs_paths:
+#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
 #
-#         target_path = os.path.join(abs_path, relative_target)
-#         os.makedirs(os.path.dirname(target_path), exist_ok=True)
+#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
+#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
+#     except Exception as e:
+#         return JsonResponse({"error": str(e)}, status=500)
+
+# def run_embeddings_script(request):
+#     if request.method != "POST":
+#         return JsonResponse({"error": "Invalid request"}, status=405)
 #
-#         with open(target_path, "wb+") as dest:
-#             for chunk in f.chunks():
-#                 dest.write(chunk)
+#     try:
+#         data = json.loads(request.body)
+#         rel_paths = data.get("paths", [])
+#         det_set = data.get("det_set", "auto")
+#         force = data.get("force", False)
 #
-#         saved.append(relative_target)
+#         abs_paths = []
+#         for rel in rel_paths:
+#             cleaned = unquote(rel).lstrip("/")  # remove leading slash
+#             full_path = os.path.join(settings.MEDIA_ROOT, cleaned.replace("media/", ""))
+#             if os.path.exists(full_path):
+#                 abs_paths.append(full_path)
 #
-#     return JsonResponse({"status": "ok", "saved": saved})
+#         if not abs_paths:
+#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
+#
+#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
+#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
+#
+#     except Exception as e:
+#         return JsonResponse({"error": str(e)}, status=500)
+
+
+
+# @csrf_exempt
+# @require_POST
+# def run_embeddings_script(request):
+#     data = json.loads(request.body)
+#     paths = data.get("paths", [])
+#     det_set = data.get("det_set", "auto")
+#
+#     if not paths:
+#         return JsonResponse({"error": "No paths provided."}, status=400)
+#
+#     # Convert relative media paths to absolute paths
+#     abs_paths = []
+#     for rel_path in paths:
+#         rel_path = rel_path.lstrip("/")
+#         # abs_path = os.path.join(settings.MEDIA_ROOT, rel_path)
+#         abs_path = os.path.join(settings.MEDIA_ROOT, unquote(rel_path))
+#         if os.path.exists(abs_path):
+#             abs_paths.append(abs_path)
+#
+#     if not abs_paths:
+#         return JsonResponse({"error": "No valid files or folders found."}, status=400)
+#
+#     try:
+#         force = data.get("force", False)
+#         total = run_embedding_on_paths(abs_paths, det_set=det_set, force=force)
+#         # total = run_embedding_on_paths(abs_paths, det_set=det_set)
+#         return JsonResponse({"message": f"Processed {total} image(s) for embeddings."})
+#     except Exception as e:
+#         return JsonResponse({"error": str(e)}, status=500)

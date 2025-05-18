@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="{% static 'file_manager/style.css' %}">
     <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'file_manager/explorer.js' %}"></script>
-    <!-- Use latest Font Awesome 6.5.1 from jsDelivr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
-{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">#}
-
 </head>
-
 
 <body>
 <div class="file-manager-container">
@@ -26,22 +21,14 @@
         <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
             <div>
                 <button id="refreshBtn" class="action-button">🔄 Refresh</button>
-
-
-                <!-- Upload Files -->
                 <label id="uploadLabel" class="button" style="cursor: pointer;">
                     ⬆️ Upload Files
                     <input type="file" id="uploadInput" multiple style="display: none;">
                 </label>
-
-                <!-- Upload Folder -->
                 <label id="folderUploadLabel" class="button" style="cursor: pointer;">
                     📁 Upload Folder
-{#                    <input type="file" id="folderUploadInput" webkitdirectory style="display: none;">#}
                     <input type="file" id="folderUploadInput" webkitdirectory multiple style="display: none;">
                 </label>
-
-
 
                 <label for="limitSelect" style="font-size: 13px; color: #aaa;">Show</label>
                 <select id="limitSelect">
@@ -77,7 +64,18 @@
 
     <div class="main-content">
         <div id="folderContents" class="grid-view">
-            🔍 Loading files...
+            {% for folder in folders %}
+                <div class="folder-item" data-name="{{ folder.name }}">
+                    <div class="file-name">{{ folder.name }}</div>
+                    <div class="file-size">{{ folder.size|filesizeformat }}</div>
+                </div>
+            {% endfor %}
+            {% for file in files %}
+                <div class="file-item" data-name="{{ file.name }}">
+                    <div class="file-name">{{ file.name }}</div>
+                    <div class="file-size">{{ file.size|filesizeformat }}</div>
+                </div>
+            {% endfor %}
         </div>
         <div id="infoPanel">
             <h3>ℹ️ Info</h3>
@@ -86,29 +84,56 @@
         </div>
     </div>
 
-{#    <input type="file" id="debugFolder" webkitdirectory multiple>#}
-{#    <script>#}
-{#        document.getElementById('debugFolder').addEventListener('change', function () {#}
-{#            console.log("🧪 FOLDER PICKED");#}
-{#            console.log("files.length =", this.files.length);#}
-{#            if (this.files.length > 0) {#}
-{#                console.log("Sample:", this.files[0]);#}
-{#                console.log("webkitRelativePath:", this.files[0].webkitRelativePath);#}
-{#            }#}
-{#        });#}
-{#    </script>#}
-
     <div id="uploadModeModal" class="modal" style="display:none;">
         <div class="modal-content">
             <h3>Select Upload Mode</h3>
             <p>How should we handle folder upload?</p>
             <button id="uploadFlat" class="upload-option">📂 Upload files only (flat)</button>
             <button id="uploadPreserve" class="upload-option">📁 Preserve folder structure</button>
-            <button onclick="document.getElementById('uploadModeModal').style.display='none'" style="margin-top: 10px;">Cancel</button>
+            <button onclick="document.getElementById('uploadModeModal').style.display='none'" style="margin-top: 10px;">
+                Cancel
+            </button>
         </div>
     </div>
 
+    <div id="uploadSpinner" class="modal" style="display:none; align-items: center; justify-content: center;">
+        <div class="modal-content" style="min-width: 300px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="spinner"
+                         style="border: 4px solid #ccc; border-top: 4px solid #2196f3; border-radius: 50%; width: 32px; height: 32px; animation: spin 1s linear infinite;"></div>
+                    <span id="uploadSpinnerMessage">Uploading...</span>
+                </div>
+                <button id="uploadCancelBtn"
+                        style="margin-left: 20px; font-size: 14px; background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                    ✖ Cancel
+                </button>
+            </div>
+            <progress id="uploadProgressBar" value="0" max="100" style="width: 100%; margin-top: 10px;"></progress>
+            <div id="uploadETA" style="margin-top: 6px; font-size: 12px; color: #888;">ETA: —</div>
+        </div>
+    </div>
 
+    <div id="uploadResultMessage" class="modal" style="display:none; align-items: center; justify-content: center;">
+        <div class="modal-content">
+            <p id="uploadResultText" style="margin: 0; font-size: 15px;">✅ Upload complete!</p>
+        </div>
+    </div>
 </div>
+
+<ul id="contextMenu" class="custom-context-menu"
+    style="display:none; position:absolute; z-index:9999; background:#fff; border:1px solid #ccc; padding:6px 0; list-style:none; min-width:180px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+</ul>
+
+<script src="{% static 'file_manager/explorer.helpers.js' %}"></script>
+<script src="{% static 'file_manager/explorer.selection.js' %}"></script>
+<script src="{% static 'file_manager/explorer.ui.js' %}"></script>
+<script src="{% static 'file_manager/explorer.sidebar.js' %}"></script>
+<script src="{% static 'file_manager/explorer.core.js' %}"></script>
+<script src="{% static 'file_manager/explorer.upload.js' %}"></script>
+<script src="{% static 'file_manager/explorer.events.js' %}"></script>
+<script src="{% static 'file_manager/explorer.init.js' %}"></script>
+<script src="{% static 'file_manager/explorer.contextmenu.js' %}"></script>
+
 </body>
 </html>

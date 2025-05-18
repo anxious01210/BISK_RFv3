@@ -9,5 +9,6 @@ urlpatterns = [
     path('list-folder/', views.list_folder_contents, name='list_folder'),
     path("analyze-folders/", views.analyze_folders, name="analyze_folders"),
     path("upload/", views.upload_files, name="upload_files"),
+    path("run-embeddings/", views.run_embeddings_script, name="run_embeddings_script"),
 ]
-    # path("upload/", views.upload_file, name="upload_file"),
+# path("upload/", views.upload_file, name="upload_file"),

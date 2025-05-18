@@ -225,3 +225,18 @@ FILEBROWSER_EXTENSIONS = {
 }
 
 FILEBROWSER_DIRECTORY = ''  # Refers to MEDIA_ROOT/
+
+
+# 📁 Upload limits (easy to read/change format)
+# Allow up to 8000 uploaded files per request
+DATA_UPLOAD_MAX_NUMBER_FILES = 8000
+# Max size for a single uploaded file in memory: 500 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100 MB
+# Max total POST body size (e.g. all files + metadata): 10 GB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10000 * 1024 * 1024  # 1000 MB (1 GB)
+
+
+
+
+# File Manager App (To turn on the server logs)
+DEBUG_LOG_EMBEDDINGS = True
