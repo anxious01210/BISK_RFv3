@@ -1,7 +1,6 @@
 # file_manager/views.py
 import os, json
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.http import JsonResponse
 from .utils import safe_join
@@ -11,7 +10,8 @@ from pathlib import Path
 from django.views.decorators.http import require_POST
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-from django.views.decorators.csrf import csrf_exempt
+from extras.embedding_utils import run_embedding_on_paths
+from urllib.parse import unquote
 
 def explorer_view(request):
     return render(request, 'file_manager/explorer.html')
@@ -151,16 +151,6 @@ def upload_files(request):
 
 
 
-import os
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.conf import settings
-from extras.embedding_utils import run_embedding_on_paths
-# from extras.embedding_utils import generate_embeddings_from_paths
-from urllib.parse import unquote
-
 
 @csrf_exempt
 @require_POST
@@ -170,29 +160,65 @@ def run_embeddings_script(request):
         rel_paths = data.get("paths", [])
         det_set = data.get("det_set", "auto")
         force = data.get("force", False)
-
         print("📥 Received paths:", rel_paths)
-
         abs_paths = []
         for rel in rel_paths:
             rel = unquote(rel)
-            if rel.startswith("/media/"):
-                rel = rel[len("/media/"):]
-            full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
-            print("🔍 Checking:", full_path)
+            rel = rel.lstrip("/")  # remove any leading /
+            full_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, rel))
+            # print("🔍 Checking:", full_path)
+            print(f"🧪 Raw rel = {rel}")
+            print(f"📁 full_path = {full_path}")
+            print(f"📄 exists? {os.path.exists(full_path)}")
             if os.path.exists(full_path):
                 abs_paths.append(full_path)
-
-        print("✅ Valid paths:", abs_paths)
-
+        print("✅ Valid absolute paths:", abs_paths)
         if not abs_paths:
             return JsonResponse({"error": "No valid files or folders found."}, status=400)
-
+        print("✅ Final valid abs_paths:", abs_paths)
         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
-        return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
-
+        summary = (
+            f"✅ Saved: {result['saved']}, "
+            f"⚠️ Skipped: {result['skipped']}, "
+            f"📦 PKL: {os.path.basename(result['pkl'])}"
+        )
+        return JsonResponse({"message": summary})
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+
+# @csrf_exempt
+# @require_POST
+# def run_embeddings_script(request):
+#     try:
+#         data = json.loads(request.body)
+#         rel_paths = data.get("paths", [])
+#         det_set = data.get("det_set", "auto")
+#         force = data.get("force", False)
+#
+#         print("📥 Received paths:", rel_paths)
+#
+#         abs_paths = []
+#         for rel in rel_paths:
+#             rel = unquote(rel)
+#             if rel.startswith("/media/"):
+#                 rel = rel[len("/media/"):]
+#             full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
+#             print("🔍 Checking:", full_path)
+#             if os.path.exists(full_path):
+#                 abs_paths.append(full_path)
+#
+#         print("✅ Valid paths:", abs_paths)
+#
+#         if not abs_paths:
+#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
+#
+#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
+#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
+#
+#     except Exception as e:
+#         return JsonResponse({"error": str(e)}, status=500)
 
 
 

@@ -5,31 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/extras/embedding_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/backups/explorer_G1-NoProgBar4FileUpload.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/backups/explorer_UploadRetry.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.contextmenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.core.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.events.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.helpers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.init.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.selection.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.sidebar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.ui.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.upload.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BISK_RFv3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/initialize_embeddings.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/initialize_embeddings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.js" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/backups/explorer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/explorer_Tailwind.js" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/backups/explorer_Tailwind.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/file_manager/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/style_NoTailwind.css" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/backups/style_NoTailwind.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extras/embedding_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/embedding_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.contextmenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.contextmenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.ui.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_manager/templates/file_manager/explorer.html" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/templates/file_manager/explorer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_manager/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/H123456_9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/media/H123456_9.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK-F08.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK-F15.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/BISK-F16.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/BISK-F16.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/BISK-F16.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK002.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK007.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK008.npy" beforeDir="false" />
@@ -141,13 +126,12 @@
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK428.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK429.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/BISK434.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H120025.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H120025.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H120025.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H120081.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H120081.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H123456.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H123456.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130185.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130247.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130286.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130287.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H123456.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H130247.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H130247.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H130286.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H130286.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H130287.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H130287.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H130292.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H130377.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H130471.npy" beforeDir="false" />
@@ -171,24 +155,24 @@
       <change beforePath="$PROJECT_DIR$/media/embeddings/H150065.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H150072.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H150080.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H150086.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H150086.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H150086.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H150104.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H150153.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H150153.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H150153.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160004.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160005.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160011.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160022.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160023.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160005.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160005.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160011.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160011.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160022.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160022.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160023.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160023.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160024.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160042.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160048.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160048.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160048.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160055.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160056.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160056.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160056.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160059.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160067.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160068.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160080.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160090.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160080.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160080.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/embeddings/H160090.npy" beforeDir="false" afterPath="$PROJECT_DIR$/media/embeddings/H160090.npy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160101.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160108.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H160133.npy" beforeDir="false" />
@@ -296,7 +280,6 @@
       <change beforePath="$PROJECT_DIR$/media/embeddings/H200015.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H200016.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H200024.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H200025.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H200033.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H200040.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H200042.npy" beforeDir="false" />
@@ -534,7 +517,6 @@
       <change beforePath="$PROJECT_DIR$/media/embeddings/H230064.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H230065.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H230066.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H230067.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H230070.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H230073.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H230074.npy" beforeDir="false" />
@@ -705,7 +687,6 @@
       <change beforePath="$PROJECT_DIR$/media/embeddings/H250116.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H250118.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/embeddings/H250122.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/npys/H123456.png.npy" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/face_embeddings.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/media/face_embeddings.pkl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -886,7 +867,7 @@
       <workItem from="1747068075914" duration="703000" />
       <workItem from="1747149158311" duration="24766000" />
       <workItem from="1747321339403" duration="49291000" />
-      <workItem from="1747419395894" duration="58459000" />
+      <workItem from="1747419395894" duration="84284000" />
     </task>
     <servers />
   </component>

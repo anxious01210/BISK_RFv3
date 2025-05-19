@@ -64,18 +64,8 @@
 
     <div class="main-content">
         <div id="folderContents" class="grid-view">
-            {% for folder in folders %}
-                <div class="folder-item" data-name="{{ folder.name }}">
-                    <div class="file-name">{{ folder.name }}</div>
-                    <div class="file-size">{{ folder.size|filesizeformat }}</div>
-                </div>
-            {% endfor %}
-            {% for file in files %}
-                <div class="file-item" data-name="{{ file.name }}">
-                    <div class="file-name">{{ file.name }}</div>
-                    <div class="file-size">{{ file.size|filesizeformat }}</div>
-                </div>
-            {% endfor %}
+
+
         </div>
         <div id="infoPanel">
             <h3>ℹ️ Info</h3>
@@ -83,6 +73,7 @@
             <div id="infoDetails">Click a file or folder</div>
         </div>
     </div>
+
 
     <div id="uploadModeModal" class="modal" style="display:none;">
         <div class="modal-content">
