@@ -1,8 +1,12 @@
 # file_manager/views.py
-import os, json
+import os
+import uuid
+import json
+import threading
+import subprocess
 from django.conf import settings
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, StreamingHttpResponse, HttpResponseNotAllowed
 from .utils import safe_join
 import mimetypes
 from django.views.decorators.csrf import csrf_exempt
@@ -12,6 +16,32 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from extras.embedding_utils import run_embedding_on_paths
 from urllib.parse import unquote
+import time
+BASE_DIR = settings.BASE_DIR
+
+# Adjust this path as needed
+# LOG_DIR = os.path.join(BASE_DIR, "media/logs/sort_faces/")
+# def stream_sort_faces_logs(request, job_id):
+#     def log_stream():
+#         log_path = os.path.join(LOG_DIR, f"{job_id}.log")
+#         last_pos = 0
+#         timeout = time.time() + 60  # 1-minute timeout
+#
+#         while time.time() < timeout:
+#             if os.path.exists(log_path):
+#                 with open(log_path, "r") as f:
+#                     f.seek(last_pos)
+#                     new_lines = f.readlines()
+#                     if new_lines:
+#                         for line in new_lines:
+#                             yield f"data: {line.strip()}\n\n"
+#                         last_pos = f.tell()
+#             time.sleep(0.5)
+#
+#         yield "event: close\ndata: end\n\n"
+#
+#     return StreamingHttpResponse(log_stream(), content_type='text/event-stream')
+
 
 def explorer_view(request):
     return render(request, 'file_manager/explorer.html')
@@ -188,157 +218,428 @@ def run_embeddings_script(request):
 
 
 
+
+
+
+running_processes = {}
+process_outputs = {}
+process_completed = {}
+
+@csrf_exempt
+@require_POST
+def run_sort_faces_script(request):
+    import os
+    import uuid
+    import json
+    import threading
+    import subprocess
+    from django.http import JsonResponse
+    from django.conf import settings
+
+    data = json.loads(request.body)
+    rel_paths = data.get("paths", [])
+    det_sets = data.get("det_sets", [])
+    options = data.get("options", {})
+
+    abs_paths = [os.path.normpath(os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))) for rel in rel_paths]
+    input_folder = abs_paths[0]
+    job_id = str(uuid.uuid4())
+    print(f"[DEBUG] 🏷️ Generated job_id = {job_id}")
+
+    cmd = ["python3", "extras/sort_faces_by_detset.py", "--input", input_folder]
+    if det_sets:
+        cmd += ["--det_sets", ",".join(det_sets)]
+
+    def add_flag(key, cli_name=None, cmd_ref=None):
+        if options.get(key):
+            cmd_ref.append(f"--{cli_name or key.lower()}")
+
+    def add_value(key, cli_name=None, cmd_ref=None):
+        value = options.get(key)
+        if value is not None:
+            cmd_ref += [f"--{cli_name or key.lower()}", str(value)]
+
+    # def hex_to_rgb_string(hex_color):
+    #     hex_color = hex_color.lstrip('#')
+    #     return ','.join(str(int(hex_color[i:i+2], 16)) for i in (0, 2, 4))
+    def normalize_color_string(value):
+        if value.startswith("#"):
+            hex_color = value.lstrip("#")
+            if len(hex_color) == 3:
+                hex_color = ''.join([c * 2 for c in hex_color])
+            return ','.join(str(int(hex_color[i:i + 2], 16)) for i in (0, 2, 4))
+        return value  # Already in "R,G,B" format
+
+    # Correct CLI flags from actual script
+    add_flag("ENABLE_TERMINAL_LOGS", "terminal_logs", cmd)
+    add_flag("ENABLE_PREVIEW_IMAGE", "preview_image", cmd)
+    add_flag("ENABLE_PREVIEW_OVERLAY", "preview_overlay", cmd)
+    add_flag("OUTPUT_UNDER_MEDIA_FOLDER", "output_under_media", cmd)
+    add_flag("PREVIEW_TEXT_BOLD", "text_bold", cmd)
+    add_flag("ENABLE_TEXT_BG", "enable_text_bg", cmd)
+    add_flag("ENABLE_CUSTOM_FONT", "custom_font", cmd)
+
+    add_value("PREVIEW_CROP_MARGIN_PERCENT", "preview_crop_margin", cmd)
+    add_value("MAX_GPU_MEMORY_PERCENT", "max_gpu_percent", cmd)
+    add_value("MEMORY_CHECK_INTERVAL", "memory_check_interval", cmd)
+    add_value("PREVIEW_TEXT_SIZE", "text_size", cmd)
+    add_value("PREVIEW_TEXT_BG_OPACITY", "text_bg_opacity", cmd)
+
+    if options.get("PREVIEW_TEXT_COLOR"):
+        cmd += ["--text_color", normalize_color_string(options["PREVIEW_TEXT_COLOR"])]
+    if options.get("PREVIEW_TEXT_BG_COLOR"):
+        cmd += ["--text_bg_color", normalize_color_string(options["PREVIEW_TEXT_BG_COLOR"])]
+
+    print(f"[DEBUG] 🔧 Final command: {' '.join(cmd)}")
+
+    env = os.environ.copy()
+    output_buffer = []
+    process_outputs[job_id] = output_buffer
+    running_processes[job_id] = None
+
+    def run():
+        try:
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, text=True)
+            running_processes[job_id] = process
+            for line in iter(process.stdout.readline, ''):
+                print(f"📤 [DEBUG] Script output: {line.strip()}")
+                output_buffer.append(line.strip())
+            process.wait()
+        finally:
+            output_buffer.append("✅ Script completed.")
+            process_outputs.pop(job_id, None)
+            running_processes.pop(job_id, None)
+            process_completed[job_id] = True
+
+    threading.Thread(target=run).start()
+    return JsonResponse({"job_id": job_id})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Mehdi_working but does not pass all the modal settings to the script
 # @csrf_exempt
 # @require_POST
-# def run_embeddings_script(request):
-#     try:
-#         data = json.loads(request.body)
-#         rel_paths = data.get("paths", [])
-#         det_set = data.get("det_set", "auto")
-#         force = data.get("force", False)
-#
-#         print("📥 Received paths:", rel_paths)
-#
-#         abs_paths = []
-#         for rel in rel_paths:
-#             rel = unquote(rel)
-#             if rel.startswith("/media/"):
-#                 rel = rel[len("/media/"):]
-#             full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
-#             print("🔍 Checking:", full_path)
-#             if os.path.exists(full_path):
-#                 abs_paths.append(full_path)
-#
-#         print("✅ Valid paths:", abs_paths)
-#
-#         if not abs_paths:
-#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
-#
-#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
-#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
-#
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=500)
-
-
-
-
-
-# def run_embeddings_script(request):
-#     try:
-#         data = json.loads(request.body)
-#         rel_paths = data.get("paths", [])
-#         det_set = data.get("det_set", "auto")
-#         force = data.get("force", False)
-#
-#         print("📥 Received paths:", rel_paths)  # <--- DEBUG LINE
-#
-#         abs_paths = []
-#         for rel in rel_paths:
-#             rel = unquote(rel)
-#             if rel.startswith("/media/"):
-#                 rel = rel[len("/media/"):]
-#             full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
-#             print("🔍 Checking:", full_path)  # <--- DEBUG LINE
-#             if os.path.exists(full_path):
-#                 abs_paths.append(full_path)
-#
-#         print("✅ Valid paths:", abs_paths)  # <--- DEBUG LINE
-#
-#         if not abs_paths:
-#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
-#
-#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
-#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=500)
-
-
-
-
-
-
-
-# @csrf_exempt
-# @require_POST
-# def run_embeddings_script(request):
-#     try:
-#         data = json.loads(request.body)
-#         rel_paths = data.get("paths", [])
-#         det_set = data.get("det_set", "auto")
-#         force = data.get("force", False)
-#
-#         abs_paths = []
-#         for rel in rel_paths:
-#             rel = unquote(rel)
-#             if rel.startswith("/media/"):
-#                 rel = rel[len("/media/"):]
-#             full_path = os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))
-#             if os.path.exists(full_path):
-#                 abs_paths.append(full_path)
-#
-#         if not abs_paths:
-#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
-#
-#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
-#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=500)
-
-# def run_embeddings_script(request):
-#     if request.method != "POST":
-#         return JsonResponse({"error": "Invalid request"}, status=405)
-#
-#     try:
-#         data = json.loads(request.body)
-#         rel_paths = data.get("paths", [])
-#         det_set = data.get("det_set", "auto")
-#         force = data.get("force", False)
-#
-#         abs_paths = []
-#         for rel in rel_paths:
-#             cleaned = unquote(rel).lstrip("/")  # remove leading slash
-#             full_path = os.path.join(settings.MEDIA_ROOT, cleaned.replace("media/", ""))
-#             if os.path.exists(full_path):
-#                 abs_paths.append(full_path)
-#
-#         if not abs_paths:
-#             return JsonResponse({"error": "No valid files or folders found."}, status=400)
-#
-#         result = run_embedding_on_paths(paths=abs_paths, det_set=det_set, force=force)
-#         return JsonResponse({"message": f"Processed {result} image(s) for embeddings."})
-#
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=500)
-
-
-
-# @csrf_exempt
-# @require_POST
-# def run_embeddings_script(request):
+# def run_sort_faces_script(request):
 #     data = json.loads(request.body)
-#     paths = data.get("paths", [])
-#     det_set = data.get("det_set", "auto")
+#     rel_paths = data.get("paths", [])
+#     det_sets = data.get("det_sets", [])
+#     options = data.get("options", {})
 #
-#     if not paths:
-#         return JsonResponse({"error": "No paths provided."}, status=400)
+#     abs_paths = [os.path.normpath(os.path.join(settings.MEDIA_ROOT, rel.lstrip("/"))) for rel in rel_paths]
+#     input_folder = abs_paths[0]
+#     job_id = str(uuid.uuid4())
+#     print(f"[DEBUG] 🏷️ Generated job_id = {job_id}")
 #
-#     # Convert relative media paths to absolute paths
+#     cmd = ["python3", "extras/sort_faces_by_detset.py", "--input", input_folder]
+#     if det_sets:
+#         cmd += ["--det_sets", ",".join(det_sets)]
+#     if options.get("ENABLE_TERMINAL_LOGS"):
+#         cmd += ["--terminal_logs"]
+#
+#     # Add any options passed as CLI flags if needed...
+#
+#     env = os.environ.copy()
+#     output_buffer = []
+#     process_outputs[job_id] = output_buffer
+#
+#     def run():
+#         try:
+#             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, text=True)
+#             running_processes[job_id] = process
+#             for line in iter(process.stdout.readline, ''):
+#                 output_buffer.append(line.strip())
+#             process.wait()
+#         finally:
+#             output_buffer.append("✅ Script completed.")
+#             process_outputs.pop(job_id, None)
+#             running_processes.pop(job_id, None)
+#             process_completed[job_id] = True
+#
+#     threading.Thread(target=run).start()
+#     return JsonResponse({"job_id": job_id})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def stream_log_output(job_id):
+#     def event_stream():
+#         buffer = process_outputs.get(job_id, [])
+#         idx = 0
+#         while True:
+#             if job_id not in running_processes and not buffer[idx:]:
+#                 break
+#             new_lines = buffer[idx:]
+#             idx = len(buffer)
+#             for line in new_lines:
+#                 yield f"data: {line}\n\n"
+#             time.sleep(0.4)
+#     return StreamingHttpResponse(event_stream(), content_type="text/event-stream")
+
+
+# @csrf_exempt
+# @require_POST
+# def run_sort_faces_script(request):
+#     data = json.loads(request.body)
+#     rel_paths = data.get("paths", [])
+#     det_sets = data.get("det_sets", [])
+#     options = data.get("options", {})
+#
 #     abs_paths = []
-#     for rel_path in paths:
-#         rel_path = rel_path.lstrip("/")
-#         # abs_path = os.path.join(settings.MEDIA_ROOT, rel_path)
-#         abs_path = os.path.join(settings.MEDIA_ROOT, unquote(rel_path))
-#         if os.path.exists(abs_path):
-#             abs_paths.append(abs_path)
+#     for rel in rel_paths:
+#         rel = rel.lstrip("/")
+#         full_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, rel))
+#         abs_paths.append(full_path)
 #
-#     if not abs_paths:
-#         return JsonResponse({"error": "No valid files or folders found."}, status=400)
+#     input_folder = abs_paths[0]  # Only one for now
+#     job_id = str(uuid.uuid4())
+#     print(f"[DEBUG] 🏷️ Generated job_id = {job_id}")
 #
-#     try:
-#         force = data.get("force", False)
-#         total = run_embedding_on_paths(abs_paths, det_set=det_set, force=force)
-#         # total = run_embedding_on_paths(abs_paths, det_set=det_set)
-#         return JsonResponse({"message": f"Processed {total} image(s) for embeddings."})
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=500)
+#     cmd = ["python3", "extras/sort_faces_by_detset.py", "--input", input_folder]
+#     if det_sets:
+#         cmd += ["--det_sets", ",".join(det_sets)]
+#     if options.get("ENABLE_TERMINAL_LOGS"):
+#         cmd += ["--terminal_logs"]
+#
+#     env = os.environ.copy()
+#     output_buffer = []
+#     process_outputs[job_id] = output_buffer
+#
+#     def run():
+#         try:
+#             print(f"[DEBUG] 🧵 Running script: {' '.join(cmd)}")
+#             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, text=True)
+#             running_processes[job_id] = process
+#             for line in iter(process.stdout.readline, ''):
+#                 clean = line.strip()
+#                 print(f"📤 [DEBUG] Script output: {clean}")
+#                 output_buffer.append(clean)
+#             process.wait()
+#             print(f"[DEBUG] 🟢 Script for job {job_id} fully finished.")
+#         finally:
+#             print(f"[DEBUG] 🧼 Cleaning up completed job {job_id}")
+#             process_completed[job_id] = True
+#             process_outputs.pop(job_id, None)
+#             running_processes.pop(job_id, None)
+#
+#     thread = threading.Thread(target=run)
+#     thread.start()
+#
+#     return JsonResponse({"job_id": job_id})
+#
+# def stream_sort_faces_output(request, job_id):
+#     def event_stream():
+#         buffer = job_output_buffers.get(job_id)
+#         if not buffer:
+#             yield "⛔ Job not found.\n"
+#             return
+#         while True:
+#             line = buffer.readline(timeout=1.0)  # custom method you define
+#             if line is None:
+#                 break
+#             yield line
+#     return StreamingHttpResponse(event_stream(), content_type='text/plain')
+#
+# @csrf_exempt
+# @require_POST
+# def stop_sort_faces_job(request, job_id):
+#     print(f"[DEBUG] 🔌 stop_sort_faces_job called with job_id = {job_id}")
+#     print(f"[DEBUG] Available job_ids in running_processes: {list(running_processes.keys())}")
+#
+#     if job_id in running_processes:
+#         process = running_processes[job_id]
+#         if process is not None:
+#             print(f"[DEBUG] 🛑 Terminating running process {job_id}")
+#             process.terminate()
+#             running_processes.pop(job_id, None)
+#             return JsonResponse({"status": "terminated"})
+#         else:
+#             print(f"[DEBUG] ⚠️ Process is None for {job_id} — may already be cleaned up")
+#
+#     if process_completed.get(job_id):
+#         print(f"[DEBUG] ✅ Job {job_id} was already completed.")
+#         return JsonResponse({"status": "already completed"})
+#
+#     print(f"[DEBUG] ❌ Job {job_id} not found.")
+#     return JsonResponse({"error": "No running process found."}, status=404)
+#
+# from django.http import StreamingHttpResponse
+# import os
+# import time
+#
+# LOG_DIR = os.path.join(BASE_DIR, "media/logs/sort_faces/")
+#
+# from .script_runner import job_output_buffers
+#
+# def stream_sort_faces_logs(request, job_id):
+#     job_id_str = str(job_id)
+#
+#     def event_stream():
+#         sent_index = 0
+#         while True:
+#             logs = job_output_buffers.get(job_id_str, [])
+#             if sent_index < len(logs):
+#                 for line in logs[sent_index:]:
+#                     yield f"data: {line}\n\n"
+#                 sent_index = len(logs)
+#             time.sleep(0.5)
+#
+#     return StreamingHttpResponse(event_stream(), content_type='text/event-stream')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def stream_sort_faces_logs(request, job_id):
+#     def log_stream():
+#         log_path = os.path.join(LOG_DIR, f"{job_id}.log")
+#         last_pos = 0
+#         timeout = time.time() + 60  # 1-minute timeout
+#
+#         while time.time() < timeout:
+#             if os.path.exists(log_path):
+#                 with open(log_path, "r") as f:
+#                     f.seek(last_pos)
+#                     new_lines = f.readlines()
+#                     if new_lines:
+#                         for line in new_lines:
+#                             yield f"data: {line.strip()}\n\n"
+#                         last_pos = f.tell()
+#             time.sleep(0.5)
+#
+#         yield "event: close\ndata: end\n\n"
+#
+#     return StreamingHttpResponse(log_stream(), content_type='text/event-stream')
+
+
+
+
+
+
+
+# running_processes = {}
+# process_outputs = {}
+# process_completed = {}
+#
+# def stream_log_output(job_id):
+#     def event_stream():
+#         buffer = process_outputs.get(job_id, [])
+#         idx = 0
+#         while True:
+#             if job_id not in running_processes and not buffer[idx:]:
+#                 break
+#             new_lines = buffer[idx:]
+#             idx = len(buffer)
+#             for line in new_lines:
+#                 yield f"data: {line}\n\n"
+#             time.sleep(0.4)
+#     return StreamingHttpResponse(event_stream(), content_type="text/event-stream")
+#
+# @csrf_exempt
+# @require_POST
+# def run_sort_faces_script(request):
+#     data = json.loads(request.body)
+#     rel_paths = data.get("paths", [])
+#     det_sets = data.get("det_sets", [])
+#     options = data.get("options", {})
+#
+#     abs_paths = []
+#     for rel in rel_paths:
+#         rel = rel.lstrip("/")
+#         full_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, rel))
+#         abs_paths.append(full_path)
+#
+#     input_folder = abs_paths[0]  # Only one for now
+#     job_id = str(uuid.uuid4())
+#     print(f"[DEBUG] 🏷️ Generated job_id = {job_id}")
+#
+#     cmd = ["python3", "extras/sort_faces_by_detset.py", "--input", input_folder]
+#     if det_sets:
+#         cmd += ["--det_sets", ",".join(det_sets)]
+#     if options.get("ENABLE_TERMINAL_LOGS"):
+#         cmd += ["--terminal_logs"]
+#
+#     env = os.environ.copy()
+#     output_buffer = []
+#     process_outputs[job_id] = output_buffer
+#
+#     def run():
+#         try:
+#             print(f"[DEBUG] 🧵 Running script: {' '.join(cmd)}")
+#             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, text=True)
+#             running_processes[job_id] = process
+#             for line in iter(process.stdout.readline, ''):
+#                 clean = line.strip()
+#                 print(f"📤 [DEBUG] Script output: {clean}")
+#                 output_buffer.append(clean)
+#             process.wait()
+#             print(f"[DEBUG] 🟢 Script for job {job_id} fully finished.")
+#         finally:
+#             print(f"[DEBUG] 🧼 Cleaning up completed job {job_id}")
+#             process_completed[job_id] = True
+#             process_outputs.pop(job_id, None)
+#             running_processes.pop(job_id, None)
+#
+#     thread = threading.Thread(target=run)
+#     thread.start()
+#
+#     return JsonResponse({"job_id": job_id})
+#
+# def stream_sort_faces_output(request, job_id):
+#     return stream_log_output(job_id)
+#
+# @csrf_exempt
+# @require_POST
+# def stop_sort_faces_job(request, job_id):
+#     print(f"[DEBUG] 🔌 stop_sort_faces_job called with job_id = {job_id}")
+#     print(f"[DEBUG] Available job_ids in running_processes: {list(running_processes.keys())}")
+#
+#     if job_id in running_processes:
+#         process = running_processes[job_id]
+#         if process is not None:
+#             print(f"[DEBUG] 🛑 Terminating running process {job_id}")
+#             process.terminate()
+#             running_processes.pop(job_id, None)
+#             return JsonResponse({"status": "terminated"})
+#         else:
+#             print(f"[DEBUG] ⚠️ Process is None for {job_id} — may already be cleaned up")
+#
+#     if process_completed.get(job_id):
+#         print(f"[DEBUG] ✅ Job {job_id} was already completed.")
+#         return JsonResponse({"status": "already completed"})
+#
+#     print(f"[DEBUG] ❌ Job {job_id} not found.")
+#     return JsonResponse({"error": "No running process found."}, status=404)

@@ -59,11 +59,6 @@ class FaceImageAdmin(ImportExportModelAdmin):
     readonly_fields = ('image_tag',)
     search_fields = ('student__h_code', 'image_path')
 
-    # def run_script_button(self, obj):
-    #     return format_html(
-    #         '<button class="button" data-id="{}" onclick="openScriptModal(this)">Run Script</button>',
-    #         obj.id
-    #     )
 
     def run_script_button(self, obj):
         return format_html(
@@ -81,31 +76,6 @@ class FaceImageAdmin(ImportExportModelAdmin):
         ]
         return custom_urls + urls
 
-    # def run_script(self, request, face_image_id):
-    #     face_image = FaceImage.objects.get(id=face_image_id)
-    #     selected_type = request.GET.get('type')
-    #
-    #     if selected_type == '1':  # FFmpeg-based script
-    #         self.run_ffmpeg_script(face_image)
-    #     elif selected_type == '2':  # OpenCV-based script
-    #         self.run_opencv_script(face_image)
-    #
-    #     messages.success(request, f"Script executed for {face_image.student.h_code}")
-    #     return JsonResponse({'status': 'success'})
-
-    # def run_script(self, request, face_image_id):
-    #     face_image = FaceImage.objects.get(id=face_image_id)
-    #     selected_type = request.GET.get('type', '1')
-    #     det_set = request.GET.get('det_set', '2048,2048')
-    #     max_frames = request.GET.get('max_frames', '100')
-    #     min_conf = request.GET.get('min_conf', '0.88')
-    #
-    #     if selected_type == '1':
-    #         self.run_ffmpeg_script(face_image, det_set, max_frames, min_conf)
-    #     elif selected_type == '2':
-    #         self.run_opencv_script(face_image)
-    #
-    #     return JsonResponse({'status': 'success'})
 
     def run_script(self, request, face_image_id):
         from urllib.parse import unquote
@@ -138,10 +108,6 @@ class FaceImageAdmin(ImportExportModelAdmin):
             '--min_conf', min_conf
         ])
 
-    # def run_ffmpeg_script(self, face_image):
-    #     # Call your FFmpeg script here
-    #     script_path = 'extras/capture_embeddings_ffmpeg.py'
-    #     subprocess.run(['python3', script_path])
 
     def stream_script_output(self, script, h_code, det_set, max_frames, min_conf):
         cmd = [

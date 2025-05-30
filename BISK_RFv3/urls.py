@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from filebrowser.sites import site as filebrowser_site
+
 urlpatterns = [
     path('admin/filebrowser/', filebrowser_site.urls),
     path('admin/', admin.site.urls),

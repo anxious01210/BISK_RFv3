@@ -1,3 +1,4 @@
+
 {% load static %}
 {% load django_browser_reload %}
 {% django_browser_reload_script %}
@@ -30,7 +31,7 @@
                     <input type="file" id="folderUploadInput" webkitdirectory multiple style="display: none;">
                 </label>
 
-                <label for="limitSelect" style="font-size: 13px; color: #aaa;">Show</label>
+                <label for="limitSelect" style="font-size: 13px; color: #aaa;">Show:</label>
                 <select id="limitSelect">
                     <option value="50" selected>50</option>
                     <option value="100">100</option>
@@ -63,10 +64,7 @@
     </div>
 
     <div class="main-content">
-        <div id="folderContents" class="grid-view">
-
-
-        </div>
+        <div id="folderContents" class="grid-view"></div>
         <div id="infoPanel">
             <h3>ℹ️ Info</h3>
             <hr style="margin: 8px 0; border: 1px solid #444;">
@@ -74,6 +72,16 @@
         </div>
     </div>
 
+    <div id="sortFacesModal" class="modal" style="display:none;">
+        <div class="modal-content" style="min-width: 500px;">
+            <h3>🧠 Running Sort Faces Script</h3>
+            <progress id="sortFacesProgressBar" value="0" max="100" style="width: 100%; margin-bottom: 10px;"></progress>
+            <pre id="sortFacesTerminal" style="height: 200px; background: black; color: white; padding: 1em;"></pre>
+            <div id="sortFacesStatusText" style="margin: 1em 0;"></div>
+            <button onclick="stopSortFacesJob()">🛑 Stop</button>
+            <button onclick="document.getElementById('sortFacesModal').style.display='none'">❌ Close</button>
+        </div>
+    </div>
 
     <div id="uploadModeModal" class="modal" style="display:none;">
         <div class="modal-content">
@@ -125,6 +133,149 @@
 <script src="{% static 'file_manager/explorer.events.js' %}"></script>
 <script src="{% static 'file_manager/explorer.init.js' %}"></script>
 <script src="{% static 'file_manager/explorer.contextmenu.js' %}"></script>
+<script src="{% static 'file_manager/sort_faces_modal.js' %}"></script>
+<script src="{% static 'file_manager/sort_faces_terminal.js' %}"></script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+{#{% load static %}#}
+{#{% load django_browser_reload %}#}
+{#{% django_browser_reload_script %}#}
+{##}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>File Manager</title>#}
+{#    <link rel="stylesheet" href="{% static 'file_manager/style.css' %}">#}
+{#    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">#}
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>#}
+{#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<div class="file-manager-container">#}
+{#    <div id="breadcrumb"></div>#}
+{##}
+{#    <div class="toolbar">#}
+{#        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">#}
+{#            <div>#}
+{#                <button id="refreshBtn" class="action-button">🔄 Refresh</button>#}
+{#                <label id="uploadLabel" class="button" style="cursor: pointer;">#}
+{#                    ⬆️ Upload Files#}
+{#                    <input type="file" id="uploadInput" multiple style="display: none;">#}
+{#                </label>#}
+{#                <label id="folderUploadLabel" class="button" style="cursor: pointer;">#}
+{#                    📁 Upload Folder#}
+{#                    <input type="file" id="folderUploadInput" webkitdirectory multiple style="display: none;">#}
+{#                </label>#}
+{##}
+{#                <label for="limitSelect" style="font-size: 13px; color: #aaa;">Show:</label>#}
+{#                <select id="limitSelect">#}
+{#                    <option value="50" selected>50</option>#}
+{#                    <option value="100">100</option>#}
+{#                    <option value="150">150</option>#}
+{#                    <option value="200">200</option>#}
+{#                    <option value="300">300</option>#}
+{#                    <option value="400">400</option>#}
+{#                    <option value="500">500</option>#}
+{#                    <option value="1000">1000</option>#}
+{#                    <option value="all">All</option>#}
+{#                </select>#}
+{##}
+{#                <label style="font-size: 13px; color: #aaa;">#}
+{#                    View:#}
+{#                    <select id="viewToggle">#}
+{#                        <option value="grid" selected>Grid</option>#}
+{#                        <option value="list">List</option>#}
+{#                    </select>#}
+{#                </label>#}
+{#            </div>#}
+{##}
+{#            <div id="actionToolbar" style="display: none; gap: 8px; flex-wrap: wrap;">#}
+{#                <button id="renameBtn">✏️ Rename</button>#}
+{#                <button id="deleteBtn">🗑 Delete</button>#}
+{#                <button id="moveBtn">📁 Move</button>#}
+{#                <button id="copyBtn">📄 Copy</button>#}
+{#                <button id="favoriteBtn">⭐ Favorite</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="main-content">#}
+{#        <div id="folderContents" class="grid-view">#}
+{##}
+{##}
+{#        </div>#}
+{#        <div id="infoPanel">#}
+{#            <h3>ℹ️ Info</h3>#}
+{#            <hr style="margin: 8px 0; border: 1px solid #444;">#}
+{#            <div id="infoDetails">Click a file or folder</div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{##}
+{#    <div id="uploadModeModal" class="modal" style="display:none;">#}
+{#        <div class="modal-content">#}
+{#            <h3>Select Upload Mode</h3>#}
+{#            <p>How should we handle folder upload?</p>#}
+{#            <button id="uploadFlat" class="upload-option">📂 Upload files only (flat)</button>#}
+{#            <button id="uploadPreserve" class="upload-option">📁 Preserve folder structure</button>#}
+{#            <button onclick="document.getElementById('uploadModeModal').style.display='none'" style="margin-top: 10px;">#}
+{#                Cancel#}
+{#            </button>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div id="uploadSpinner" class="modal" style="display:none; align-items: center; justify-content: center;">#}
+{#        <div class="modal-content" style="min-width: 300px;">#}
+{#            <div style="display: flex; align-items: center; justify-content: space-between;">#}
+{#                <div style="display: flex; align-items: center; gap: 10px;">#}
+{#                    <div class="spinner"#}
+{#                         style="border: 4px solid #ccc; border-top: 4px solid #2196f3; border-radius: 50%; width: 32px; height: 32px; animation: spin 1s linear infinite;"></div>#}
+{#                    <span id="uploadSpinnerMessage">Uploading...</span>#}
+{#                </div>#}
+{#                <button id="uploadCancelBtn"#}
+{#                        style="margin-left: 20px; font-size: 14px; background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">#}
+{#                    ✖ Cancel#}
+{#                </button>#}
+{#            </div>#}
+{#            <progress id="uploadProgressBar" value="0" max="100" style="width: 100%; margin-top: 10px;"></progress>#}
+{#            <div id="uploadETA" style="margin-top: 6px; font-size: 12px; color: #888;">ETA: —</div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div id="uploadResultMessage" class="modal" style="display:none; align-items: center; justify-content: center;">#}
+{#        <div class="modal-content">#}
+{#            <p id="uploadResultText" style="margin: 0; font-size: 15px;">✅ Upload complete!</p>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<ul id="contextMenu" class="custom-context-menu"#}
+{#    style="display:none; position:absolute; z-index:9999; background:#fff; border:1px solid #ccc; padding:6px 0; list-style:none; min-width:180px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">#}
+{#</ul>#}
+{##}
+{#<script src="{% static 'file_manager/explorer.helpers.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.selection.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.ui.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.sidebar.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.core.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.upload.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.events.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.init.js' %}"></script>#}
+{#<script src="{% static 'file_manager/explorer.contextmenu.js' %}"></script>#}
+{#<script src="{% static 'file_manager/sort_faces_modal.js' %}"></script>#}
+{#<script src="{% static 'file_manager/sort_faces_terminal.js' %}"></script>#}
+{##}
+{#</body>#}
+{#</html>#}

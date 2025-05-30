@@ -1,4 +1,4 @@
-# capture_embeddings_ffmpeg.py
+# extras/capture_embeddings_ffmpeg.py
 import os
 import cv2
 import ffmpeg

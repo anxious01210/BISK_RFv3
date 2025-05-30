@@ -353,13 +353,14 @@ button.action-button:hover {
 }
 
 .modal-content select {
-    width: 100%;
-    padding: 6px;
-    margin-top: 6px;
+    width: auto;
+    /*padding: 6px;*/
+    /*margin-top: 6px;*/
     background-color: #333;
     color: white;
     border: 1px solid #555;
     border-radius: 4px;
+    height: 26px;
 }
 
 .modal-content button {
@@ -421,6 +422,7 @@ progress[value]::-webkit-progress-value {
 }
 
 .custom-context-menu li {
+    color: #263142;
     padding: 6px 14px;
     cursor: pointer;
     font-size: 14px;
@@ -465,4 +467,22 @@ progress[value]::-webkit-progress-value {
 
 .custom-context-menu li:hover {
     background-color: #f0f0f0;
+}
+
+#sortFacesModal label.sortfaces-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 6px;
+}
+
+#sortFacesModal input {
+    border: 1px solid #ccc;
+    background-color: #111;
+    color: #fff;
+    border-radius: 6px;
+    padding: 0 6px;
+    /*width: 80px;*/
+    font-size: 13px;
 }
