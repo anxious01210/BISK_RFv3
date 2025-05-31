@@ -19,6 +19,7 @@ from urllib.parse import unquote
 import time
 BASE_DIR = settings.BASE_DIR
 
+
 # Adjust this path as needed
 # LOG_DIR = os.path.join(BASE_DIR, "media/logs/sort_faces/")
 # def stream_sort_faces_logs(request, job_id):
@@ -228,14 +229,6 @@ process_completed = {}
 @csrf_exempt
 @require_POST
 def run_sort_faces_script(request):
-    import os
-    import uuid
-    import json
-    import threading
-    import subprocess
-    from django.http import JsonResponse
-    from django.conf import settings
-
     data = json.loads(request.body)
     rel_paths = data.get("paths", [])
     det_sets = data.get("det_sets", [])
@@ -259,9 +252,6 @@ def run_sort_faces_script(request):
         if value is not None:
             cmd_ref += [f"--{cli_name or key.lower()}", str(value)]
 
-    # def hex_to_rgb_string(hex_color):
-    #     hex_color = hex_color.lstrip('#')
-    #     return ','.join(str(int(hex_color[i:i+2], 16)) for i in (0, 2, 4))
     def normalize_color_string(value):
         if value.startswith("#"):
             hex_color = value.lstrip("#")
@@ -293,6 +283,7 @@ def run_sort_faces_script(request):
     print(f"[DEBUG] 🔧 Final command: {' '.join(cmd)}")
 
     env = os.environ.copy()
+    env["job_id"] = job_id  # ✅ <-- this is the required fix
     output_buffer = []
     process_outputs[job_id] = output_buffer
     running_processes[job_id] = None
@@ -315,7 +306,24 @@ def run_sort_faces_script(request):
     return JsonResponse({"job_id": job_id})
 
 
+def stream_sort_faces_logs(request, job_id):
+    log_path = os.path.join(settings.BASE_DIR, "logs", f"{job_id}.log")
 
+    def event_stream():
+        last_size = 0
+        while True:
+            if os.path.exists(log_path):
+                with open(log_path, "r") as f:
+                    f.seek(last_size)
+                    lines = f.read()
+                    if lines:
+                        yield lines
+                        last_size = f.tell()
+                        if "✅ Script completed." in lines:
+                            break
+            time.sleep(1)
+
+    return StreamingHttpResponse(event_stream(), content_type="text/plain")
 
 
 

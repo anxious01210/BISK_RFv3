@@ -298,5 +298,13 @@ with open(log_path, "a") as log:
     log.write("# good - image passed all checks.\n")
 
 print("✅ Sorting complete.")
+print("✅ Sorting complete.", flush=True)
 print("✅ Script completed.", flush=True)
 print(f"📁 Output: {OUTPUT_BASE}")
+
+# ✅ Add this after the above
+if "job_id" in os.environ:
+    job_log_path = os.path.join("media", "logs", "sorted_faces", f"{os.environ['job_id']}.log")
+    os.makedirs(os.path.dirname(job_log_path), exist_ok=True)
+    with open(job_log_path, "a") as f:
+        f.write("✅ Script completed.\n")

@@ -21,44 +21,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eab2b236-f9a1-41f8-9d9c-6c7157a6bc58" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/extras/sort_faces_by_detset-Good-Mehdi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/sort_faces_by_detset-OldOne.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extras/sort_faces_by_detset_G20250530.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/script_runner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/sort_faces_modal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/static/file_manager/sort_faces_terminal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/templates/file_manager/sort_faces_modal.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/views_old1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_manager/views_old2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BISK_RFv3/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BISK_RFv3/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attendance/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/capture_embeddings_ffmpeg.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extras/sort_faces_by_detset.py" beforeDir="false" afterPath="$PROJECT_DIR$/extras/sort_faces_by_detset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.contextmenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/file_manager/explorer.contextmenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/file_manager/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_manager/templates/file_manager/explorer.html" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/templates/file_manager/explorer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_manager/static/file_manager/sort_faces_modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/static/file_manager/sort_faces_modal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_manager/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_manager/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_manager/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/H123456_8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130185.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130247.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130286.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H130287.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H150086.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H150153.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160005.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160011.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160022.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160023.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160048.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160056.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160080.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/embeddings/H160090.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/face_embeddings.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/media/face_embeddings.pkl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,7 +207,7 @@
       <workItem from="1747321339403" duration="49291000" />
       <workItem from="1747419395894" duration="87275000" />
       <workItem from="1747757243602" duration="524000" />
-      <workItem from="1747757783484" duration="119247000" />
+      <workItem from="1747757783484" duration="126290000" />
     </task>
     <servers />
   </component>
