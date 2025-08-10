@@ -289,18 +289,31 @@ def run_sort_faces_script(request):
     running_processes[job_id] = None
 
     def run():
+        log_path = os.path.join(settings.BASE_DIR, "logs", f"{job_id}.log")
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
         try:
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, text=True)
             running_processes[job_id] = process
-            for line in iter(process.stdout.readline, ''):
-                print(f"📤 [DEBUG] Script output: {line.strip()}")
-                output_buffer.append(line.strip())
+
+            with open(log_path, "a") as f:
+                for line in iter(process.stdout.readline, ''):
+                    line = line.strip()
+                    print(f"📤 [DEBUG] Script output: {line}")
+                    output_buffer.append(line)
+                    f.write(line + "\n")
+                    f.flush()
+
             process.wait()
         finally:
+            with open(log_path, "a") as f:
+                f.write("✅ Script completed.\n")
+                f.flush()
             output_buffer.append("✅ Script completed.")
             process_outputs.pop(job_id, None)
             running_processes.pop(job_id, None)
             process_completed[job_id] = True
+
 
     threading.Thread(target=run).start()
     return JsonResponse({"job_id": job_id})

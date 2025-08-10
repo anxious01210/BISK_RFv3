@@ -1,0 +1,40 @@
+filename,det_set,result,score,bbox_width,bbox_height,x_center,y_center,blur_score,brightness,shake_score,hint
+H120025.JPG,800x800,ok,0.7959,612,770,783,705,307.7,154.4,253.2,good
+H120025_01_01.JPG,1600x1600,ok,0.9185,598,768,2125,1091,43.4,168.1,73.2,blurry [lap_var=43.4 < 100]; small face [bbox_w=598 < 25%]
+H123456.png,800x800,ok,0.8169,1123,1382,1342,1276,56.3,168.3,39.8,blurry [lap_var=56.3 < 100]
+H123456_1.jpg,1600x1600,ok,0.7029,856,1074,1186,1690,126.8,131.4,64.5,good
+H123456_2.jpg,1600x1600,ok,0.7520,672,1118,1365,1615,201.2,135.1,181.8,good
+H123456_3.jpg,1600x1600,ok,0.7716,609,1106,902,1387,91.4,123.1,21.3,blurry [lap_var=91.4 < 100]
+H123456_4.jpg,1600x1600,ok,0.6880,854,1081,1250,1401,148.2,120.6,5.0,good
+H123456_5.jpg,1600x1600,ok,0.7538,849,1059,1240,1424,226.3,118.1,94.2,good
+H123456_6.jpg,1600x1600,ok,0.6578,812,1081,1152,1578,131.6,129.5,16.1,good
+H123456_7.jpg,1600x1600,ok,0.7304,841,1091,1365,1584,189.3,122.2,16.3,good
+H13018_01_01.JPG,1600x1600,ok,0.8329,743,965,2157,1302,76.0,176.4,85.8,blurry [lap_var=76.0 < 100]; small face [bbox_w=743 < 25%]
+H17094_01_01.JPG,1600x1600,ok,0.8040,880,1094,2210,1188,47.0,158.4,305.4,blurry [lap_var=47.0 < 100]; small face [bbox_w=880 < 25%]
+H180102.JPG,800x800,ok,0.6960,795,1068,927,841,343.6,169.5,2836.3,shaky [shake_score=2836.3 > 400]
+H180102_01_01.JPG,1600x1600,ok,0.8211,796,1064,2002,984,89.9,157.2,705.5,blurry [lap_var=89.9 < 100]; shaky [shake_score=705.5 > 400]; small face [bbox_w=796 < 25%]
+H190005.JPG,,bad,0,0,0,0,0,387.7,166.3,2478.8,shaky [shake_score=2478.8 > 400]; face off-center; small face [bbox_w=0 < 25%]; cropped face
+H190005_01_01.JPG,1600x1600,ok,0.8825,648,941,2095,1198,75.5,171.3,579.8,blurry [lap_var=75.5 < 100]; shaky [shake_score=579.8 > 400]; small face [bbox_w=648 < 25%]
+H190080.JPG,800x800,ok,0.5825,699,975,832,776,328.5,160.8,1312.1,shaky [shake_score=1312.1 > 400]
+H190080_01_01.JPG,1600x1600,ok,0.8979,713,1002,2124,1018,67.7,161.9,370.8,blurry [lap_var=67.7 < 100]; small face [bbox_w=713 < 25%]
+H190100.JPG,800x800,ok,0.7322,663,890,811,796,445.7,146.7,2212.6,shaky [shake_score=2212.6 > 400]
+H190100_01_01.JPG,1600x1600,ok,0.8123,663,908,2080,1145,82.0,131.8,396.2,blurry [lap_var=82.0 < 100]; small face [bbox_w=663 < 25%]
+H200082.jpg,800x800,ok,0.6412,822,1041,953,907,36.3,155.4,102.8,blurry [lap_var=36.3 < 100]
+H200082_01_01.jpg,1600x1600,ok,0.8226,824,1052,2004,1193,16.5,139.0,51.0,blurry [lap_var=16.5 < 100]; small face [bbox_w=824 < 25%]
+H200086.jpg,,bad,0,0,0,0,0,7.8,161.6,61.1,blurry [lap_var=7.8 < 100]; face off-center; small face [bbox_w=0 < 25%]; cropped face
+H200086_01_01.jpg,800x800,ok,0.8521,694,913,736,857,6.4,130.4,61.2,blurry [lap_var=6.4 < 100]
+
+# Summary:
+# 800x800: 7
+# 1600x1600: 15
+# bad: 2
+
+# Hint Explanations (with thresholds):
+# blurry - lap_var < 100. Improve focus or use tripod.
+# too dark - brightness < 60. Add lighting.
+# too bright - brightness > 200. Reduce exposure.
+# shaky - gradient imbalance > 400. Hold camera steady.
+# small face - bbox < 25% of image size. Move closer.
+# face off-center - subject not centered.
+# cropped face - bbox touches edge. Reframe image.
+# good - image passed all checks.

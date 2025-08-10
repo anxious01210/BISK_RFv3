@@ -29,7 +29,7 @@ function openSortFacesModal() {
 
     const modalHTML = `
     <div id="sortFacesModal" class="modal-overlay" style="display:flex; align-items:center; justify-content:center;">
-        <div class="modal-content" style="max-height: 90vh; overflow-y: auto; max-width: 1400px; background: #222; padding: 20px; border-radius: 8px; color: #eee;">
+        <div class="modal-content" style="max-height: 100vh; overflow-y: auto; max-width: 1400px; background: #222; padding: 20px; border-radius: 8px; color: #eee;">
             <h3 style="margin-bottom: 20px;">🧠 Sort Faces by DetSet</h3>
     
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
@@ -66,7 +66,8 @@ function openSortFacesModal() {
             </div>
     
             <div style="margin-top: 20px;">
-                <pre id="sortFacesTerminal" style="background:#000; color:#0f0; padding:10px; height:120px; overflow:auto;"></pre>
+<!--                <pre id="sortFacesTerminal" style="background:#000; color:#0f0; padding:10px; height:400px; overflow:auto;"></pre>-->
+                <pre id="sortFacesTerminal" style="background:#000; color:#0f0; padding:10px; height:400px; overflow:auto; font-size: 11px; font-family: monospace; white-space: pre-wrap;"></pre>
                 <div id="sortFacesStatusText" style="margin-top:5px; color:#aaa;"></div>
             </div>
     
@@ -140,26 +141,47 @@ async function submitSortFacesScript() {
         const decoder = new TextDecoder("utf-8");
 
         let buffer = "";
-        let doneReading = false;
-
-        while (!doneReading) {
+        while (true) {
             const { value, done } = await reader.read();
             if (done) break;
 
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop();  // keep the last incomplete line
+            buffer = lines.pop();  // keep last incomplete line
 
-            lines.forEach(line => {
+            for (const line of lines) {
                 terminal.innerText += line + "\n";
                 terminal.scrollTop = terminal.scrollHeight;
 
-                if (line.includes("✅ Script completed.")) {
+                if (line.trim().includes("✅ Script completed.")) {
                     statusText.innerText = "✅ Done.";
-                    doneReading = true;
+                    return;  // exit the loop and finish
                 }
-            });
+            }
         }
+
+
+        // let buffer = "";
+        // let doneReading = false;
+        //
+        // while (!doneReading) {
+        //     const { value, done } = await reader.read();
+        //     if (done) break;
+        //
+        //     buffer += decoder.decode(value, { stream: true });
+        //     const lines = buffer.split("\n");
+        //     buffer = lines.pop();  // keep the last incomplete line
+        //
+        //     lines.forEach(line => {
+        //         terminal.innerText += line + "\n";
+        //         terminal.scrollTop = terminal.scrollHeight;
+        //
+        //         if (line.includes("✅ Script completed.")) {
+        //             statusText.innerText = "✅ Done.";
+        //             doneReading = true;
+        //         }
+        //     });
+        // }
 
     } catch (err) {
         console.error("❌ Script error:", err);

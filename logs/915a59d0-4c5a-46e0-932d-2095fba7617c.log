@@ -1,0 +1,9 @@
+/home/rio/PycharmProjects/BISK_RFv3/.venv/lib/python3.11/site-packages/albumentations/__init__.py:28: UserWarning: A new version of Albumentations is available: '2.0.8' (you have '2.0.5'). Upgrade using: pip install -U albumentations. To disable automatic update checks, set the environment variable NO_ALBUMENTATIONS_UPDATE to 1.
+check_for_updates()
+🟨 FINAL TEXT CONFIG — COLOR: (255, 255, 255), BG: (0, 0, 0), BOLD: True, SIZE: 0.5
+Traceback (most recent call last):
+File "/home/rio/PycharmProjects/BISK_RFv3/extras/sort_faces_by_detset.py", line 95, in <module>
+INPUT_FOLDER = args.input
+^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'input'
+✅ Script completed.

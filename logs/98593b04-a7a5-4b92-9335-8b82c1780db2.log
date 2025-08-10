@@ -1,0 +1,5 @@
+File "/home/rio/PycharmProjects/BISK_RFv3/extras/sort_faces_by_detset.py", line 274
+print("❌ All detection sizes were skipped due to low GPU memory.")
+^
+IndentationError: expected an indented block after 'if' statement on line 273
+✅ Script completed.

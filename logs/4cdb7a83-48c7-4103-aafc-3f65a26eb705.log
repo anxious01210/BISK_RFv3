@@ -1,0 +1,4 @@
+File "/home/rio/PycharmProjects/BISK_RFv3/extras/sort_faces_by_detset.py", line 224
+img_path = os.path.join(INPUT_FOLDER, fname)
+IndentationError: unexpected indent
+✅ Script completed.

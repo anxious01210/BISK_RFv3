@@ -1,0 +1,5 @@
+File "/home/rio/PycharmProjects/BISK_RFv3/extras/sort_faces_by_detset.py", line 249
+log.write(f"{fname},,bad,0,0,0,0,0,0,0,0,image not loaded
+^
+SyntaxError: unterminated string literal (detected at line 249)
+✅ Script completed.

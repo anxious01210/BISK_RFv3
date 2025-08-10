@@ -93,7 +93,9 @@ print(f"🟨 FINAL TEXT CONFIG — COLOR: {PREVIEW_TEXT_COLOR}, BG: {PREVIEW_TEX
 
 INPUT_FOLDER = args.input
 TIMESTAMP = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
-OUTPUT_BASE = os.path.join("media", f"Sorted faces ({TIMESTAMP})") if OUTPUT_UNDER_MEDIA_FOLDER else os.path.join(INPUT_FOLDER, f"Sorted faces ({TIMESTAMP})")
+# OUTPUT_BASE = os.path.join("media", f"Sorted faces ({TIMESTAMP})") if OUTPUT_UNDER_MEDIA_FOLDER else os.path.join(INPUT_FOLDER, f"Sorted faces ({TIMESTAMP})")
+OUTPUT_PARENT = "media" if OUTPUT_UNDER_MEDIA_FOLDER else os.path.dirname(INPUT_FOLDER)
+OUTPUT_BASE = os.path.join(OUTPUT_PARENT, f"Sorted faces ({TIMESTAMP})")
 os.makedirs(OUTPUT_BASE, exist_ok=True)
 os.makedirs(os.path.join(OUTPUT_BASE, "previews"), exist_ok=True)
 os.makedirs(os.path.join(OUTPUT_BASE, "bad"), exist_ok=True)
@@ -111,7 +113,15 @@ for size in DETECTION_SIZES:
     app.prepare(ctx_id=0, det_size=(w, h))
     detectors[size] = app
 
-image_files = sorted([f for f in os.listdir(INPUT_FOLDER) if f.lower().endswith((".jpg", ".jpeg", ".png"))])
+if os.path.isdir(INPUT_FOLDER):
+    image_files = sorted([
+        os.path.join(INPUT_FOLDER, f)
+        for f in os.listdir(INPUT_FOLDER)
+        if f.lower().endswith((".jpg", ".jpeg", ".png"))
+    ])
+else:
+    image_files = [INPUT_FOLDER]
+image_filenames = [os.path.basename(f) for f in image_files]
 log_path = os.path.join(OUTPUT_BASE, "sorted_face_log.csv")
 summary = {}
 
@@ -218,17 +228,9 @@ any_detector_used = False
 with open(log_path, "w") as log:
     log.write("filename,det_set,result,score,bbox_width,bbox_height,x_center,y_center,blur_score,brightness,shake_score,hint\n")
 
-    # for idx, fname in enumerate(tqdm(image_files, desc="🔍 Sorting faces")):
-    # for idx, fname in enumerate(tqdm(image_files, desc="🔍 Sorting faces", file=sys.stdout, dynamic_ncols=True)):
-    for idx, fname in enumerate(tqdm(
-            image_files,
-            desc="🔍 Sorting faces",
-            file=sys.stdout,
-            dynamic_ncols=True,
-            leave=False,
-            mininterval=1.0
-    )):
-        img_path = os.path.join(INPUT_FOLDER, fname)
+    for idx, img_path in enumerate(image_files):
+        fname = image_filenames[idx]
+        print(f"🔄 Sorting faces... {idx + 1}/{len(image_files)} ({(idx + 1) * 100 // len(image_files)}%)", flush=True)
         image = cv2.imread(img_path)
         if image is None:
             log.write(f"{fname},,bad,0,0,0,0,0,0,0,0,image not loaded\n")
@@ -297,10 +299,14 @@ with open(log_path, "a") as log:
     log.write("# cropped face - bbox touches edge. Reframe image.\n")
     log.write("# good - image passed all checks.\n")
 
-print("✅ Sorting complete.")
+print("\n📊 Summary Report:")
+for k, v in summary.items():
+    print(f"    → {k:>24}: {v}")  # or "▪", "→", ">>", etc. # uses tab instead of spaces
+
+print("✅ Sorting loop completed, preparing summary.")
+print(f"📁 Output: {OUTPUT_BASE}")
 print("✅ Sorting complete.", flush=True)
 print("✅ Script completed.", flush=True)
-print(f"📁 Output: {OUTPUT_BASE}")
 
 # ✅ Add this after the above
 if "job_id" in os.environ:
@@ -308,3 +314,4 @@ if "job_id" in os.environ:
     os.makedirs(os.path.dirname(job_log_path), exist_ok=True)
     with open(job_log_path, "a") as f:
         f.write("✅ Script completed.\n")
+        f.write(f"📁 Output: {OUTPUT_BASE}\n")
